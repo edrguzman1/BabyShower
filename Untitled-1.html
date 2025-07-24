@@ -13,7 +13,6 @@
       flex-direction: column;
       align-items: center;
       padding: 40px 20px;
-      animation: fadeIn 1s ease-in;
     }
 
     @keyframes fadeIn {
@@ -21,13 +20,14 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .card {
+    .card, .seccion {
       background: white;
       border-radius: 20px;
       padding: 30px;
-      max-width: 500px;
+      max-width: 800px;
+      width: 100%;
+      margin-top: 30px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
       animation: fadeIn 1.2s ease-in-out;
     }
 
@@ -36,31 +36,21 @@
       margin-bottom: 15px;
     }
 
-    h1 {
+    h1, h2, h3 {
       color: #ff69b4;
-      margin-bottom: 0;
+      margin-bottom: 10px;
+      text-align: center;
     }
 
     h2 {
       color: #4fc3f7;
-      margin-top: 5px;
-      font-weight: normal;
     }
 
     p {
       color: #555;
       font-size: 1.1em;
       margin: 10px 0;
-    }
-
-    .fecha {
-      font-weight: bold;
-      color: #e91e63;
-    }
-
-    .lugar {
-      font-weight: bold;
-      color: #03a9f4;
+      text-align: center;
     }
 
     form {
@@ -95,24 +85,14 @@
       margin-top: 15px;
       font-size: 0.9em;
       color: #aaa;
-    }
-
-    .galeria, .videos {
-      max-width: 800px;
-      margin-top: 50px;
       text-align: center;
-    }
-
-    .galeria h3, .videos h3 {
-      color: #e91e63;
-      margin-bottom: 10px;
     }
 
     .imagenes {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 15px;
-      padding: 10px;
+      margin-top: 15px;
     }
 
     .imagenes img {
@@ -131,7 +111,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 20px;
-      padding: 10px;
+      margin-top: 15px;
     }
 
     .video-grid iframe,
@@ -139,6 +119,35 @@
       width: 100%;
       border-radius: 12px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+
+    .mapa iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .regalos {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .regalos a {
+      background-color: #03a9f4;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .regalos a:hover {
+      background-color: #0288d1;
     }
   </style>
 </head>
@@ -148,11 +157,9 @@
   <div class="card">
     <img src="https://cdn-icons-png.flaticon.com/512/3003/3003984.png" class="logo" alt="Bebé feliz">
     <h1>¡Estás Invitado!</h1>
-    <h2>Baby Shower de <strong>Edgar & Amy</strong></h2>
+    <h2>Baby Shower de <strong>Edgar & Laura Beatriz</strong></h2>
     <p>Nos emociona mucho compartir contigo la llegada de nuestro bebé 💖💙</p>
-    <p class="fecha">📅 Sábado 17 de Agosto, 2025 - 4:00 PM</p>
-    <p class="lugar">📍 Jardín "El Encanto", Calle Palma #123, CDMX</p>
-    <p>🎁 Lista de regalos: Amazon y Liverpool</p>
+    <p><strong>🗓️ Domingo 23 de Noviembre, 2025 - 1:00 PM</strong></p>
 
     <!-- Formulario RSVP -->
     <form onsubmit="confirmarAsistencia(event)">
@@ -160,13 +167,12 @@
       <textarea id="mensaje" rows="3" placeholder="Mensaje opcional (¡te esperamos!)"></textarea>
       <button type="submit">Confirmar asistencia</button>
     </form>
-
     <div class="footer">RSVP: 55-1234-5678 | amy@example.com</div>
   </div>
 
   <!-- Galería de imágenes -->
-  <div class="galeria">
-    <h3>👶 Un vistazo a esta dulce espera</h3>
+  <div class="seccion">
+    <h3>🖼️ Nuestra galería</h3>
     <div class="imagenes">
       <img src="https://images.unsplash.com/photo-1587049352843-8f9b8ba93884?fit=crop&w=400&q=80" alt="Embarazo 1">
       <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?fit=crop&w=400&q=80" alt="Zapatos bebé">
@@ -176,21 +182,43 @@
   </div>
 
   <!-- Galería de videos -->
-  <div class="videos">
+  <div class="seccion">
     <h3>🎬 Momentos especiales en video</h3>
     <div class="video-grid">
       <!-- Video de YouTube -->
       <iframe src="https://www.youtube.com/embed/JqkvwD3ztT0" frameborder="0" allowfullscreen></iframe>
 
-      <!-- Video local o de un servidor externo -->
+      <!-- Video local -->
       <video controls>
         <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-        Tu navegador no soporta la reproducción de video.
+        Tu navegador no soporta el video.
       </video>
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- Ubicación -->
+  <div class="seccion">
+    <h3>📍 Ubicación del evento</h3>
+    <p>Jardín "El Encanto", Calle Palma #123, Ciudad de México</p>
+    <div class="mapa">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.684692544037!2d-99.13320808461292!3d19.432607086888575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f92f54a7d9a1%3A0x4f9e8f99d898f4de!2sCentro%20Hist%C3%B3rico%2C%2006000%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses!2smx!4v1692918234671!5m2!1ses!2smx"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Mesa de regalos -->
+  <div class="seccion">
+    <h3>🎁 Mesa de regalos</h3>
+    <p>Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo, aquí están nuestras listas:</p>
+    <div class="regalos">
+      <a href="https://www.amazon.com.mx/" target="_blank">Amazon</a>
+      <a href="https://www.liverpool.com.mx/" target="_blank">Liverpool</a>
+    </div>
+  </div>
+
+  <!-- Script -->
   <script>
     function confirmarAsistencia(e) {
       e.preventDefault();
