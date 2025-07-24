@@ -149,17 +149,60 @@
     .regalos a:hover {
       background-color: #0288d1;
     }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #ff69b4;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: #ffe0f0;
+    }
+
+    body {
+      padding-top: 60px; /* Para que el contenido no quede oculto debajo de la navbar */
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+
   </style>
 </head>
 <body>
 
+  <!-- Barra de navegación -->
+<nav class="navbar">
+  <a href="#inicio">Inicio</a>
+  <a href="#galeria">Galería</a>
+  <a href="#videos">Videos</a>
+  <a href="#ubicacion">Ubicación</a>
+  <a href="#regalos">Regalos</a>
+</nav>
+
   <!-- Tarjeta principal -->
-  <div class="card">
+  <div class="card" id="inicio">
     <img src="https://cdn-icons-png.flaticon.com/512/3003/3003984.png" class="logo" alt="Bebé feliz">
     <h1>¡Estás Invitado!</h1>
-    <h2>Baby Shower de <strong>Edgar & Amy</strong></h2>
+    <h2>Baby Shower de <strong>Edgar & Laura Beatriz</strong></h2>
     <p>Nos emociona mucho compartir contigo la llegada de nuestro bebé 💖💙</p>
-    <p><strong>🗓️ Sábado 17 de Agosto, 2025 - 4:00 PM</strong></p>
+    <p><strong>🗓️ Domingo 23 de Noviembre, 2025 - 1:00 PM</strong></p>
 
     <!-- Formulario RSVP -->
     <form onsubmit="confirmarAsistencia(event)">
@@ -171,7 +214,7 @@
   </div>
 
   <!-- Galería de imágenes -->
-  <div class="seccion">
+  <div class="seccion" id="galeria">
     <h3>🖼️ Nuestra galería</h3>
     <div class="imagenes">
       <img src="https://images.unsplash.com/photo-1587049352843-8f9b8ba93884?fit=crop&w=400&q=80" alt="Embarazo 1">
@@ -182,7 +225,7 @@
   </div>
 
   <!-- Galería de videos -->
-  <div class="seccion">
+  <div class="seccion" id="videos">
     <h3>🎬 Momentos especiales en video</h3>
     <div class="video-grid">
       <!-- Video de YouTube -->
@@ -197,7 +240,7 @@
   </div>
 
   <!-- Ubicación -->
-  <div class="seccion">
+  <div class="seccion" id="ubicacion">
     <h3>📍 Ubicación del evento</h3>
     <p>Jardín "El Encanto", Calle Palma #123, Ciudad de México</p>
     <div class="mapa">
@@ -209,7 +252,7 @@
   </div>
 
   <!-- Mesa de regalos -->
-  <div class="seccion">
+  <div class="seccion" id="regalos">
     <h3>🎁 Mesa de regalos</h3>
     <p>Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo, aquí están nuestras listas:</p>
     <div class="regalos">
