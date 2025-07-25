@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css" />
+  <title>Invitación Baby Shower</title>
+</head>
+
+<body>
+
+  <!-- Barra de navegación -->
+<nav class="navbar">
+  <a href="#inicio">Inicio</a>
+  <a href="#galeria">Galería</a>
+  <a href="#videos">Videos</a>
+  <a href="#ubicacion">Ubicación</a>
+  <a href="#regalos">Regalos</a>
+</nav>
+
+  <!-- Tarjeta principal -->
+  <div class="card" id="inicio">
+    <img src="https://cdn-icons-png.flaticon.com/512/3003/3003984.png" class="logo" alt="Bebé feliz">
+    <h1>¡Estás Invitado!</h1>
+    <h2>Baby Shower de <strong>Edgar & Laura Beatriz</strong></h2>
+    <p>Nos emociona mucho compartir contigo la llegada de nuestro bebé 💖💙</p>
+    <p><strong>🗓️ Domingo 23 de Noviembre, 2025 - 1:00 PM</strong></p>
+
+    <!-- Formulario RSVP -->
+    <form onsubmit="confirmarAsistencia(event)">
+      <input type="text" id="nombre" placeholder="Tu nombre" required />
+      <textarea id="mensaje" rows="3" placeholder="Mensaje opcional (¡te esperamos!)"></textarea>
+      <button type="submit">Confirmar asistencia</button>
+    </form>
+    <div class="footer">RSVP: 55-1234-5678 | amy@example.com</div>
+  </div>
+
+  <!-- Sección Galería -->
+<div class="seccion" id="galeria">
+  <h3>🖼️ Nuestra galería</h3>
+  <div class="timeline-horizontal">
+    <div class="timeline-card">
+      <img src="ImgBebe/IMG_20250712_1_2.jpg" alt="Embarazo 1" onclick="abrirLightbox(this)">
+      <p>Primer ultrasonido 💖</p>
+    </div>
+    <div class="timeline-card">
+      <img src="ImgBebe/IMG_20250712_1_4.jpg" alt="Zapatos bebé" onclick="abrirLightbox(this)">
+      <p>Zapatos diminutos 👣</p>
+    </div>
+    <div class="timeline-card">
+      <img src="ImgBebe/IMG_20250712_1_6.jpg" alt="Ropita rosa" onclick="abrirLightbox(this)">
+      <p>Primer conjunto 👗</p>
+    </div>
+    <div class="timeline-card">
+      <img src="ImgBebe/IMG_20250712_1_7.jpg" alt="Ultrasonido" onclick="abrirLightbox(this)">
+      <p>Segundo ultrasonido 💓</p>
+    </div>
+    <!-- Agrega más tarjetas si lo deseas -->
+  </div>
+</div>
+
+  <!-- Galería de videos -->
+  <div class="seccion" id="videos">
+    <h3>🎬 Momentos especiales en video</h3>
+    <div class="video-grid">
+      <!-- Video de YouTube -->
+      <iframe src="https://www.youtube.com/embed/JqkvwD3ztT0" frameborder="0" allowfullscreen></iframe>
+
+      <!-- Video local -->
+      <video controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Tu navegador no soporta el video.
+      </video>
+    </div>
+  </div>
+
+  <!-- Ubicación -->
+  <div class="seccion" id="ubicacion">
+    <h3>📍 Ubicación del evento</h3>
+    <p>Jardín "El Encanto", Calle Palma #123, Ciudad de México</p>
+    <div class="mapa">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.684692544037!2d-99.13320808461292!3d19.432607086888575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f92f54a7d9a1%3A0x4f9e8f99d898f4de!2sCentro%20Hist%C3%B3rico%2C%2006000%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses!2smx!4v1692918234671!5m2!1ses!2smx"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Mesa de regalos -->
+  <div class="seccion" id="regalos">
+    <h3>🎁 Mesa de regalos</h3>
+    <p>Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo, aquí están nuestras listas:</p>
+    <div class="regalos">
+      <a href="https://www.amazon.com.mx/" target="_blank">Amazon</a>
+      <a href="https://www.liverpool.com.mx/" target="_blank">Liverpool</a>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+
+  <!-- Contenedor del lightbox -->
+<div id="lightbox" class="lightbox">
+  <span class="cerrar" onclick="cerrarLightbox()">✖</span>
+  <img id="lightbox-img" src="" alt="Imagen ampliada">
+</div>
+
+</body>
+</html>
