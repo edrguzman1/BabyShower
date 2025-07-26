@@ -291,3 +291,62 @@ button:hover {
   background: #ccc;
   border-radius: 4px;
 }
+
+/* ---------------------- */
+/* GIFTS*/
+/* ---------------------- */
+
+.gif-zigzag {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* CENTRADO VERTICAL REAL */
+  gap: 10px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.gif-zigzag img {
+  width: 110px;
+  height: auto;
+  opacity: 1;
+  animation: flotar 5s ease-in-out infinite;
+}
+
+/* Lado izquierdo */
+.gif-zigzag.izquierda {
+  left: 0;
+  align-items: flex-start;
+}
+
+/* Zig-zag en columnas */
+.gif-zigzag.izquierda img:nth-child(even) {
+  margin-left: 80px;
+}
+
+/* Lado derecho */
+.gif-zigzag.derecha {
+  right: 0;
+  align-items: flex-end;
+}
+
+.gif-zigzag.derecha img:nth-child(even) {
+  margin-right: 80px;
+  margin-left: 0;
+}
+
+/* Animación flotante suave */
+@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Ocultar en pantallas pequeñas */
+@media (max-width: 768px) {
+  .gif-zigzag {
+    display: none;
+  }
+}
