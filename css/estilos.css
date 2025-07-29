@@ -174,16 +174,19 @@ button:hover {
 /* ---------------------- */
 
 .video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  overflow-x: auto;       /* scroll horizontal */
   gap: 20px;
-  margin-top: 15px;
+  padding-bottom: 10px;    /* espacio visual */
+  scroll-snap-type: x mandatory; /* hace que el scroll se "pegue" a cada video */
 }
 
 .video-item {
+  flex: 0 0 390px; /* cada video ocupa 300px de ancho */
   display: flex;
   flex-direction: column;
   align-items: center;
+  scroll-snap-align: start; /* se alinea al iniciar el scroll */
 }
 
 .video-grid video,
@@ -201,6 +204,15 @@ button:hover {
   color: #333;
   text-align: center;
   font-family: 'Quicksand', sans-serif;
+}
+
+.video-grid::-webkit-scrollbar {
+  height: 10px;
+}
+
+.video-grid::-webkit-scrollbar-thumb {
+  background-color: #ff69b4;
+  border-radius: 10px;
 }
 
 /* ---------------------- */
@@ -317,12 +329,12 @@ button:hover {
 }
 
 .timeline-horizontal::-webkit-scrollbar {
-  height: 8px;
+  height: 10px;
 }
 
 .timeline-horizontal::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
+  background-color: #ff69b4;
+  border-radius: 10px;
 }
 
 /* ---------------------- */
@@ -380,7 +392,20 @@ button:hover {
 /* Ocultar en pantallas pequeñas */
 @media (max-width: 768px) {
   .gif-zigzag {
-    display: none;
+    gap: 6px;
+  }
+
+  .gif-zigzag img {
+    width: 50px;        /* Reduce el tamaño de los gifs */
+    opacity: 0.8;
+  }
+
+  .gif-zigzag.izquierda img:nth-child(even) {
+    margin-left: 40px;  /* Reduce el desplazamiento en zigzag */
+  }
+
+  .gif-zigzag.derecha img:nth-child(even) {
+    margin-right: 40px;
   }
 }
 
@@ -395,17 +420,6 @@ button:hover {
     font-size: 0.85em;
   }
 
-  h1 {
-    font-size: 1.4em;
-  }
-
-  h2 {
-    font-size: 1.2em;
-  }
-
-  h3 {
-    font-size: 1.1em;
-  }
 
   .navbar {
     flex-direction: column;
@@ -490,6 +504,8 @@ button:hover {
     font-size: 0.75em;
   }
 }
+
+
 @media (max-width: 768px) {
 
   body {
@@ -546,10 +562,20 @@ button:hover {
 
 
   
-  .video-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .video-item {
+    flex: 0 0 100%; /* que cada video ocupe el 80% del ancho de pantalla */
   }
+
+  .video-title {
+    font-size: 14px; /* texto un poco más pequeño en móviles */
+  }
+
+  .video-grid video,
+  .video-grid iframe {
+    height: 150px; /* altura más cómoda en pantallas chicas */
+  }
+
+
 
   .timeline-card img {
     width: 100%;
