@@ -18,3 +18,15 @@ function cerrarLightbox() {
   lightbox.style.display = "none";
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const toggle = document.querySelector(".menu-toggle");
+  const links = document.querySelector(".menu-links");
+
+  if (toggle && links) {
+    toggle.addEventListener("click", () => {
+      links.classList.toggle("show");
+    });
+  } else {
+    console.warn("❗ No se encontró .menu-toggle o .menu-links");
+  }
+});

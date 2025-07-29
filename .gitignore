@@ -1,3 +1,4 @@
 # Ignorar archivos no necesarios para el control de versiones
 #El directorio .vs/DbComWeb/v16 si debe ser respaldado en el repositorio
 
+/VideosBebe
