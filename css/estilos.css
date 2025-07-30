@@ -51,6 +51,12 @@ html {
   100% { transform: translateY(0); }
 }
 
+@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
 /* ---------------------- */
 /* SECCIONES GENERALES */
 /* ---------------------- */
@@ -121,7 +127,6 @@ button:hover {
   display: flex;
   justify-content: center; /* CENTRA todo el contenido */
 }
-
 
 .navbar-content {
   max-width: 1200px; /* o el valor que desees */
@@ -382,45 +387,211 @@ button:hover {
   margin-left: 0;
 }
 
-/* Animación flotante suave */
-@keyframes flotar {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-/* Ocultar en pantallas pequeñas */
-@media (max-width: 768px) {
-  .gif-zigzag {
-    gap: 6px;
-  }
-
-  .gif-zigzag img {
-    width: 50px;        /* Reduce el tamaño de los gifs */
-    opacity: 0.8;
-  }
-
-  .gif-zigzag.izquierda img:nth-child(even) {
-    margin-left: 40px;  /* Reduce el desplazamiento en zigzag */
-  }
-
-  .gif-zigzag.derecha img:nth-child(even) {
-    margin-right: 40px;
-  }
-}
-
-@media (max-width: 768px) {
+/* ---------------------------
+     AJUSTES PARA TABLETS
+  ---------------------------- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* ---------------------------
+     Ajustes generales del documento
+  ---------------------------- */
   html {
-    font-size: 14px; /* 👈 Reduce toda la escala base */
+    font-size: 16px;
   }
 
   body {
-    padding: 5px;
-    padding-top: 50px;
+    padding: 30px 20px;
+    padding-top: 70px;
+    font-size: 1em;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.8em;
+    text-align: center;
+  }
+
+  /* ---------------------------
+     Barra de navegación (menu superior)
+  ---------------------------- */
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    
+  display: flex;
+  justify-content: center; /* CENTRA todo el contenido */
+  }
+
+  .menu-toggle {
+    display: none; /* Oculta menú hamburguesa si no se usa en tablet */
+  }
+
+  .menu-links {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+
+  .menu-links a {
+    font-size: 1em;
+    padding: 8px 16px;
+    border: none;
+  }
+
+  /* ---------------------------
+     Tarjeta principal de bienvenida (#inicio)
+  ---------------------------- */
+  .card, .seccion {
+    padding: 25px;
+    max-width: 70%;
+    margin: 30px auto;
+    font-size: 1em;
+  }
+
+  .card img.logo,
+  .logo {
+    display: block;
+    margin: 0 auto;
+    width: 250px;
+    height: auto !important;
+  }
+
+  /* ---------------------------
+     Decoración lateral (GIFs zigzag)
+  ---------------------------- */
+  .gif-zigzag {
+    gap: 8px;
+  }
+
+  .gif-zigzag img {
+    width: 70px;
+    opacity: 0.9;
+  }
+
+  .gif-zigzag.izquierda img:nth-child(even) {
+    margin-left: 50px;
+  }
+
+  .gif-zigzag.derecha img:nth-child(even) {
+    margin-right: 50px;
+  }
+
+  /* ---------------------------
+     Galería de videos (#videos)
+  ---------------------------- */
+  .video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .video-item {
+    flex: 0 0 45%; /* 2 columnas por fila */
+  }
+
+  .video-grid video,
+  .video-grid iframe {
+    width: 100%;
+    height: 200px;
+  }
+
+  .video-title {
+    font-size: 1em;
+    text-align: center;
+  }
+
+  /* ---------------------------
+     Línea de tiempo de imágenes (#galeria)
+  ---------------------------- */
+  .timeline-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .timeline-card {
+    width: 45%;
+    padding: 10px;
+    font-size: 1em;
+  }
+
+  .timeline-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------------------------
+     Mesa de regalos (#regalos)
+  ---------------------------- */
+  .regalos a {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  /* ---------------------------
+     Inputs y botones (formulario RSVP)
+  ---------------------------- */
+  input, textarea {
+    font-size: 1em;
+    padding: 10px;
+  }
+
+  button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  /* ---------------------------
+     Mapa de ubicación (#ubicacion)
+  ---------------------------- */
+  .mapa iframe {
+    height: 250px;
+  }
+
+  /* ---------------------------
+     Pie de página
+  ---------------------------- */
+  .footer {
+    font-size: 0.9em;
+    text-align: center;
+  }
+}
+
+
+
+
+/* ---------------------------
+     AJUSTES PARA DISPOSITIVOS MOVILES
+  ---------------------------- */
+@media (max-width: 768px) {
+  /* ---------------------------
+     Ajustes generales del documento
+  ---------------------------- */
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    padding: 20px 10px;
+    padding-top: 60px;
     font-size: 0.85em;
   }
 
+  h1, h2, h3 {
+    font-size: 1.5em;
+    text-align: center;
+  }
 
+  /* ---------------------------
+     Barra de navegación (menu superior)
+  ---------------------------- */
   .navbar {
     flex-direction: column;
     align-items: flex-start;
@@ -437,115 +608,14 @@ button:hover {
     display: none;
     flex-direction: column;
     width: 100%;
-    margin-top: 5px;
-    padding-top: 5px;
-    background: #fff;
-  }
-
-  .menu-links a {
-    font-size: 0.9em;
-    padding: 6px 12px;
-  }
-
-  .menu-links.show {
-    display: flex;
-  }
-
-  .card, .seccion {
-    padding: 12px;
-    max-width: 95%;
     margin-top: 10px;
-    font-size: 0.9em;
-  }
-
-  .card img.logo {
-    width: 70px;
-  }
-
-  input, textarea {
-    font-size: 0.85em;
-    padding: 6px;
-  }
-
-  button {
-    font-size: 0.85em;
-    padding: 6px 14px;
-  }
-
-  .video-grid {
-    gap: 10px;
-  }
-
-  .timeline-horizontal {
-    gap: 6px;
-    padding: 5px 0;
-  }
-
-  .timeline-card {
-    width: 90%;
-    padding: 8px;
-    font-size: 0.85em;
-  }
-
-  .timeline-card img {
-    width: 100%;
-  }
-
-  .regalos a {
-    font-size: 0.8em;
-    padding: 6px 10px;
-  }
-
-  .mapa iframe {
-    height: 160px;
-  }
-
-  .footer {
-    font-size: 0.75em;
-  }
-}
-
-
-@media (max-width: 768px) {
-
-  body {
-    padding: 20px 10px;
-    padding-top: 60px;
-  }
-
-  h1, h2, h3 {
-    font-size: 1.5em;
-    text-align: center;
-  }
-
-  .card, .seccion {
-    padding: 15px;
-    max-width: 70%; /* 👈 en lugar de 100% */
-    margin: 20px auto; /* 👈 centrado con margen */
-  }
-
-  .logo {
-    display: block;
-    margin: 0 auto;
-    width: 180px !important;
-    height: auto !important; /* para mantener proporción */
-  }
-  
-  .menu-toggle {
-    display: block;
-  }
-
-  .menu-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background-color: #fff;
-    margin-top: 10px;
-    border-top: 1px solid #ffe0f0;
     padding-top: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ffe0f0;
   }
 
   .menu-links a {
+    font-size: 0.9em;
     padding: 10px 20px;
     border-bottom: 1px solid #ffe0f0;
     text-align: left;
@@ -555,47 +625,96 @@ button:hover {
     display: flex;
   }
 
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+  /* ---------------------------
+     Tarjeta principal de bienvenida (#inicio)
+  ---------------------------- */
+  .card, .seccion {
+    padding: 15px;
+    max-width: 80%;
+    margin: 20px auto;
+    font-size: 0.9em;
   }
 
-
-  
-  .video-item {
-    flex: 0 0 100%; /* que cada video ocupe el 80% del ancho de pantalla */
+  /* Logo principal (imagen del bebé) */
+  .card img.logo,
+  .logo {
+    display: block;
+    margin: 0 auto;
+    width: 180px;
+    height: auto !important;
   }
 
-  .video-title {
-    font-size: 14px; /* texto un poco más pequeño en móviles */
+  /* ---------------------------
+     Decoración lateral (GIFs zigzag)
+  ---------------------------- */
+  .gif-zigzag {
+    gap: 6px;
+  }
+
+  .gif-zigzag img {
+    width: 50px;
+    opacity: 0.8;
+  }
+
+  .gif-zigzag.izquierda img:nth-child(even) {
+    margin-left: 40px;
+  }
+
+  .gif-zigzag.derecha img:nth-child(even) {
+    margin-right: 40px;
+  }
+
+  /* ---------------------------
+     Galería de videos (#videos)
+  ---------------------------- */
+  .video-grid {
+    gap: 10px;
   }
 
   .video-grid video,
   .video-grid iframe {
-    height: 150px; /* altura más cómoda en pantallas chicas */
+    height: 150px;
   }
 
+  .video-item {
+    flex: 0 0 100%;
+  }
 
+  .video-title {
+    font-size: 14px;
+  }
+
+  /* ---------------------------
+     Línea de tiempo de imágenes (#galeria)
+  ---------------------------- */
+  .timeline-horizontal {
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  .timeline-card {
+    width: 80%;
+    margin: 0 auto;
+    padding: 8px;
+    font-size: 0.85em;
+  }
 
   .timeline-card img {
     width: 100%;
     height: auto;
   }
 
-  .timeline-horizontal {
-    gap: 10px;
-    padding: 10px 0;
-  }
-
-  .mapa iframe {
-    height: 200px;
-  }
-
+  /* ---------------------------
+     Mesa de regalos (#regalos)
+  ---------------------------- */
   .regalos a {
     font-size: 0.9em;
     padding: 8px 16px;
   }
 
+  /* ---------------------------
+     Inputs y botones (formulario RSVP)
+  ---------------------------- */
   input, textarea {
     font-size: 0.95em;
     padding: 8px;
@@ -606,17 +725,20 @@ button:hover {
     padding: 8px 16px;
   }
 
+  /* ---------------------------
+     Mapa de ubicación (#ubicacion)
+  ---------------------------- */
+  .mapa iframe {
+    height: 200px;
+  }
+
+  /* ---------------------------
+     Pie de página (comentado en tu HTML)
+  ---------------------------- */
   .footer {
     font-size: 0.8em;
   }
-
-  .timeline-card {
-    width: 80%;
-    margin: 0 auto;
-  }
-
-  .card img.logo {
-    width: 100px;
-  }
 }
+
+
 
