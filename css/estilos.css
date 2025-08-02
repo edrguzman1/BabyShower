@@ -1,120 +1,72 @@
-/* ---------------------- */
-/* FUENTES Y TEXTO BASE */
-/* ---------------------- */
+/* ======================================== */
+/*   CONFIGURACIÓN GLOBAL / VARIABLES       */
+/* ======================================== */
+:root {
+  /* Tipografías */
+  --font-base: 'Quicksand', sans-serif;
+  --font-ui: 'Segoe UI', sans-serif;
+  --font-title: 'Pacifico', cursive;
 
-/* Tipografías para títulos */
+  /* Colores */
+  --pink: #ff69b4;
+  --pink-hover: #f50057;
+  --light-pink-bg: #ffe0f0;
+  --light-blue-bg: #e0f7ff;
+  --blue: #03a9f4;
+  --blue-dark: #0288d1;
+  --link-bg-hover: #ffe0f0;
+  --text-muted: #aaa;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --radius: 20px;
+}
+
+/* Tipografías generales */
+body, p, input, textarea, button {
+  font-family: var(--font-base);
+}
+
+/* Títulos */
 h1, h2, h3 {
-  font-family: 'Pacifico', cursive;
-  color: #ff69b4;
+  font-family: var(--font-title);
   margin-bottom: 10px;
   text-align: center;
+  color: var(--pink);
 }
+h2 { color: #4fc3f7; } /* override específico por sección */
 
-/* Colores personalizados por sección */
-h2 { color: #4fc3f7; }
-
-/* Tipografías para texto general */
-body, p, input, textarea, button {
-  font-family: 'Quicksand', sans-serif;
-}
-
-/* Estilo general del cuerpo */
-body {
-  margin: 0;
-  padding-top: 60px; /* espacio para navbar fija */
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ffe0f0, #e0f7ff);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-}
-
+/* ======================================== */
+/*   LAYOUT / ESTRUCTURA PRINCIPAL           */
+/* ======================================== */
 html {
   scroll-behavior: smooth;
 }
 
-/* ---------------------- */
-/* ANIMACIONES Y EFECTOS */
-/* ---------------------- */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+body {
+  margin: 0;
+  padding: 40px 20px 0; /* espacio para navbar fija + padding general */
+  padding-top: 60px;
+  font-family: var(--font-ui);
+  background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes bounce {
-  0%   { transform: translateY(0); }
-  30%  { transform: translateY(-10px); }
-  50%  { transform: translateY(0); }
-  70%  { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes flotar {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-/* ---------------------- */
-/* SECCIONES GENERALES */
-/* ---------------------- */
-
+/* Contenedores comunes */
 .card, .seccion {
   background: white;
-  border-radius: 20px;
+  border-radius: var(--radius);
   padding: 30px;
   max-width: 800px;
   width: 100%;
   margin-top: 30px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   animation: fadeIn 1.2s ease-in-out;
 }
 
-/* ---------------------- */
-/* FORMULARIOS Y BOTONES */
-/* ---------------------- */
-
-form {
-  margin-top: 20px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 1em;
-}
-
-button {
-  background: #ff69b4;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background: #f50057;
-}
-
-.footer {
-  margin-top: 15px;
-  font-size: 0.9em;
-  color: #aaa;
-  text-align: center;
-}
-
-/* ---------------------- */
-/* NAVBAR SUPERIOR FIJA */
-/* ---------------------- */
-
+/* ======================================== */
+/*   NAVBAR                                 */
+/* ======================================== */
 .navbar {
   position: fixed;
   top: 0;
@@ -123,13 +75,13 @@ button:hover {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   z-index: 1000;
   padding: 10px 20px;
-
   display: flex;
-  justify-content: center; /* CENTRA todo el contenido */
+  justify-content: center;
 }
 
 .navbar-content {
-  max-width: 1200px; /* o el valor que desees */
+  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -138,21 +90,21 @@ button:hover {
 }
 
 .menu-toggle {
-  display: none;
   font-size: 28px;
   cursor: pointer;
-  color: #ff69b4;
+  color: var(--pink);
+  display: none; /* se activa en móvil */
 }
 
 .menu-links {
   display: flex;
   gap: 20px;
-  justify-content: center; /* centra los enlaces si hay espacio */
+  justify-content: center;
 }
 
 .menu-links a {
   text-decoration: none;
-  color: #ff69b4;
+  color: var(--pink);
   font-weight: bold;
   padding: 8px 12px;
   border-radius: 8px;
@@ -160,42 +112,67 @@ button:hover {
 }
 
 .menu-links a:hover {
-  background-color: #ffe0f0;
+  background-color: var(--link-bg-hover);
 }
 
+/* ======================================== */
+/*   TIPOGRAFÍA / INTERACTIVOS               */
+/* ======================================== */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
 
-/* ---------------------- */
-/* LOGO ANIMADO */
-/* ---------------------- */
+button {
+  background: var(--pink);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1em;
+}
 
+button:hover {
+  background: var(--pink-hover);
+}
+
+/* ======================================== */
+/*   COMPONENTES ESPECÍFICOS                 */
+/* ======================================== */
+
+/* Logo */
 .logo {
   display: block;
   margin: 0 auto;
-  width: 400px; /* o el tamaño que quieras */
+  width: 400px;
 }
 
-/* ---------------------- */
-/* VIDEOS */
-/* ---------------------- */
-
+/* Videos: carrusel horizontal */
 .video-grid {
   display: flex;
-  overflow-x: auto;       /* scroll horizontal */
+  overflow-x: auto;
   gap: 20px;
-  padding-bottom: 10px;    /* espacio visual */
-  scroll-snap-type: x mandatory; /* hace que el scroll se "pegue" a cada video */
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
 }
 
 .video-item {
-  flex: 0 0 390px; /* cada video ocupa 300px de ancho */
+  flex: 0 0 390px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  scroll-snap-align: start; /* se alinea al iniciar el scroll */
+  scroll-snap-align: start;
 }
 
-.video-grid video,
-.video-grid iframe {
+.video-grid iframe,
+.video-grid video {
   width: 100%;
   height: 250px;
   object-fit: cover;
@@ -208,22 +185,22 @@ button:hover {
   font-size: 16px;
   color: #333;
   text-align: center;
-  font-family: 'Quicksand', sans-serif;
+  font-family: var(--font-base);
 }
 
-.video-grid::-webkit-scrollbar {
+/* Scrollbar personalizado para grids */
+.video-grid::-webkit-scrollbar,
+.timeline-horizontal::-webkit-scrollbar {
   height: 10px;
 }
 
-.video-grid::-webkit-scrollbar-thumb {
-  background-color: #ff69b4;
+.video-grid::-webkit-scrollbar-thumb,
+.timeline-horizontal::-webkit-scrollbar-thumb {
+  background-color: var(--pink);
   border-radius: 10px;
 }
 
-/* ---------------------- */
-/* UBICACIÓN MAPA */
-/* ---------------------- */
-
+/* Mapa */
 .mapa iframe {
   width: 100%;
   height: 300px;
@@ -232,10 +209,7 @@ button:hover {
   margin-top: 15px;
 }
 
-/* ---------------------- */
-/* MESA DE REGALOS */
-/* ---------------------- */
-
+/* Mesa de regalos */
 .regalos {
   display: flex;
   gap: 15px;
@@ -245,7 +219,7 @@ button:hover {
 }
 
 .regalos a {
-  background-color: #03a9f4;
+  background-color: var(--blue);
   color: white;
   text-decoration: none;
   padding: 10px 20px;
@@ -254,33 +228,29 @@ button:hover {
 }
 
 .regalos a:hover {
-  background-color: #0288d1;
+  background-color: var(--blue-dark);
 }
 
-/* ---------------------- */
-/* LIGTHBOX PARA IMÁGENES */
-/* ---------------------- */
-
+/* Lightbox para imágenes */
 .lightbox {
   display: none;
   position: fixed;
   z-index: 9999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.8);
   justify-content: center;
   align-items: center;
 }
 
+.lightbox.active {
+  display: flex;
+}
 .lightbox img {
   max-width: 90%;
   max-height: 80%;
   border-radius: 10px;
   box-shadow: 0 0 25px #fff;
 }
-
 .lightbox .cerrar {
   position: absolute;
   top: 20px;
@@ -290,14 +260,7 @@ button:hover {
   cursor: pointer;
 }
 
-.lightbox.active {
-  display: flex;
-}
-
-/* ---------------------- */
-/* TIMELINE HORIZONTAL */
-/* ---------------------- */
-
+/* Timeline horizontal */
 .timeline-horizontal {
   display: flex;
   overflow-x: auto;
@@ -333,19 +296,7 @@ button:hover {
   transform: scale(1.1);
 }
 
-.timeline-horizontal::-webkit-scrollbar {
-  height: 10px;
-}
-
-.timeline-horizontal::-webkit-scrollbar-thumb {
-  background-color: #ff69b4;
-  border-radius: 10px;
-}
-
-/* ---------------------- */
-/* GIFTS*/
-/* ---------------------- */
-/* Galería tipo pila GLOBAL (escritorio/tablet) */
+/* Foto-stack (galería tipo pila) */
 .foto-stack-container {
   width: 100%;
   max-width: 420px;
@@ -374,153 +325,112 @@ button:hover {
   width: 100%;
   max-width: 380px;
   height: auto;
-  border: 10px solid white;                /* Marco blanco tipo fotografía */
+  border: 10px solid white;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   opacity: 0;
   z-index: 0;
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
-
-/* Imagen actual visible al frente */
 .foto-stack img.active {
   opacity: 1;
   z-index: 5;
   transform: rotate(0deg) scale(1.05);
 }
-
-/* Imagen anterior con inclinación y desplazamiento */
 .foto-stack img.prev {
   opacity: 0.6;
   z-index: 3;
   transform: rotate(-7deg) translateX(-40px) scale(0.97);
 }
-
-/* Imagen siguiente con inclinación opuesta */
 .foto-stack img.next {
   opacity: 0.6;
   z-index: 2;
   transform: rotate(7deg) translateX(40px) scale(0.97);
 }
+.foto-stack img[data-index="0"] { transform: rotate(-5deg) scale(0.96); }
+.foto-stack img[data-index="1"] { transform: rotate(3deg) scale(0.98); }
+.foto-stack img[data-index="2"] { transform: rotate(-2deg) scale(0.97); }
+.foto-stack img[data-index="3"] { transform: rotate(4deg) scale(0.99); }
 
-/* Imágenes más lejanas atrás (apilamiento desordenado) */
-.foto-stack img[data-index="0"] {
-  transform: rotate(-5deg) scale(0.96);
-}
-.foto-stack img[data-index="1"] {
-  transform: rotate(3deg) scale(0.98);
-}
-.foto-stack img[data-index="2"] {
-  transform: rotate(-2deg) scale(0.97);
-}
-.foto-stack img[data-index="3"] {
-  transform: rotate(4deg) scale(0.99);
-}
-
-
-/* ---------------------- */
-/* GIFTS*/
-/* ---------------------- */
-
+/* Decoración flotante (gifs zigzag) */
 .gif-zigzag {
   position: fixed;
   top: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* CENTRADO VERTICAL REAL */
+  justify-content: center;
   gap: 10px;
   z-index: 50;
   pointer-events: none;
 }
-
 .gif-zigzag img {
   width: 150px;
   height: auto;
   opacity: 1;
   animation: flotar 5s ease-in-out infinite;
 }
-
-/* Lado izquierdo */
 .gif-zigzag.izquierda {
   left: 0;
   align-items: flex-start;
 }
-
-/* Zig-zag en columnas */
 .gif-zigzag.izquierda img:nth-child(even) {
   margin-left: 80px;
 }
-
-/* Lado derecho */
 .gif-zigzag.derecha {
   right: 0;
   align-items: flex-end;
 }
-
 .gif-zigzag.derecha img:nth-child(even) {
   margin-right: 80px;
   margin-left: 0;
 }
 
-/* ---------------------------
-     AJUSTES PARA TABLETS
-  ---------------------------- */
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* ---------------------------
-     Ajustes generales del documento
-  ---------------------------- */
-  html {
-    font-size: 16px;
-  }
+/* Pie de página */
+.footer {
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: var(--text-muted);
+  text-align: center;
+}
 
+/* ======================================== */
+/*   ANIMACIONES                            */
+/* ======================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-10px); }
+  50%  { transform: translateY(0); }
+  70%  { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* ======================================== */
+/*   ADAPTATIVOS / MEDIA QUERIES           */
+/* ======================================== */
+
+/* TABLET */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html { font-size: 16px; }
   body {
     padding: 30px 20px;
     padding-top: 70px;
     font-size: 1em;
   }
 
-  h1, h2, h3 {
-    font-size: 1.8em;
-    text-align: center;
-  }
+  h1, h2, h3 { font-size: 1.8em; }
 
-  /* ---------------------------
-     Barra de navegación (menu superior)
-  ---------------------------- */
-  .navbar {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    
-    display: flex;
-    justify-content: center; /* CENTRA todo el contenido */
-  }
-
-  .menu-toggle {
-    display: none; /* Oculta menú hamburguesa si no se usa en tablet */
-  }
-
-  .menu-links {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    background-color: transparent;
-    padding: 0;
-    margin: 0;
-    border: none;
-  }
-
-  .menu-links a {
-    font-size: 1em;
-    padding: 8px 16px;
-    border: none;
-  }
-
-  /* ---------------------------
-     Tarjeta principal de bienvenida (#inicio)
-  ---------------------------- */
   .card, .seccion {
     padding: 25px;
     max-width: 70%;
@@ -528,158 +438,62 @@ button:hover {
     font-size: 1em;
   }
 
-  .card img.logo,
-  .logo {
-    display: block;
-    margin: 0 auto;
-    width: 250px;
-    height: auto !important;
-  }
+  .logo { width: 250px; }
 
-  /* ---------------------------
-     Decoración lateral (GIFs zigzag)
-  ---------------------------- */
-  .gif-zigzag {
-    gap: 8px;
+  .menu-toggle { display: none; }
+  .menu-links {
+    flex-direction: row;
+    gap: 16px;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
   }
-
-  .gif-zigzag img {
-    width: 70px;
-    opacity: 0.9;
-  }
-
-  .gif-zigzag.izquierda img:nth-child(even) {
-    margin-left: 50px;
-  }
-
-  .gif-zigzag.derecha img:nth-child(even) {
-    margin-right: 50px;
-  }
-
-  /* ---------------------------
-     Galería de videos (#videos)
-  ---------------------------- */
-  .video-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-
-  .video-item {
-    flex: 0 0 45%; /* 2 columnas por fila */
-  }
-
-  .video-grid video,
-  .video-grid iframe {
-    width: 100%;
-    height: 200px;
-  }
-
-  .video-title {
+  .menu-links a {
     font-size: 1em;
-    text-align: center;
+    padding: 8px 16px;
+    border: none;
   }
 
-  /* ---------------------------
-     Línea de tiempo de imágenes (#galeria)
-  ---------------------------- */
+  .video-grid { flex-wrap: wrap; }
+  .video-item { flex: 0 0 45%; }
+  .video-grid iframe,
+  .video-grid video { height: 200px; }
+
   .timeline-horizontal {
-    display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
     padding: 20px 0;
   }
+  .timeline-card { width: 45%; }
 
-  .timeline-card {
-    width: 45%;
-    padding: 10px;
-    font-size: 1em;
-  }
+  .regalos a { font-size: 1em; padding: 10px 20px; }
 
-  .timeline-card img {
-    width: 100%;
-    height: auto;
-  }
+  input, textarea, button { font-size: 1em; padding: 10px; }
 
-  /* ---------------------------
-     Mesa de regalos (#regalos)
-  ---------------------------- */
-  .regalos a {
-    font-size: 1em;
-    padding: 10px 20px;
-  }
+  .mapa iframe { height: 250px; }
 
-  /* ---------------------------
-     Inputs y botones (formulario RSVP)
-  ---------------------------- */
-  input, textarea {
-    font-size: 1em;
-    padding: 10px;
-  }
-
-  button {
-    font-size: 1em;
-    padding: 10px 20px;
-  }
-
-  /* ---------------------------
-     Mapa de ubicación (#ubicacion)
-  ---------------------------- */
-  .mapa iframe {
-    height: 250px;
-  }
-
-  /* ---------------------------
-     Pie de página
-  ---------------------------- */
-  .footer {
-    font-size: 0.9em;
-    text-align: center;
-  }
+  .footer { font-size: 0.9em; }
 }
 
-
-
-
-/* ---------------------------
-     AJUSTES PARA DISPOSITIVOS MOVILES
-  ---------------------------- */
+/* MÓVIL */
 @media (max-width: 768px) {
-  /* ---------------------------
-     Ajustes generales del documento
-  ---------------------------- */
-  html {
-    font-size: 14px;
-  }
-
+  html { font-size: 14px; }
   body {
     padding: 20px 10px;
     padding-top: 60px;
     font-size: 0.85em;
   }
 
-  h1, h2, h3 {
-    font-size: 1.5em;
-    text-align: center;
-  }
+  h1, h2, h3 { font-size: 1.5em; }
 
-  /* ---------------------------
-     Barra de navegación (menu superior)
-  ---------------------------- */
   .navbar {
     flex-direction: column;
     align-items: flex-start;
     padding: 5px 10px;
   }
 
-  .menu-toggle {
-    display: block;
-    font-size: 22px;
-    padding: 5px;
-  }
-
+  .menu-toggle { display: block; font-size: 22px; padding: 5px; }
   .menu-links {
     display: none;
     flex-direction: column;
@@ -687,23 +501,16 @@ button:hover {
     margin-top: 10px;
     padding-top: 10px;
     background-color: #fff;
-    border-top: 1px solid #ffe0f0;
+    border-top: 1px solid var(--light-pink-bg);
   }
-
+  .menu-links.show { display: flex; }
   .menu-links a {
     font-size: 0.9em;
     padding: 10px 20px;
-    border-bottom: 1px solid #ffe0f0;
+    border-bottom: 1px solid var(--light-pink-bg);
     text-align: left;
   }
 
-  .menu-links.show {
-    display: flex;
-  }
-
-  /* ---------------------------
-     Tarjeta principal de bienvenida (#inicio)
-  ---------------------------- */
   .card, .seccion {
     padding: 15px;
     max-width: 80%;
@@ -711,63 +518,18 @@ button:hover {
     font-size: 0.9em;
   }
 
-  /* Logo principal (imagen del bebé) */
-  .card img.logo,
-  .logo {
-    display: block;
-    margin: 0 auto;
-    width: 280px;
-    height: auto !important;
-  }
+  .logo { width: 280px; }
 
-  /* ---------------------------
-     Decoración lateral (GIFs zigzag)
-  ---------------------------- */
-  .gif-zigzag {
-    gap: 6px;
-  }
+  .video-grid { gap: 10px; }
+  .video-item { flex: 0 0 100%; }
+  .video-grid iframe,
+  .video-grid video { height: 150px; }
+  .video-title { font-size: 14px; }
 
-  .gif-zigzag img {
-    width: 50px;
-    opacity: 0.8;
-  }
-
-  .gif-zigzag.izquierda img:nth-child(even) {
-    margin-left: 40px;
-  }
-
-  .gif-zigzag.derecha img:nth-child(even) {
-    margin-right: 40px;
-  }
-
-  /* ---------------------------
-     Galería de videos (#videos)
-  ---------------------------- */
-  .video-grid {
-    gap: 10px;
-  }
-
-  .video-grid video,
-  .video-grid iframe {
-    height: 150px;
-  }
-
-  .video-item {
-    flex: 0 0 100%;
-  }
-
-  .video-title {
-    font-size: 14px;
-  }
-
-  /* ---------------------------
-     Línea de tiempo de imágenes (#galeria)
-  ---------------------------- */
   .timeline-horizontal {
     gap: 10px;
     padding: 10px 0;
   }
-
   .timeline-card {
     width: 80%;
     margin: 0 auto;
@@ -775,116 +537,33 @@ button:hover {
     font-size: 0.85em;
   }
 
-  .timeline-card img {
-    width: 100%;
-    height: auto;
-  }
+  .regalos a { font-size: 0.9em; padding: 8px 16px; }
 
-  /* ---------------------------
-     Mesa de regalos (#regalos)
-  ---------------------------- */
-  .regalos a {
-    font-size: 0.9em;
-    padding: 8px 16px;
-  }
+  input, textarea { font-size: 0.95em; padding: 8px; }
+  button { font-size: 0.95em; padding: 8px 16px; }
 
-  /* ---------------------------
-     Inputs y botones (formulario RSVP)
-  ---------------------------- */
-  input, textarea {
-    font-size: 0.95em;
-    padding: 8px;
-  }
+  .mapa iframe { height: 200px; }
 
-  button {
-    font-size: 0.95em;
-    padding: 8px 16px;
-  }
+  .footer { font-size: 0.8em; }
 
-  /* ---------------------------
-     Mapa de ubicación (#ubicacion)
-  ---------------------------- */
-  .mapa iframe {
-    height: 200px;
-  }
+  /* Ajustes foto-stack en móvil */
+  .foto-stack-container { max-width: 240px; }
+  .foto-stack { height: 240px; }
+  .foto-stack img.prev { transform: rotate(-7deg) translateX(-20px) scale(0.95); }
+  .foto-stack img.next { transform: rotate(7deg) translateX(20px) scale(0.95); }
+  .foto-stack img[data-index="0"] { transform: rotate(-5deg); }
+  .foto-stack img[data-index="1"] { transform: rotate(3deg); }
+  .foto-stack img[data-index="2"] { transform: rotate(-2deg); }
+  .foto-stack img[data-index="3"] { transform: rotate(4deg); }
 
-  /* ---------------------------
-     Pie de página (comentado en tu HTML)
-  ---------------------------- */
-  .footer {
-    font-size: 0.8em;
+  /* GIF zigzag más pequeño */
+  .gif-zigzag {
+    gap: 6px;
   }
-
-
-
-
-
-  .foto-stack-container {
-    width: 100%;
-    max-width: 240px;
-    margin: 0 auto;
-    text-align: center;
+  .gif-zigzag img {
+    width: 50px;
+    opacity: 0.8;
   }
-  
-  .foto-stack {
-    position: relative;
-    height: 240px;
-    perspective: 1000px;
-    overflow: visible;
-  }
-  
-  .foto-stack img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-    border: 10px solid white;                /* Marco blanco tipo fotografía */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    opacity: 0;
-    z-index: 0;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
-  
-  /* Imagen actual visible al frente */
-  .foto-stack img.active {
-    opacity: 1;
-    z-index: 5;
-    transform: rotate(0deg) scale(1);
-  }
-  
-  /* Imagen anterior con inclinación y desplazamiento */
-  .foto-stack img.prev {
-    opacity: 0.6;
-    z-index: 3;
-    transform: rotate(-7deg) translateX(-20px) scale(0.95);
-  }
-  
-  /* Imagen siguiente con inclinación opuesta */
-  .foto-stack img.next {
-    opacity: 0.6;
-    z-index: 2;
-    transform: rotate(7deg) translateX(20px) scale(0.95);
-  }
-  
-  /* Imágenes más lejanas atrás (apilamiento desordenado) */
-  .foto-stack img[data-index="0"] {
-    transform: rotate(-5deg);
-  }
-  .foto-stack img[data-index="1"] {
-    transform: rotate(3deg);
-  }
-  .foto-stack img[data-index="2"] {
-    transform: rotate(-2deg);
-  }
-  .foto-stack img[data-index="3"] {
-    transform: rotate(4deg);
-  }
-  
-  
+  .gif-zigzag.izquierda img:nth-child(even) { margin-left: 40px; }
+  .gif-zigzag.derecha img:nth-child(even) { margin-right: 40px; }
 }
-
-
-
