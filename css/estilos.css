@@ -345,6 +345,82 @@ button:hover {
 /* ---------------------- */
 /* GIFTS*/
 /* ---------------------- */
+/* Galería tipo pila GLOBAL (escritorio/tablet) */
+.foto-stack-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px;
+}
+
+.foto-stack {
+  position: relative;
+  height: 320px;
+  width: 100%;
+  max-width: 400px;
+  perspective: 1000px;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+.foto-stack img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  border: 10px solid white;                /* Marco blanco tipo fotografía */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  opacity: 0;
+  z-index: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Imagen actual visible al frente */
+.foto-stack img.active {
+  opacity: 1;
+  z-index: 5;
+  transform: rotate(0deg) scale(1.05);
+}
+
+/* Imagen anterior con inclinación y desplazamiento */
+.foto-stack img.prev {
+  opacity: 0.6;
+  z-index: 3;
+  transform: rotate(-7deg) translateX(-40px) scale(0.97);
+}
+
+/* Imagen siguiente con inclinación opuesta */
+.foto-stack img.next {
+  opacity: 0.6;
+  z-index: 2;
+  transform: rotate(7deg) translateX(40px) scale(0.97);
+}
+
+/* Imágenes más lejanas atrás (apilamiento desordenado) */
+.foto-stack img[data-index="0"] {
+  transform: rotate(-5deg) scale(0.96);
+}
+.foto-stack img[data-index="1"] {
+  transform: rotate(3deg) scale(0.98);
+}
+.foto-stack img[data-index="2"] {
+  transform: rotate(-2deg) scale(0.97);
+}
+.foto-stack img[data-index="3"] {
+  transform: rotate(4deg) scale(0.99);
+}
+
+
+/* ---------------------- */
+/* GIFTS*/
+/* ---------------------- */
 
 .gif-zigzag {
   position: fixed;
@@ -418,8 +494,8 @@ button:hover {
     align-items: center;
     padding: 10px 20px;
     
-  display: flex;
-  justify-content: center; /* CENTRA todo el contenido */
+    display: flex;
+    justify-content: center; /* CENTRA todo el contenido */
   }
 
   .menu-toggle {
@@ -640,7 +716,7 @@ button:hover {
   .logo {
     display: block;
     margin: 0 auto;
-    width: 180px;
+    width: 280px;
     height: auto !important;
   }
 
@@ -738,6 +814,76 @@ button:hover {
   .footer {
     font-size: 0.8em;
   }
+
+
+
+
+
+  .foto-stack-container {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .foto-stack {
+    position: relative;
+    height: 240px;
+    perspective: 1000px;
+    overflow: visible;
+  }
+  
+  .foto-stack img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border: 10px solid white;                /* Marco blanco tipo fotografía */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    opacity: 0;
+    z-index: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  
+  /* Imagen actual visible al frente */
+  .foto-stack img.active {
+    opacity: 1;
+    z-index: 5;
+    transform: rotate(0deg) scale(1);
+  }
+  
+  /* Imagen anterior con inclinación y desplazamiento */
+  .foto-stack img.prev {
+    opacity: 0.6;
+    z-index: 3;
+    transform: rotate(-7deg) translateX(-20px) scale(0.95);
+  }
+  
+  /* Imagen siguiente con inclinación opuesta */
+  .foto-stack img.next {
+    opacity: 0.6;
+    z-index: 2;
+    transform: rotate(7deg) translateX(20px) scale(0.95);
+  }
+  
+  /* Imágenes más lejanas atrás (apilamiento desordenado) */
+  .foto-stack img[data-index="0"] {
+    transform: rotate(-5deg);
+  }
+  .foto-stack img[data-index="1"] {
+    transform: rotate(3deg);
+  }
+  .foto-stack img[data-index="2"] {
+    transform: rotate(-2deg);
+  }
+  .foto-stack img[data-index="3"] {
+    transform: rotate(4deg);
+  }
+  
+  
 }
 
 

@@ -30,3 +30,63 @@ document.addEventListener("DOMContentLoaded", function () {
     console.warn("❗ No se encontró .menu-toggle o .menu-links");
   }
 });
+
+
+
+
+
+  const stack = document.querySelector('.foto-stack');
+  const images = stack.querySelectorAll('img');
+
+  // Asignamos índice para aplicar rotaciones
+  images.forEach((img, i) => {
+    img.setAttribute('data-index', i);
+  });
+
+  let currentIndex = 0;
+
+  function updateStack() {
+    images.forEach((img, i) => {
+      img.classList.remove('active', 'prev', 'next');
+
+      if (i === currentIndex) {
+        img.classList.add('active');
+      } else if (i === currentIndex - 1) {
+        img.classList.add('prev');
+      } else if (i === currentIndex + 1) {
+        img.classList.add('next');
+      }
+    });
+  }
+
+  function showNext() {
+    if (currentIndex < images.length - 1) {
+      currentIndex++;
+      updateStack();
+    }
+  }
+
+  function showPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateStack();
+    }
+  }
+
+  // Soporte para gestos táctiles
+  let startX = 0;
+
+  stack.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  stack.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+
+    if (diff > 50) showPrev();
+    else if (diff < -50) showNext();
+  });
+
+  updateStack(); // Inicializar al cargar
+
