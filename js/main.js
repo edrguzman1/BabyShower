@@ -91,28 +91,26 @@ document.addEventListener("DOMContentLoaded", function () {
   updateStack(); // Inicializar al cargar
 
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
+    authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
+    databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
+    projectId: "babyshowerguzmanmiranda",
+    storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
+    messagingSenderId: "564665563453",
+    appId: "1:564665563453:web:242aaba73a4768fa89ad54"
+  };
 
-  //Consumo de Servicio WEB
 
-// script.js
-
-// script.js
-
-// Configuración: ajusta si cambia el puerto o ruta
-const API_URL = "https://localhost:44321/api/strings/process";
-
-/**
- * Función principal que se dispara al enviar el formulario.
- */
 async function confirmarAsistencia(event) {
   event.preventDefault();
 
-  const nombreInput = document.getElementById("nombre");
+  const nombreInvitado = document.getElementById("nombre");
   const feedback = getOrCreateFeedbackElement();
   const boton = getOrCreateSubmitButton();
 
-  const nombre = nombreInput.value.trim();
-  if (!nombre) {
+  const nombre = nombreInvitado.value;
+  if (!nombre.trim()) {
     feedback.textContent = "Por favor escribe tu nombre."; 
     feedback.style.color = "red";
     return;
@@ -123,59 +121,28 @@ async function confirmarAsistencia(event) {
   feedback.textContent = "Enviando...";
   feedback.style.color = "black";
 
-  // Log de diagnóstico básico
-  console.log("Origen de la página:", window.location.origin);
-  console.log("Endpoint objetivo:", API_URL);
-  console.log("Payload:", { Input: nombre });
-
   try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ Input: nombre })
+    // Guarda el nombre en un nodo llamado 'asistentes'
+    // push() crea un ID único para cada confirmación
+    //console.log(`Intentando guardar: ${nombre}`); // Ayuda para depurar
+    database.ref('asistentes').push({
+        nombre: nombre,
+        confirmadoEn: new Date().toISOString()
+    })
+    .then(() => {
+        alert('¡Gracias por confirmar tu asistencia!');
+        nombreInput.value = ''; // Limpia el campo después de confirmar
+    })
+    .catch((error) => {
+        console.error("Error al guardar la confirmación: ", error);
+        alert('Ocurrió un error. Por favor, intenta de nuevo.');
     });
-
-    console.log("Status HTTP:", response.status);
-
-    if (!response.ok) {
-      // Trata de leer cuerpo de error
-      let serverMessage = "";
-      try {
-        const json = await response.json();
-        serverMessage = JSON.stringify(json);
-      } catch {
-        serverMessage = await response.text();
-      }
-      throw new Error(`HTTP ${response.status}: ${serverMessage || response.statusText}`);
-    }
-
-    const result = await response.json();
-    console.log("Respuesta válida del servidor:", result);
-
-    feedback.textContent = `Asistencia confirmada: "${result.Result}"`;
-    feedback.style.color = "green";
-    nombreInput.value = "";
   } catch (error) {
     console.error("Error al consumir el servicio:", error);
 
-    // Mensaje personalizado para casos comunes
-    if (error.message === "Failed to fetch" || error.message.toLowerCase().includes("failed to fetch")) {
-      feedback.innerHTML = `
-        <div>
-          <div>Error: no se pudo conectar con el servicio.</div>
-          <ul style="margin:4px 0;padding-left:16px">
-            <li>Verifica que el servicio esté corriendo en <code>${API_URL}</code>.</li>
-            <li>Si usas HTTPS con certificado autofirmado, abre esa URL directa en el navegador y confía el certificado.</li>
-            <li>Revisa la consola DevTools → pestaña Network para ver si la petición salió o fue bloqueada (CORS / mixed content).</li>
-          </ul>
-        </div>`;
-    } else {
-      feedback.textContent = `Error: ${error.message}`;
-    }
+    feedback.textContent = `Error: ${error.message}`;
     feedback.style.color = "red";
+
   } finally {
     boton.disabled = false;
   }
