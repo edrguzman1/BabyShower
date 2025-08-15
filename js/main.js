@@ -109,25 +109,51 @@ document.addEventListener("DOMContentLoaded", function () {
         function confirmarAsistencia(event) {
             event.preventDefault(); 
             
-            const nombreInput = document.getElementById('nombreInvitado');
-            const nombre = nombreInput.value;
+            const nombreInvitado = document.getElementById('nombreInvitado');
+            const nombre = nombreInvitado.value;
 
             if (nombre.trim() === '') {
                 alert('Por favor, escribe tu nombre para confirmar.');
                 return;
             }
 
-            // Guarda el nombre en un nodo llamado 'asistentes'
-            database.ref('asistentes').push({
-                nombre: nombre,
-                confirmadoEn: new Date().toISOString()
-            })
-            .then(() => {
-                alert('¡Gracias por confirmar tu asistencia!');
-                nombreInput.value = ''; 
-            })
-            .catch((error) => {
-                console.error("Error al guardar la confirmación: ", error);
-                alert('Ocurrió un error. Por favor, intenta de nuevo.');
+            // Referencia al nodo de 'asistentes'
+            const asistentesRef = database.ref('asistentes');
+
+            // BUSCAMOS un asistente que tenga exactamente ese nombre
+            asistentesRef.orderByChild('nombre').equalTo(nombre).once('value', (snapshot) => {
+                
+                if (snapshot.exists()) {
+                    // -- CASO 1: El nombre YA EXISTE, así que lo actualizamos --
+                    const updates = {};
+                    // Obtenemos la clave única (key) del registro encontrado
+                    const key = Object.keys(snapshot.val())[0];
+                    
+                    // Preparamos la actualización para cambiar solo el estatus y la fecha
+                    updates[`/asistentes/${key}/estatus`] = nuevoEstatus;
+                    updates[`/asistentes/${key}/actualizadoEn`] = new Date().toISOString();
+
+                    database.ref().update(updates)
+                        .then(() => {
+                            alert('¡Gracias! Hemos actualizado tu estado de asistencia.');
+                            nombreInvitado.value = '';
+                        });
+
+                } else {
+                    // -- CASO 2: El nombre NO EXISTE, así que creamos un nuevo registro --
+                    asistentesRef.push({
+                        nombre: nombre,
+                        estatus: nuevoEstatus,
+                        registradoEn: new Date().toISOString()
+                    })
+                    .then(() => {
+                        alert('¡Gracias por confirmar tu asistencia!');
+                        nombreInvitado.value = '';
+                    })
+                    .catch((error) => {
+                        console.error("Error al guardar el nuevo registro: ", error);
+                        alert('Ocurrió un error al guardar tu respuesta.');
+                    });
+                }
             });
         }
