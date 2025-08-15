@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // script.js
 
 // Configuración: ajusta si cambia el puerto o ruta
-const API_URL = "http://192.168.68.109/ServicioBabyShower/api/strings/process";
+const API_URL = "https://localhost:44321/api/strings/process";
 
 /**
  * Función principal que se dispara al enviar el formulario.
