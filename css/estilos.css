@@ -154,6 +154,112 @@ button:hover {
   width: 400px;
 }
 
+/* ======================================== */
+/* ESTILOS PARA RSVP MEJORADO             */
+/* ======================================== */
+
+/* Contenedor del formulario RSVP */
+.rsvp-form {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 2px dashed var(--light-pink-bg);
+}
+
+.rsvp-form h3 {
+  color: var(--blue);
+  font-size: 1.6em;
+  margin-bottom: 5px;
+}
+
+.rsvp-form p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Estilo mejorado para el campo de texto */
+.rsvp-form input {
+  border: 2px solid #ddd;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.1em;
+}
+
+.rsvp-form input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 8px var(--light-pink-bg);
+  outline: none;
+}
+
+/* Contenedor para los botones */
+.botones-rsvp {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* Estilo base para los nuevos botones */
+.btn-confirm, .btn-decline {
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: translateY(0);
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-confirm:hover, .btn-decline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* Botón de Confirmar */
+.btn-confirm {
+  background-color: #28a745; /* Verde */
+}
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+/* Botón de Cancelar */
+.btn-decline {
+  background-color: #dc3545; /* Rojo */
+}
+.btn-decline:hover {
+  background-color: #c82333;
+}
+
+/* Cuenta Regresiva */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.countdown div {
+  background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+  padding: 15px;
+  border-radius: 10px;
+  min-width: 80px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.countdown span {
+  display: block;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: var(--pink);
+}
+
+
+
+
 /* Videos: carrusel horizontal */
 .video-grid {
   display: flex;
@@ -478,6 +584,19 @@ button:hover {
 
 /* MÓVIL */
 @media (max-width: 768px) {
+
+  .countdown {
+    gap: 8px;
+  }
+  .countdown div {
+    padding: 10px;
+    min-width: 60px;
+  }
+  .countdown span {
+    font-size: 1.8em;
+  }
+
+  
   html { font-size: 14px; }
   body {
     padding: 20px 10px;

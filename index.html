@@ -55,17 +55,34 @@
 <img src="img/Baby Logo 2.gif" class="logo" alt="Bebé feliz">
 
   <!-- Tarjeta principal -->
-  <div class="card" id="inicio">
-    
+<div class="card" id="inicio">
     <h1>¡Estás Invitado!</h1>
     <p>Nos emociona mucho compartir contigo la llegada de nuestro bebé 💖💙</p>
-    <p><strong>🗓️ Sabado 22 de Noviembre, 2025 - 2:00 PM a 7:00 PM</strong></p>
-
     
-    <!-- Formulario RSVP -->
-    <input type="text" id="nombreInvitado" placeholder="Tu nombre" required />
-    <button onclick="registrarAsistencia('confirmado')">Confirmar asistencia</button>
-  </div>
+    <!-- Cuenta Regresiva -->
+    <p><strong>🗓️ Sábado 22 de Noviembre, 2025 - 2:00 PM a 7:00 PM</strong></p>
+    <div id="countdown" class="countdown">
+        <div><span id="dias"></span> Días</div>
+        <div><span id="horas"></span> Horas</div>
+        <div><span id="minutos"></span> Minutos</div>
+        <div><span id="segundos"></span> Segundos</div>
+    </div>
+
+    <!-- Formulario RSVP Mejorado -->
+    <div class="rsvp-form">
+        <h3>Confirma tu asistencia</h3>
+        <p>Por favor, escribe tu nombre y selecciona una opción:</p>
+        <input type="text" id="nombreInvitado" placeholder="Tu nombre completo" required />
+        <div class="botones-rsvp">
+            <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
+                <span class="icono-btn">✔️</span> ¡Claro que sí!
+            </button>
+            <button class="btn-decline" onclick="registrarAsistencia('cancelado')">
+                <span class="icono-btn">❌</span> No podré asistir
+            </button>
+        </div>
+    </div>
+</div>
 
   <!-- Sección Galería -->
 <div class="seccion" id="galeria">

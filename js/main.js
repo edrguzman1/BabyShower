@@ -164,25 +164,31 @@ function registrarAsistencia(nuevoEstatus) {
         });
 }
 
-function probarConexion() {
-    console.log("--- Iniciando Prueba de Conexión Directa ---");
-    const asistentesRef = database.ref('asistentes');
+// --- CÓDIGO PARA LA CUENTA REGRESIVA ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Fecha del evento (Año, Mes (0-11), Día, Hora, Minuto, Segundo)
+    const fechaEvento = new Date(2025, 10, 22, 14, 0, 0).getTime();
 
-    asistentesRef.once('value')
-        .then(snapshot => {
-            // SI VES ESTE MENSAJE, LA CONEXIÓN Y LAS REGLAS FUNCIONAN
-            console.log("¡CONEXIÓN EXITOSA! Se pudo leer la base de datos.");
-            alert("¡La conexión con Firebase funciona!");
-            if (snapshot.exists()) {
-                console.log("Datos recibidos:", snapshot.val());
-            } else {
-                console.log("El nodo 'asistentes' existe pero está vacío.");
-            }
-        })
-        .catch(error => {
-            // SI VES ESTO, EL PROBLEMA ES LA CONFIGURACIÓN O UN BLOQUEO
-            console.error("¡FALLO LA CONEXIÓN DIRECTA!", error);
-            alert("La prueba de conexión falló. Revisa la consola (F12). El problema está 100% en tu 'firebaseConfig' o en un bloqueo de red (firewall, adblocker).");
-        });
-}
+    const actualizarCuentaRegresiva = setInterval(() => {
+        const ahora = new Date().getTime();
+        const diferencia = fechaEvento - ahora;
+
+        if (diferencia < 0) {
+            clearInterval(actualizarCuentaRegresiva);
+            document.getElementById("countdown").innerHTML = "¡El gran día ha llegado!";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        document.getElementById("dias").innerText = dias;
+        document.getElementById("horas").innerText = horas;
+        document.getElementById("minutos").innerText = minutos;
+        document.getElementById("segundos").innerText = segundos;
+
+    }, 1000);
+});
 
