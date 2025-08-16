@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Invitados</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            text-align: center;
+            color: #1a2c4e;
+            border-bottom: 2px solid #eef;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fafbfe;
+            border-radius: 8px;
+        }
+        .stat-item h2 {
+            margin: 0 0 5px 0;
+            font-size: 2em;
+        }
+        .stat-item p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #667;
+        }
+        #confirmados-count { color: #28a745; }
+        #cancelados-count { color: #dc3545; }
+        #total-count { color: #007bff; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: white;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .status-confirmado { background-color: #28a745; }
+        .status-cancelado { background-color: #dc3545; }
+        #loading-message {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lista de Asistencia</h1>
+
+        <div class="stats">
+            <div class="stat-item">
+                <h2 id="confirmados-count">0</h2>
+                <p>Confirmados</p>
+            </div>
+            <div class="stat-item">
+                <h2 id="cancelados-count">0</h2>
+                <p>Cancelados</p>
+            </div>
+            <div class="stat-item">
+                <h2 id="total-count">0</h2>
+                <p>Total Respuestas</p>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Invitado</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody id="lista-invitados">
+                <!-- Los invitados se cargarán aquí dinámicamente -->
+            </tbody>
+        </table>
+        <p id="loading-message">Cargando lista de invitados...</p>
+    </div>
+
+    <!-- Scripts de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        // 1. Pega aquí tu configuración de Firebase (la misma que usaste antes)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
+            authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
+            databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
+            projectId: "babyshowerguzmanmiranda",
+            storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
+            messagingSenderId: "564665563453",
+            appId: "1:564665563453:web:242aaba73a4768fa89ad54"
+        };
+
+        // 2. Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // 3. Obtén referencias a los elementos del HTML
+        const listaInvitadosBody = document.getElementById('lista-invitados');
+        const loadingMessage = document.getElementById('loading-message');
+        const confirmadosCountEl = document.getElementById('confirmados-count');
+        const canceladosCountEl = document.getElementById('cancelados-count');
+        const totalCountEl = document.getElementById('total-count');
+
+        // 4. Escucha los cambios en la base de datos en tiempo real
+        const asistentesRef = database.ref('asistentes');
+        
+        asistentesRef.on('value', (snapshot) => {
+            // Limpia la tabla actual antes de agregar los nuevos datos
+            listaInvitadosBody.innerHTML = '';
+            loadingMessage.style.display = 'none';
+
+            let confirmados = 0;
+            let cancelados = 0;
+
+            if (snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    const invitado = childSnapshot.val();
+
+                    // Crea una nueva fila para la tabla
+                    const fila = document.createElement('tr');
+
+                    // Crea la celda para el nombre
+                    const celdaNombre = document.createElement('td');
+                    celdaNombre.textContent = invitado.nombre;
+                    fila.appendChild(celdaNombre);
+
+                    // Crea la celda para el estatus con un badge de color
+                    const celdaEstatus = document.createElement('td');
+                    const badge = document.createElement('span');
+                    badge.textContent = invitado.estatus;
+                    badge.classList.add('status-badge');
+
+                    if (invitado.estatus === 'confirmado') {
+                        badge.classList.add('status-confirmado');
+                        confirmados++;
+                    } else {
+                        badge.classList.add('status-cancelado');
+                        cancelados++;
+                    }
+                    
+                    celdaEstatus.appendChild(badge);
+                    fila.appendChild(celdaEstatus);
+
+                    // Agrega la fila completa a la tabla
+                    listaInvitadosBody.appendChild(fila);
+                });
+            } else {
+                loadingMessage.textContent = "Aún no hay respuestas.";
+                loadingMessage.style.display = 'block';
+            }
+
+            // Actualiza los contadores
+            confirmadosCountEl.textContent = confirmados;
+            canceladosCountEl.textContent = cancelados;
+            totalCountEl.textContent = confirmados + cancelados;
+        }, (error) => {
+            console.error("Error al leer los datos: ", error);
+            loadingMessage.textContent = "Error al cargar los datos.";
+            loadingMessage.style.display = 'block';
+        });
+
+    </script>
+</body>
+</html>

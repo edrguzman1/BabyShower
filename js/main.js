@@ -102,58 +102,87 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
 // 2. Inicializa la aplicación de Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-        // 3. Esta es la función que tu formulario llamará
-        function confirmarAsistencia(event) {
-            event.preventDefault(); 
-            
-            const nombreInvitado = document.getElementById('nombreInvitado');
-            const nombre = nombreInvitado.value;
+// 3. Función corregida para registrar o actualizar la asistencia
+function registrarAsistencia(nuevoEstatus) {
+    console.log(`Función iniciada con estatus: ${nuevoEstatus}`);
+    const nombreInput = document.getElementById('nombreInvitado');
+    const nombre = nombreInput.value.trim();
 
-            if (nombre.trim() === '') {
-                alert('Por favor, escribe tu nombre para confirmar.');
-                return;
-            }
+    if (nombre === '') {
+        alert('Por favor, escribe tu nombre.');
+        return;
+    }
 
-            // Referencia al nodo de 'asistentes'
-            const asistentesRef = database.ref('asistentes');
+    const asistentesRef = database.ref('asistentes');
 
-            // BUSCAMOS un asistente que tenga exactamente ese nombre
-            asistentesRef.orderByChild('nombre').equalTo(nombre).once('value', (snapshot) => {
-                
-                if (snapshot.exists()) {
-                    // -- CASO 1: El nombre YA EXISTE, así que lo actualizamos --
-                    const updates = {};
-                    // Obtenemos la clave única (key) del registro encontrado
-                    const key = Object.keys(snapshot.val())[0];
-                    
-                    // Preparamos la actualización para cambiar solo el estatus y la fecha
-                    updates[`/asistentes/${key}/estatus`] = nuevoEstatus;
-                    updates[`/asistentes/${key}/actualizadoEn`] = new Date().toISOString();
+    // Paso 1: Leemos TODOS los asistentes una sola vez.
+    // Sabemos que esto funciona gracias a la prueba anterior.
+    asistentesRef.once('value')
+        .then(snapshot => {
+            let asistenteExistente = null;
+            let claveDelAsistente = null;
 
-                    database.ref().update(updates)
-                        .then(() => {
-                            alert('¡Gracias! Hemos actualizado tu estado de asistencia.');
-                            nombreInvitado.value = '';
-                        });
-
-                } else {
-                    // -- CASO 2: El nombre NO EXISTE, así que creamos un nuevo registro --
-                    asistentesRef.push({
-                        nombre: nombre,
-                        estatus: nuevoEstatus,
-                        registradoEn: new Date().toISOString()
-                    })
-                    .then(() => {
-                        alert('¡Gracias por confirmar tu asistencia!');
-                        nombreInvitado.value = '';
-                    })
-                    .catch((error) => {
-                        console.error("Error al guardar el nuevo registro: ", error);
-                        alert('Ocurrió un error al guardar tu respuesta.');
-                    });
+            // Paso 2: Usamos JavaScript para buscar el nombre.
+            // snapshot.forEach() es la forma de recorrer los resultados en Firebase.
+            snapshot.forEach(childSnapshot => {
+                const asistente = childSnapshot.val();
+                if (asistente.nombre === nombre) {
+                    asistenteExistente = asistente;
+                    claveDelAsistente = childSnapshot.key;
                 }
             });
-        }
+
+            // Paso 3: Decidimos si actualizar o crear.
+            if (asistenteExistente) {
+                // CASO 1: El nombre se encontró. Lo actualizamos.
+                console.log(`Nombre encontrado. Actualizando el estatus del asistente con clave: ${claveDelAsistente}`);
+                return database.ref(`asistentes/${claveDelAsistente}`).update({
+                    estatus: nuevoEstatus,
+                    actualizadoEn: new Date().toISOString()
+                });
+            } else {
+                // CASO 2: El nombre es nuevo. Creamos un registro.
+                console.log("Nombre no encontrado. Creando nuevo asistente.");
+                return asistentesRef.push({
+                    nombre: nombre,
+                    estatus: nuevoEstatus,
+                    registradoEn: new Date().toISOString()
+                });
+            }
+        })
+        .then(() => {
+            console.log("¡Éxito! La escritura en la base de datos funcionó.");
+            alert('¡Gracias! Tu respuesta se guardó correctamente.');
+            nombreInput.value = '';
+        })
+        .catch(error => {
+            console.error("¡ERROR DE FIREBASE!", error);
+            alert("Ocurrió un error inesperado. Revisa la consola (F12).");
+        });
+}
+
+function probarConexion() {
+    console.log("--- Iniciando Prueba de Conexión Directa ---");
+    const asistentesRef = database.ref('asistentes');
+
+    asistentesRef.once('value')
+        .then(snapshot => {
+            // SI VES ESTE MENSAJE, LA CONEXIÓN Y LAS REGLAS FUNCIONAN
+            console.log("¡CONEXIÓN EXITOSA! Se pudo leer la base de datos.");
+            alert("¡La conexión con Firebase funciona!");
+            if (snapshot.exists()) {
+                console.log("Datos recibidos:", snapshot.val());
+            } else {
+                console.log("El nodo 'asistentes' existe pero está vacío.");
+            }
+        })
+        .catch(error => {
+            // SI VES ESTO, EL PROBLEMA ES LA CONFIGURACIÓN O UN BLOQUEO
+            console.error("¡FALLO LA CONEXIÓN DIRECTA!", error);
+            alert("La prueba de conexión falló. Revisa la consola (F12). El problema está 100% en tu 'firebaseConfig' o en un bloqueo de red (firewall, adblocker).");
+        });
+}
+
