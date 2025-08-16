@@ -158,6 +158,28 @@ button:hover {
 /* ESTILOS PARA RSVP MEJORADO             */
 /* ======================================== */
 
+.card p.intro-text {
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-evento {
+  background-color: #fafbfe;
+  border-left: 4px solid var(--pink);
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.info-evento p {
+  margin: 5px 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
 /* Contenedor del formulario RSVP */
 .rsvp-form {
   margin-top: 25px;
@@ -596,7 +618,7 @@ button:hover {
     font-size: 1.8em;
   }
 
-  
+
   html { font-size: 14px; }
   body {
     padding: 20px 10px;
