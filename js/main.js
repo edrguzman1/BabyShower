@@ -35,32 +35,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  const stack = document.querySelector('.foto-stack');
-  const images = stack.querySelectorAll('img');
-
-  // Asignamos índice para aplicar rotaciones
-  images.forEach((img, i) => {
-    img.setAttribute('data-index', i);
-  });
+const stackContainer = document.querySelector('#galeria-pila');
+  const stack = stackContainer.querySelector('.foto-stack');
+  const fotoItems = stack.querySelectorAll('.foto-item');
 
   let currentIndex = 0;
 
   function updateStack() {
-    images.forEach((img, i) => {
-      img.classList.remove('active', 'prev', 'next');
+    fotoItems.forEach((item, i) => {
+      item.classList.remove('active', 'prev', 'next');
+      const figcaption = item.querySelector('.foto-descripcion');
+      
+      figcaption.style.opacity = '0';
+      figcaption.textContent = '';
+
 
       if (i === currentIndex) {
-        img.classList.add('active');
+        item.classList.add('active');
+        figcaption.textContent = item.querySelector('img').getAttribute('data-description');
+        figcaption.style.opacity = '1';
+
       } else if (i === currentIndex - 1) {
-        img.classList.add('prev');
+        item.classList.add('prev');
       } else if (i === currentIndex + 1) {
-        img.classList.add('next');
+        item.classList.add('next');
       }
     });
   }
 
   function showNext() {
-    if (currentIndex < images.length - 1) {
+    if (currentIndex < fotoItems.length - 1) {
       currentIndex++;
       updateStack();
     }
@@ -76,11 +80,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Soporte para gestos táctiles
   let startX = 0;
 
-  stack.addEventListener('touchstart', (e) => {
+  stackContainer.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
   });
 
-  stack.addEventListener('touchend', (e) => {
+  stackContainer.addEventListener('touchend', (e) => {
     const endX = e.changedTouches[0].clientX;
     const diff = endX - startX;
 
@@ -89,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   updateStack(); // Inicializar al cargar
+
 
 
   const firebaseConfig = {
