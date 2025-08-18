@@ -545,6 +545,72 @@ button:hover {
 }
 
 
+/* ======================================== */
+/* NAVEGACIÓN PARA GALERÍA TIPO PILA */
+/* ======================================== */
+
+.foto-stack-container {
+  position: relative; /* Esto se mantiene, es clave para el posicionamiento */
+}
+
+.stack-nav {
+  display: none; 
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 10; 
+}
+
+/* Estilo mejorado y más llamativo para los botones */
+.stack-nav-button {
+  background-color: rgba(255, 105, 180, 0.75); /* Usamos el rosa del tema, semitransparente */
+  border: 2px solid rgba(255, 255, 255, 0.8); /* Borde blanco sutil */
+  border-radius: 50%;
+  width: 50px;  /* Aumentamos el tamaño */
+  height: 50px; /* Aumentamos el tamaño */
+  font-size: 24px; /* Hacemos la flecha más grande */
+  font-weight: bold;
+  color: white; /* Flecha en color blanco para mejor contraste */
+  cursor: pointer;
+  pointer-events: all;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stack-nav-button:hover {
+  background-color: var(--pink-hover); /* Color rosa más intenso al pasar el cursor */
+  transform: scale(1.1); /* Efecto de crecimiento sutil */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* Aumentamos la separación de los botones respecto a la galería */
+.prev-btn {
+  margin-left: -75px; /* Más separado (antes -50px) */
+}
+
+.next-btn {
+  margin-right: -75px; /* Más separado (antes -50px) */
+}
+
+/* ======================================== */
+/* MEDIA QUERY PARA MOSTRAR BOTONES     */
+/* ======================================== */
+
+@media (min-width: 769px) {
+  .stack-nav {
+    display: flex;
+  }
+}
+
+
 /* Decoración flotante (gifs zigzag) */
 .gif-zigzag {
   position: fixed;
