@@ -80,13 +80,19 @@ function hideModal() {
 }
 
 function handleConfirm() {
-    if (onConfirmCallback) onConfirmCallback();
-    hideModal();
+    // ***** INICIO DE LA CORRECCIÓN *****
+    // Se elimina hideModal() de aquí.
+    // Ahora, la función que se ejecuta al confirmar (onConfirmCallback)
+    // es la única responsable de decidir qué pasa después (en este caso, mostrar otro mensaje).
+    if (onConfirmCallback) {
+        onConfirmCallback();
+    }
+    // ***** FIN DE LA CORRECCIÓN *****
 }
 
 function handleCancel() {
     if (onCancelCallback) onCancelCallback();
-    hideModal();
+    hideModal(); // Mantenemos esto para que al cancelar sí se cierre el modal.
 }
 
 // =================================================================================
@@ -185,7 +191,6 @@ function cerrarLightbox() {
 
 // --- Menú de navegación móvil y cuenta regresiva ---
 document.addEventListener("DOMContentLoaded", function () {
-    // ***** INICIO DE LA CORRECCIÓN *****
     // Asignamos las variables del modal aquí, cuando estamos seguros de que el HTML existe.
     modalContainer = document.getElementById('custom-modal-container');
     modal = document.getElementById('custom-modal');
@@ -193,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
     modalTitle = document.getElementById('modal-title');
     modalMessage = document.getElementById('modal-message');
     modalButtons = document.getElementById('modal-buttons');
-    // ***** FIN DE LA CORRECCIÓN *****
 
     // Menú
     const toggle = document.querySelector(".menu-toggle");
