@@ -116,14 +116,40 @@ const database = firebase.database();
 // LÓGICA DE REGISTRO DE ASISTENCIA (CONECTADA AL MODAL)
 // =================================================================================
 
+/**
+ * Normaliza un nombre para comparación:
+ * - Quita acentos (á -> a).
+ * - Elimina espacios, puntos y comas.
+ * - Convierte todo a mayúsculas.
+ */
+function normalizarNombre(nombre) {
+    if (!nombre) return '';
+    return nombre
+        .normalize("NFD") // Separa las letras de los acentos
+        .replace(/[\u0300-\u036f]/g, "") // Elimina los acentos y diacríticos
+        .replace(/[^a-zA-Z]/g, '') // Elimina TODO lo que no sea una letra (a-z, A-Z)
+        .toUpperCase(); // Convierte a mayúsculas
+}
+
 function registrarAsistencia(nuevoEstatus) {
     const nombreInput = document.getElementById('nombreInvitado');
-    const nombre = nombreInput.value.trim();
+    const nombreOriginal = nombreInput.value.trim();
 
-    if (nombre === '') {
+    if (nombreOriginal === '') {
         showSimpleAlert('error', '¡Oh, no!', 'Por favor, escribe tu nombre antes de confirmar.');
         return;
     }
+
+    // Normalizamos el nombre ingresado para hacer una comparación a prueba de errores
+    const nombreNormalizado = normalizarNombre(nombreOriginal);
+    
+    // También creamos una versión limpia del nombre para guardar en la base de datos
+    const nombreParaGuardar = nombreOriginal
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[.,]/g, '')
+        .trim();
+
 
     const esConfirmacion = nuevoEstatus === 'confirmado';
     const config = {
@@ -135,20 +161,27 @@ function registrarAsistencia(nuevoEstatus) {
             asistentesRef.once('value')
                 .then(snapshot => {
                     let claveDelAsistente = null;
+
                     snapshot.forEach(childSnapshot => {
-                        if (childSnapshot.val().nombre === nombre) {
+                        const nombreEnDB = childSnapshot.val().nombre;
+                        // Normalizamos también el nombre de la base de datos antes de comparar
+                        const nombreEnDBNormalizado = normalizarNombre(nombreEnDB);
+
+                        if (nombreEnDBNormalizado === nombreNormalizado) {
                             claveDelAsistente = childSnapshot.key;
                         }
                     });
 
                     if (claveDelAsistente) {
+                        // Si ya existe, solo actualizamos su estatus
                         return database.ref(`asistentes/${claveDelAsistente}`).update({
                             estatus: nuevoEstatus,
                             actualizadoEn: new Date().toISOString()
                         });
                     } else {
+                        // Si no existe, creamos un nuevo registro con el nombre ya limpio
                         return asistentesRef.push({
-                            nombre: nombre,
+                            nombre: nombreParaGuardar, // Guardamos el nombre sin acentos/puntuación
                             estatus: nuevoEstatus,
                             registradoEn: new Date().toISOString()
                         });
