@@ -675,6 +675,90 @@ button:hover {
   100% { transform: translateY(0); }
 }
 
+
+
+/* ======================================== */
+/* ESTILOS MEJORADOS MESA DE REGALOS      */
+/* ======================================== */
+
+.regalos-intro {
+  text-align: center;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto 30px auto; /* Centra el párrafo y le da espacio inferior */
+  line-height: 1.6;
+}
+
+.regalos-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* Asegura que las tarjetas tengan la misma altura */
+  gap: 30px;
+  flex-wrap: wrap; /* Permite que las tarjetas se apilen en pantallas pequeñas */
+  margin-top: 20px;
+}
+
+.regalo-card {
+  background: linear-gradient(145deg, #f9faff, #fdf6f9);
+  border-radius: var(--radius);
+  border: 1px solid #eef;
+  padding: 25px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.regalo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.tienda-logo {
+  max-height: 50px; /* Altura máxima para los logos */
+  width: auto;
+  max-width: 150px;
+  margin: 0 auto 20px auto;
+  object-fit: contain;
+}
+
+.tienda-descripcion {
+  color: #667;
+  font-size: 0.95em;
+  flex-grow: 1; /* Permite que este elemento crezca y empuje el botón hacia abajo */
+  margin-bottom: 25px;
+}
+
+.btn-tienda {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 50px; /* Botones más redondeados */
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-tienda:hover {
+  background-color: var(--blue-dark);
+  transform: scale(1.05);
+}
+
+/* Ajuste para el logo de Amazon para que se vea bien */
+.regalo-card img[alt*="Amazon"] {
+  filter: invert(15%);
+}
+
+
+
+
+
 /* ======================================== */
 /*   ADAPTATIVOS / MEDIA QUERIES           */
 /* ======================================== */
