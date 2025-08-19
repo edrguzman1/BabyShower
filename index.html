@@ -3,9 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css" />
   <title>Invitación Baby Shower</title>
+  
+  <!-- Google Fonts (Añadimos 'Comfortaa' para el modal) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Tus hojas de estilo -->
+  <link rel="stylesheet" href="css/estilos.css" />
+  <link rel="stylesheet" href="css/Confirmacion.css" />
 </head>
 
 <body>
@@ -247,6 +254,23 @@
     <span class="cerrar" onclick="cerrarLightbox()">✖</span>
     <img id="lightbox-img" src="" alt="Imagen ampliada">
   </div>
+  
+  <!-- MENSAJE DE CONFIRMACION-->
+    <div id="custom-modal-container" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center hidden z-50 p-4">
+        <div id="custom-modal" class="bg-gradient-to-br from-blue-50 to-pink-50 rounded-2xl w-full max-w-sm mx-auto p-6 text-center transform transition-all">
+            <!-- Icono del modal -->
+            <div id="modal-icon" class="mx-auto mb-4 h-24 w-24">
+                <!-- El SVG del icono se insertará aquí dinámicamente -->
+            </div>
+            <!-- Título y mensaje del modal -->
+            <h3 id="modal-title" class="text-3xl font-pacifico text-gray-700 mb-3"></h3>
+            <p id="modal-message" class="text-gray-600 mb-8 text-md"></p>
+            <!-- Contenedor para los botones de acción -->
+            <div id="modal-buttons" class="flex justify-center gap-4">
+                <!-- Los botones se insertarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
