@@ -198,6 +198,72 @@ button:hover {
   margin-bottom: 20px;
 }
 
+/* ** INICIAN NUEVOS ESTILOS PARA TOOLTIP ** */
+.titulo-con-tooltip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px; /* Espacio antes del siguiente párrafo */
+}
+
+.tooltip-icono {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--blue);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: help;
+    user-select: none; /* Evita que el texto del ícono se seleccione */
+}
+
+.tooltip-texto {
+    visibility: hidden;
+    width: 260px;
+    background-color: #495057; /* ** COLOR CAMBIADO A GRIS MÁS OSCURO ** */
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px;
+    position: absolute;
+    z-index: 10;
+    top: 150%; /* ** POSICIÓN CAMBIADA A ABAJO ** */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-family: var(--font-base); /* Usa la fuente base del sitio */
+    font-size: 0.9em;
+    line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Flecha del tooltip */
+.tooltip-texto::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* ** POSICIÓN DE LA FLECHA CAMBIADA ** */
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #495057 transparent; /* ** DIRECCIÓN Y COLOR DE LA FLECHA CAMBIADA ** */
+}
+
+/* Muestra el tooltip al pasar el mouse sobre el ícono */
+.tooltip-icono:hover .tooltip-texto {
+    visibility: visible;
+    opacity: 1;
+}
+/* ** TERMINAN NUEVOS ESTILOS PARA TOOLTIP ** */
+
+
 /* Estilo mejorado para el campo de texto */
 .rsvp-form input {
   border: 2px solid #ddd;
@@ -991,6 +1057,4 @@ button:hover {
   .foto-stack .foto-item.next {
     transform: translateX(20px) rotate(7deg) scale(0.95);
   }
-  /* --- TERMINA Bloque para Galería de Pila --- */
-
 }
