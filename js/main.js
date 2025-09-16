@@ -6,6 +6,7 @@
 let modalContainer, modal, modalIcon, modalTitle, modalMessage, modalButtons;
 let onConfirmCallback = null;
 let onCancelCallback = null;
+let nombreDesdeURL = ''; // Variable global para guardar el nombre de la URL
 
 // --- Iconos SVG Temáticos para el Modal ---
 const icons = {
@@ -33,7 +34,7 @@ function showCustomConfirm({ type, title, message, onConfirm, onCancel }) {
     onConfirmCallback = onConfirm;
     onCancelCallback = onCancel;
     
-    modalButtons.innerHTML = ''; // Limpiar botones anteriores
+    modalButtons.innerHTML = '';
     
     const confirmButton = document.createElement('button');
     confirmButton.textContent = 'Confirmar';
@@ -53,23 +54,29 @@ function showCustomConfirm({ type, title, message, onConfirm, onCancel }) {
     modal.classList.add('modal-enter');
 }
 
-function showSimpleAlert(type, title, message) {
+function showSimpleAlert(type, title, message, onOk) {
     modalIcon.innerHTML = type === 'success' ? icons.success : icons.error;
     modalTitle.textContent = title;
     modalMessage.textContent = message;
 
-    modalButtons.innerHTML = ''; // Limpiar botones anteriores
+    modalButtons.innerHTML = '';
 
     const okButton = document.createElement('button');
     okButton.textContent = '¡Entendido!';
     okButton.className = 'modal-button ok';
-    okButton.onclick = hideModal;
+    okButton.onclick = () => {
+        hideModal();
+        if (onOk) {
+            onOk();
+        }
+    };
     modalButtons.appendChild(okButton);
 
     modalContainer.classList.remove('hidden');
     modal.classList.remove('modal-leave');
     modal.classList.add('modal-enter');
 }
+
 
 function hideModal() {
     modal.classList.add('modal-leave');
@@ -80,19 +87,14 @@ function hideModal() {
 }
 
 function handleConfirm() {
-    // ***** INICIO DE LA CORRECCIÓN *****
-    // Se elimina hideModal() de aquí.
-    // Ahora, la función que se ejecuta al confirmar (onConfirmCallback)
-    // es la única responsable de decidir qué pasa después (en este caso, mostrar otro mensaje).
     if (onConfirmCallback) {
         onConfirmCallback();
     }
-    // ***** FIN DE LA CORRECCIÓN *****
 }
 
 function handleCancel() {
     if (onCancelCallback) onCancelCallback();
-    hideModal(); // Mantenemos esto para que al cancelar sí se cierre el modal.
+    hideModal();
 }
 
 // =================================================================================
@@ -116,46 +118,35 @@ const database = firebase.database();
 // LÓGICA DE REGISTRO DE ASISTENCIA (CONECTADA AL MODAL)
 // =================================================================================
 
-/**
- * Normaliza un nombre para comparación:
- * - Quita acentos (á -> a).
- * - Elimina espacios, puntos y comas.
- * - Convierte todo a mayúsculas.
- */
 function normalizarNombre(nombre) {
     if (!nombre) return '';
     return nombre
-        .normalize("NFD") // Separa las letras de los acentos
-        .replace(/[\u0300-\u036f]/g, "") // Elimina los acentos y diacríticos
-        .replace(/[^a-zA-Z]/g, '') // Elimina TODO lo que no sea una letra (a-z, A-Z)
-        .toUpperCase(); // Convierte a mayúsculas
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z\s]/g, '') // Mantenemos espacios para nombres compuestos
+        .trim()
+        .toUpperCase();
 }
+
 
 function registrarAsistencia(nuevoEstatus) {
     const nombreInput = document.getElementById('nombreInvitado');
-    const nombreOriginal = nombreInput.value.trim();
+    let nombreOriginal = nombreDesdeURL || nombreInput.value.trim();
 
     if (nombreOriginal === '') {
         showSimpleAlert('error', '¡Oh, no!', 'Por favor, escribe tu nombre antes de confirmar.');
         return;
     }
 
-    // Normalizamos el nombre ingresado para hacer una comparación a prueba de errores
     const nombreNormalizado = normalizarNombre(nombreOriginal);
-    
-    // También creamos una versión limpia del nombre para guardar en la base de datos
-    const nombreParaGuardar = nombreOriginal
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[.,]/g, '')
-        .trim();
+    const nombreParaGuardar = nombreOriginal.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
 
     const esConfirmacion = nuevoEstatus === 'confirmado';
     const config = {
         type: esConfirmacion ? 'success' : 'error',
         title: esConfirmacion ? '¿Confirmas tu asistencia?' : '¿No podrás asistir?',
-        message: esConfirmacion ? '¡Qué alegría! Te esperamos para celebrar juntos.' : 'Lamentaremos no verte. ¿Estás seguro?',
+        message: esConfirmacion ? `¡Qué alegría, ${nombreOriginal}! Te esperamos.` : `Lamentaremos no verte, ${nombreOriginal}. ¿Estás seguro?`,
         onConfirm: () => {
             const asistentesRef = database.ref('asistentes');
             asistentesRef.once('value')
@@ -163,32 +154,32 @@ function registrarAsistencia(nuevoEstatus) {
                     let claveDelAsistente = null;
 
                     snapshot.forEach(childSnapshot => {
-                        const nombreEnDB = childSnapshot.val().nombre;
-                        // Normalizamos también el nombre de la base de datos antes de comparar
-                        const nombreEnDBNormalizado = normalizarNombre(nombreEnDB);
-
+                        const nombreEnDBNormalizado = normalizarNombre(childSnapshot.val().nombre);
                         if (nombreEnDBNormalizado === nombreNormalizado) {
                             claveDelAsistente = childSnapshot.key;
                         }
                     });
 
                     if (claveDelAsistente) {
-                        // Si ya existe, solo actualizamos su estatus
                         return database.ref(`asistentes/${claveDelAsistente}`).update({
                             estatus: nuevoEstatus,
                             actualizadoEn: new Date().toISOString()
                         });
                     } else {
-                        // Si no existe, creamos un nuevo registro con el nombre ya limpio
                         return asistentesRef.push({
-                            nombre: nombreParaGuardar, // Guardamos el nombre sin acentos/puntuación
+                            nombre: nombreParaGuardar,
                             estatus: nuevoEstatus,
                             registradoEn: new Date().toISOString()
                         });
                     }
                 })
                 .then(() => {
-                    showSimpleAlert('success', '¡Gracias!', 'Tu respuesta se guardó correctamente.');
+                    showSimpleAlert('success', '¡Gracias!', 'Tu respuesta se guardó correctamente.', () => {
+                        // Si el nombre venía de la URL, recarga la página a la versión normal.
+                        if (nombreDesdeURL) {
+                            window.location.href = window.location.pathname;
+                        }
+                    });
                     nombreInput.value = '';
                 })
                 .catch(error => {
@@ -209,7 +200,6 @@ function registrarAsistencia(nuevoEstatus) {
 // LÓGICA ADICIONAL DE LA PÁGINA (MENÚ, GALERÍAS, CUENTA REGRESIVA)
 // =================================================================================
 
-// --- Lightbox para la galería ---
 function abrirLightbox(imagen) {
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
@@ -222,9 +212,7 @@ function cerrarLightbox() {
     lightbox.style.display = "none";
 }
 
-// --- Menú de navegación móvil y cuenta regresiva ---
 document.addEventListener("DOMContentLoaded", function () {
-    // Asignamos las variables del modal aquí, cuando estamos seguros de que el HTML existe.
     modalContainer = document.getElementById('custom-modal-container');
     modal = document.getElementById('custom-modal');
     modalIcon = document.getElementById('modal-icon');
@@ -232,16 +220,25 @@ document.addEventListener("DOMContentLoaded", function () {
     modalMessage = document.getElementById('modal-message');
     modalButtons = document.getElementById('modal-buttons');
 
-    // Menú
     const toggle = document.querySelector(".menu-toggle");
     const links = document.querySelector(".menu-links");
     if (toggle && links) {
-        toggle.addEventListener("click", () => {
-            links.classList.toggle("show");
-        });
+        toggle.addEventListener("click", () => links.classList.toggle("show"));
     }
 
-    // Cuenta regresiva
+    // *** NUEVA LÓGICA PARA PERSONALIZACIÓN ***
+    const urlParams = new URLSearchParams(window.location.search);
+    const nombreParam = urlParams.get('name');
+
+    if (nombreParam) {
+        nombreDesdeURL = nombreParam.trim();
+        document.getElementById('saludo-principal').textContent = `¡${nombreDesdeURL}!`;
+        document.getElementById('texto-introduccion').innerHTML = `Estamos muy contentos de invitarte a celebrar con nosotros. <strong>¡Esperamos que puedas acompañarnos!</strong> 💖💙`;
+        document.getElementById('rsvp-normal').style.display = 'none';
+        document.getElementById('rsvp-personalizado').style.display = 'block';
+    }
+    // *** FIN DE LA LÓGICA DE PERSONALIZACIÓN ***
+
     const fechaEvento = new Date(2025, 10, 22, 14, 0, 0).getTime();
     const actualizarCuentaRegresiva = setInterval(() => {
         const ahora = new Date().getTime();
@@ -265,7 +262,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 1000);
 });
 
-// --- Galería apilada ---
 const stackContainer = document.querySelector('#galeria-pila');
 if (stackContainer) {
     const stack = stackContainer.querySelector('.foto-stack');
@@ -316,5 +312,5 @@ if (stackContainer) {
         else if (diff < -50) showNext();
     });
 
-    updateStack(); // Inicializar
+    updateStack();
 }

@@ -10,39 +10,31 @@
   <meta property="og:url" content="https://www.babyshowerguzmanmiranda.com/" />
   <meta property="og:type" content="website" />
 
-  <!-- Opcional para mejorar en WhatsApp -->
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Favicon para navegadores -->
-<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
 <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 
-<!-- Para iPhone/iPad (pantalla de inicio) -->
 <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
 
-<!-- Para Android/Chrome -->
 <link rel="icon" type="image/png" sizes="192x192" href="/img/android-chrome-192x192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/img/android-chrome-512x512.png">
 
-<!-- Manifest (opcional, para PWA) -->
 <link rel="manifest" href="/img/site.webmanifest">
 
-  <!-- Google Fonts (Añadimos 'Comfortaa' para el modal) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
   
-  <!-- Tus hojas de estilo -->
   <link rel="stylesheet" href="css/estilos.css" />
   <link rel="stylesheet" href="css/Confirmacion.css" />
 </head>
 
 <body>
 
-  <!-- Barra de navegación -->
-<div class="navbar">
-  <div class="menu-toggle">&#9776;</div>
+  <div class="navbar">
+  <div class="menu-toggle">☰</div>
   <div class="menu-links">
     <a href="#inicio">Inicio</a>
     <a href="#galeria">Galería</a>
@@ -52,7 +44,6 @@
   </div>
 </div>
 
-<!-- GIFs decorativos laterales - Izquierda -->
 <div class="gif-zigzag izquierda">
   <img src="img/izquierda/1.png" alt="Decoración 1">
   <img src="img/izquierda/2.png" alt="Decoración 2">
@@ -67,7 +58,6 @@
   <img src="img/izquierda/11.png" alt="Decoración 11">
 </div>
 
-<!-- GIFs decorativos laterales - Derecha -->
 <div class="gif-zigzag derecha">
   <img src="img/derecha/12.png" alt="Decoración 12">
   <img src="img/derecha/13.png" alt="Decoración 13">
@@ -84,18 +74,15 @@
 
 <img src="img/Baby Logo 2.gif" class="logo" alt="Bebé feliz">
 
-  <!-- Tarjeta principal -->
-<div class="card" id="inicio">
-    <h1>¡Estás Invitado!</h1>
-    <p class="intro-text">Una nueva aventura está por comenzar y queremos que seas parte de ella. <strong>¡Acompáñanos a celebrar la dulce espera de nuestro bebé!</strong> 💖💙</p>
+  <div class="card" id="inicio">
+    <h1 id="saludo-principal">¡Estás Invitado!</h1>
+    <p class="intro-text" id="texto-introduccion">Una nueva aventura está por comenzar y queremos que seas parte de ella. <strong>¡Acompáñanos a celebrar la dulce espera de nuestro bebé!</strong> 💖💙</p>
     
-    <!-- Info del Evento -->
     <div class="info-evento">
         <p><strong>🗓️ Fecha:</strong> Sábado 22 de Noviembre, 2025</p>
-        <p><strong>⏰ Hora:</strong> 2:00 PM - 7:00 PM</p>
+        <p><strong>⏰ Hora:</strong> 2:00 PM - 7:30 PM</p>
     </div>
 
-    <!-- Cuenta Regresiva -->
     <div id="countdown" class="countdown">
         <div><span id="dias"></span> Días</div>
         <div><span id="horas"></span> Horas</div>
@@ -103,165 +90,172 @@
         <div><span id="segundos"></span> Segundos</div>
     </div>
 
-    <!-- Formulario RSVP Mejorado -->
-    <div class="rsvp-form">
-        <div class="titulo-con-tooltip">
-            <h3>Confirma tu asistencia</h3>
-            <div class="tooltip-icono">?
-                <span class="tooltip-texto">
-                    Si vienes con acompañantes, puedes confirmar su asistencia registrando un nombre a la vez.
-                    <br><br>
-                    Si no estás seguro de que ya te hayan confirmado, ¡no te preocupes y regístrate de todas formas!
-                </span>
+    <div id="contenedor-formulario">
+        <div id="rsvp-normal" class="rsvp-form">
+            <div class="titulo-con-tooltip">
+                <h3>Confirma tu asistencia</h3>
+                <div class="tooltip-icono">?
+                    <span class="tooltip-texto">
+                        Si vienes con acompañantes, puedes confirmar su asistencia registrando un nombre a la vez.
+                        <br><br>
+                        Si no estás seguro de que ya te hayan confirmado, ¡no te preocupes y regístrate de todas formas!
+                    </span>
+                </div>
+            </div>
+            <p>Por favor, escribe tu nombre y selecciona una opción:</p>
+            <input type="text" id="nombreInvitado" placeholder="Tu nombre completo" required />
+            <div class="botones-rsvp">
+                <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
+                    <span class="icono-btn">✔️</span> ¡Claro que sí!
+                </button>
+                <button class="btn-decline" onclick="registrarAsistencia('cancelado')">
+                    <span class="icono-btn">❌</span> No podré asistir
+                </button>
             </div>
         </div>
-        <p>Por favor, escribe tu nombre y selecciona una opción:</p>
-        <input type="text" id="nombreInvitado" placeholder="Tu nombre completo" required />
-        <div class="botones-rsvp">
-            <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
-                <span class="icono-btn">✔️</span> ¡Claro que sí!
-            </button>
-            <button class="btn-decline" onclick="registrarAsistencia('cancelado')">
-                <span class="icono-btn">❌</span> No podré asistir
-            </button>
+
+        <div id="rsvp-personalizado" class="rsvp-form" style="display: none;">
+             <h3>Confirma tu asistencia</h3>
+             <p>Por favor, selecciona una opción:</p>
+             <div class="botones-rsvp">
+                <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
+                    <span class="icono-btn">✔️</span> ¡Claro que sí!
+                </button>
+                <button class="btn-decline" onclick="registrarAsistencia('cancelado')">
+                    <span class="icono-btn">❌</span> No podré asistir
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
 
-<!-- Itinerario del Evento -->
 <div class="seccion" id="itinerario">
   <h3>🗓️ Itinerario del Evento</h3>
   <div class="timeline-horizontal">
-    <!-- Tarjeta de Bienvenida -->
     <div class="itinerario-card">
-      <div class="itinerario-icono">🥨</div>
+      <div class="itinerario-icono">🎉</div>
       <p class="itinerario-hora">2:00 PM</p>
-      <p class="itinerario-actividad">Bienvenida y Bocadillos</p>
+      <p class="itinerario-actividad">Bienvenida</p>
     </div>
 
-    <!-- Tarjeta de Juegos -->
+    <div class="itinerario-card">
+      <div class="itinerario-icono">🍽️</div>
+      <p class="itinerario-hora">2:30 PM</p>
+      <p class="itinerario-actividad">Comida</p>
+    </div>
+
     <div class="itinerario-card">
       <div class="itinerario-icono">🎲</div>
-      <p class="itinerario-hora">3:00 PM</p>
+      <p class="itinerario-hora">4:30 PM</p>
       <p class="itinerario-actividad">Juegos y Diversión</p>
     </div>
 
-    <!-- Tarjeta de Regalos -->
-    <div class="itinerario-card">
-      <div class="itinerario-icono">🎁</div>
-      <p class="itinerario-hora">4:30 PM</p>
-      <p class="itinerario-actividad">Apertura de Regalos</p>
-    </div>
-
-    <!-- Tarjeta de Pastel -->
     <div class="itinerario-card">
       <div class="itinerario-icono">🎂</div>
-      <p class="itinerario-hora">5:30 PM</p>
-      <p class="itinerario-actividad">Pastel y Agradecimientos</p>
+      <p class="itinerario-hora">6:30 PM</p>
+      <p class="itinerario-actividad">Pastel</p>
     </div>
 
-    <!-- Tarjeta de Convivencia -->
     <div class="itinerario-card">
-      <div class="itinerario-icono">🎶</div>
-      <p class="itinerario-hora">6:30 PM</p>
-      <p class="itinerario-actividad">Música y Convivencia</p>
+      <div class="itinerario-icono">👋</div>
+      <p class="itinerario-hora">7:30 PM</p>
+      <p class="itinerario-actividad">Despedida</p>
     </div>
   </div>
 </div>
 
-
-  <!-- Sección Galería -->
-<!-- <div class="seccion" id="galeria">
-  <h3>🖼️ Nuestra galería</h3>
-  <div class="timeline-horizontal">
-    <div class="timeline-card">
-      <img src="ImgBebe/IMG_20250712_1_2.jpg" alt="Embarazo 1" onclick="abrirLightbox(this)">
-      <p>Primer ultrasonido 💖</p>
-    </div>
-    <div class="timeline-card">
-      <img src="ImgBebe/IMG_20250712_1_4.jpg" alt="Zapatos bebé" onclick="abrirLightbox(this)">
-      <p>Zapatos diminutos 👣</p>
-    </div>
-    <div class="timeline-card">
-      <img src="ImgBebe/IMG_20250712_1_6.jpg" alt="Ropita rosa" onclick="abrirLightbox(this)">
-      <p>Primer conjunto 👗</p>
-    </div>
-    <div class="timeline-card">
-      <img src="ImgBebe/IMG_20250712_1_7.jpg" alt="Ultrasonido" onclick="abrirLightbox(this)">
-      <p>Segundo ultrasonido 💓</p>
-    </div>
-  </div>
-</div>-->
-
-
-
-<div class="seccion" id="galeria-pila">
-  <h3>🖼️ Nuestra galería apilada</h3>
+  <div class="seccion" id="galeria-pila">
+  <h3>🖼️ Nuestro embarazo capturado en foto</h3>
   <div class="foto-stack-container">
     <div class="foto-stack">
       <figure class="foto-item">
-        <img src="ImgBebe/1.png" alt="Embarazo 1" data-description="6 Semanas, Primer Ultrasonido" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/1.jpg" alt="Embarazo 1" data-description="Este dia nos sorprendiste 25/05/2025" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/2.png" alt="Zapatos bebé" data-description="9 Semenas, ya se escucho su corazón" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/2.jpg" alt="Zapatos bebé" data-description="El papa no soporto" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/3.png" alt="Ropita rosa" data-description="9 Semanas, te vemos" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/3.png" alt="Ropita rosa" data-description="6 Semanas. Primer Ultrasonido, pareces un huevo" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/4.png" alt="Ultrasonido" data-description="4." onclick="abrirLightbox(this)">
+        <img src="ImgBebe/4.png" alt="Ultrasonido" data-description="9 Semenas. Escuchamos tu corazón" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/5.png" alt="Ultrasonido" data-description="5." onclick="abrirLightbox(this)">
+        <img src="ImgBebe/5.png" alt="Ultrasonido" data-description="9 Semanas. Te vemos y nos llenas de ilusión" onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/6.jpg" alt="Ultrasonido" data-description="10 Semenas. Ahora la mama no esta soportando" onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/7.jpg" alt="Ultrasonido" data-description="12 Semanas. " onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/8.jpg" alt="Ultrasonido" data-description="13 Semenas. Nos alegra saber que estas muy sano" onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/9.jpg" alt="Ultrasonido" data-description="13 Semanas. Hechas a volar nuestra imaginación" onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/10.jpg" alt="Ultrasonido" data-description="17 Semanas." onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/11.jpg" alt="Ultrasonido" data-description="20 Semanas. La primera vez que te siento, estoy muy feliz" onclick="abrirLightbox(this)">
+        <figcaption class="foto-descripcion"></figcaption>
+      </figure>
+      <figure class="foto-item">
+        <img src="ImgBebe/12.jpg" alt="Ultrasonido" data-description="22 Semanas. Poco a poco te asomas." onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
     </div>
     
     <div class="stack-nav">
-        <button class="stack-nav-button prev-btn" onclick="showPrev()">&#10094;</button>
-        <button class="stack-nav-button next-btn" onclick="showNext()">&#10095;</button>
+        <button class="stack-nav-button prev-btn" onclick="showPrev()">❮</button>
+        <button class="stack-nav-button next-btn" onclick="showNext()">❯</button>
     </div>
     </div>
 </div>
 
-<!-- Galería de videos -->
 <div class="seccion" id="videos">
-  <h3>🎬 Momentos especiales en video</h3>
+  <h3>🎬 Nuestro embarazo capturado en video</h3>
   <div class="video-grid">
 
-    <!-- Video local -->
     <div class="video-item">
       <video controls>
         <source src="VideosBebe/1.mp4" type="video/mp4">
         Tu navegador no soporta el video.
       </video>
-      <p class="video-title">05/07/2025</p>
+      <p class="video-title">11 Semanasa. Eres un ajolotito.</p>
     </div>
     <div class="video-item">
       <video controls>
         <source src="VideosBebe/2.mp4" type="video/mp4">
         Tu navegador no soporta el video.
       </video>
-      <p class="video-title">12/07/2025</p>
+      <p class="video-title">13 Semanas. Wow tu corazoncito.</p>
     </div>
     <div class="video-item">
       <video controls>
         <source src="VideosBebe/3.mp4" type="video/mp4">
         Tu navegador no soporta el video.
       </video>
-      <p class="video-title">28/07/2025</p>
+      <p class="video-title">15 semanas. Tu corazon late muy fuerte.</p>
     </div>
 
   </div>
 </div>
 
 
-  <!-- Ubicación -->
   <div class="seccion" id="ubicacion">
     <h3>📍 Ubicación del evento</h3>
     <p>Salon Santander, Calle Norte 50 #3844, Col. Emiliano Zapata, Gustavo A. Madero, Ciudad de México</p>
@@ -274,19 +268,16 @@
     </div>
   </div>
 
-  <!-- Mesa de regalos -->
   <div class="seccion" id="regalos">
     <h3>🎁 Mesa de Regalos</h3>
     <p class="regalos-intro">Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo para la llegada de nuestro bebé, hemos preparado un par de opciones con mucho cariño.</p>
     
     <div class="regalos-container">
-      <!-- Tarjeta de Amazon -->
       <div class="regalo-card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo de Amazon" class="tienda-logo">
         <a href="https://www.amazon.com.mx/baby-reg/edgar-guzman-laura-miranda-enero-2026-ecatepecdemorelos/WEEMGCXL6A8Q?ref_=cm_sw_r_apann_dp_PJV2KSWYY764EEDMRS5N&language=en-US" target="_blank" class="btn-tienda">Ver Mesa de Amazon</a>
       </div>
       
-      <!-- Tarjeta de Liverpool -->
       <div class="regalo-card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Liverpool_logo_2023.png" alt="Logo de Liverpool" class="tienda-logo">
         <a href="http://mesaderegalos.liverpool.com.mx/milistaderegalos/51733106" target="_blank" class="btn-tienda">Ver Mesa de Liverpool</a>
@@ -300,26 +291,19 @@
 
   <script src="js/main.js"></script>
 
-  <!-- Contenedor del lightbox -->
   <div id="lightbox" class="lightbox">
     <span class="cerrar" onclick="cerrarLightbox()">✖</span>
     <img id="lightbox-img" src="" alt="Imagen ampliada">
   </div>
   
-  <!-- MENSAJE DE CONFIRMACION-->
-    <div id="custom-modal-container" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center hidden z-50 p-4">
+  <div id="custom-modal-container" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center hidden z-50 p-4">
         <div id="custom-modal" class="bg-gradient-to-br from-blue-50 to-pink-50 rounded-2xl w-full max-w-sm mx-auto p-6 text-center transform transition-all">
-            <!-- Icono del modal -->
             <div id="modal-icon" class="mx-auto mb-4 h-24 w-24">
-                <!-- El SVG del icono se insertará aquí dinámicamente -->
-            </div>
-            <!-- Título y mensaje del modal -->
+                </div>
             <h3 id="modal-title" class="text-3xl font-pacifico text-gray-700 mb-3"></h3>
             <p id="modal-message" class="text-gray-600 mb-8 text-md"></p>
-            <!-- Contenedor para los botones de acción -->
             <div id="modal-buttons" class="flex justify-center gap-4">
-                <!-- Los botones se insertarán aquí dinámicamente -->
-            </div>
+                </div>
         </div>
     </div>
 
