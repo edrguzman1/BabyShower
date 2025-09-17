@@ -847,7 +847,7 @@ button:hover {
 
   .card, .seccion {
     padding: 25px;
-    max-width: 70%;
+    max-width: 90%; /* Un poco más de ancho para aprovechar la pantalla */
     margin: 30px auto;
     font-size: 1em;
   }
@@ -869,17 +869,36 @@ button:hover {
     border: none;
   }
 
-  .video-grid { flex-wrap: wrap; }
-  .video-item { flex: 0 0 45%; }
+  /* --- AJUSTES PARA MANTENER DISEÑO ESCRITORIO --- */
+  
+  /* Itinerario */
+  .timeline-horizontal {
+    justify-content: flex-start; /* Alinea al inicio */
+  }
+
+  .itinerario-card {
+      flex: 0 0 180px; /* Asegura que no se encojan */
+  }
+
+  /* Videos */
+  .video-grid {
+    justify-content: flex-start; /* Alinea al inicio */
+  }
+
+  .video-item {
+      flex: 0 0 390px; /* Mantiene el ancho fijo */
+  }
+  
   .video-grid iframe,
   .video-grid video { height: 200px; }
 
-  .timeline-horizontal {
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px 0;
+  /* Mesa de Regalos */
+  .regalos-container {
+      flex-wrap: nowrap; /* Evita que los elementos se apilen */
+      justify-content: center;
   }
-  .timeline-card { width: 45%; }
+
+  /* --- FIN DE LOS AJUSTES --- */
 
   .regalos a { font-size: 1em; padding: 10px 20px; }
 
@@ -921,7 +940,6 @@ button:hover {
     font-size: 1.8em;
   }
 
-
   html { font-size: 14px; }
   body {
     padding: 20px 10px;
@@ -957,29 +975,52 @@ button:hover {
 
   .card, .seccion {
     padding: 15px;
-    max-width: 80%;
+    max-width: 90%;
     margin: 20px auto;
     font-size: 0.9em;
   }
 
   .logo { width: 280px; }
+  
+  /* --- AJUSTES PARA MÓVIL (CORREGIDOS) --- */
 
-  .video-grid { gap: 10px; }
-  .video-item { flex: 0 0 100%; }
+  /* Videos */
+  .video-item {
+      flex: 0 0 280px;
+      scroll-snap-align: center;
+  }
   .video-grid iframe,
   .video-grid video { height: 150px; }
   .video-title { font-size: 14px; }
 
-  .timeline-horizontal {
-    gap: 10px;
-    padding: 10px 0;
+  /* Itinerario */
+  .itinerario-card {
+      flex: 0 0 150px;
   }
-  .timeline-card {
-    width: 80%;
-    margin: 0 auto;
-    padding: 8px;
-    font-size: 0.85em;
+
+  /* Mesa de Regalos (AHORA CORREGIDO) */
+  .regalos-container {
+    flex-wrap: nowrap; /* ¡IMPORTANTE! Evita que las tarjetas se apilen */
+    gap: 15px; /* Reduce el espacio entre tarjetas */
   }
+  
+  .regalo-card {
+      flex: 1; /* Permite que las tarjetas se encojan para caber */
+      padding: 15px; /* Reduce el espacio interno */
+      min-width: 0; /* Necesario para que flexbox pueda encoger los elementos */
+  }
+
+  .tienda-logo {
+      max-height: 35px; /* Hace los logos un poco más pequeños */
+      margin-bottom: 15px;
+  }
+
+  .btn-tienda {
+      padding: 10px 15px; /* Botones más compactos */
+      font-size: 0.9em;
+  }
+
+  /* --- FIN DE LOS AJUSTES --- */
 
   .regalos a { font-size: 0.9em; padding: 8px 16px; }
 
@@ -990,29 +1031,28 @@ button:hover {
 
   .footer { font-size: 0.8em; }
 
-  /* --- INICIA Bloque para Galería de Pila en Móvil --- */
+  /* --- Galería de Pila en Móvil --- */
   .foto-stack-container {
-    min-height: 500px; /* Reducimos la altura para móvil */
+    min-height: 500px; 
     max-width: 280px; 
-    display: flex; /* Añadimos flex para centrar */
-    align-items: center; /* Centrado vertical */
-    justify-content: center; /* Centrado horizontal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
+  
   .foto-stack {
-    height: 480px; /* Aumentamos la altura del stack */
+    height: 480px;
     max-width: 240px; 
   }
-
+  
   .foto-stack .foto-item {
      max-width: 240px;
      border-width: 8px;
-     bottom: 0; /* Añadido para centrado vertical */
-     margin: auto; /* Modificado para centrado V y H */
-     height: fit-content; /* Añadido para que se ajuste a la imagen */
+     bottom: 0; 
+     margin: auto; 
+     height: fit-content;
   }
 
-  /* La animación 'active' se hereda, solo ajustamos 'prev' y 'next' */
   .foto-stack .foto-item.prev {
     transform: translateX(calc(-50% - 20px)) rotate(-7deg) scale(0.95);
   }
@@ -1020,7 +1060,6 @@ button:hover {
   .foto-stack .foto-item.next {
     transform: translateX(calc(-50% + 20px)) rotate(7deg) scale(0.95);
   }
-  /* --- TERMINA Bloque para Galería de Pila en Móvil --- */
 
   /* GIF zigzag más pequeño */
   .gif-zigzag {
