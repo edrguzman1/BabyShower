@@ -544,13 +544,16 @@ button:hover {
   width: 100%;
   max-width: 400px;
   margin-top: 20px;
-  min-height: 400px;
+  min-height: 600px; /* Tu cambio para dar más altura */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .foto-stack {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 580px; /* Aumentado de 300px para dar espacio a las fotos verticales */
   perspective: 1000px;
 }
 
@@ -559,9 +562,11 @@ button:hover {
   top: 0;
   left: 0;
   right: 0;
-  margin: 0 auto; /* Centrado definitivo */
+  bottom: 0; /* Añade esta línea */
+  margin: auto; /* Modifica 'margin: 0 auto' por 'margin: auto' */
   width: 100%;
   max-width: 380px;
+  height: fit-content; /* Añade esta línea */
   opacity: 0;
   transition: transform 0.4s ease, opacity 0.4s ease;
   background-color: white;
@@ -883,6 +888,23 @@ button:hover {
   .mapa iframe { height: 250px; }
 
   .footer { font-size: 0.9em; }
+
+  .foto-stack-container {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .foto-stack {
+    height: 580px;
+  }
+  
+  .foto-stack .foto-item {
+    bottom: 0;
+    margin: auto;
+    height: fit-content;
+  }
 }
 
 /* MÓVIL */
@@ -970,17 +992,24 @@ button:hover {
 
   /* --- INICIA Bloque para Galería de Pila en Móvil --- */
   .foto-stack-container {
-    min-height: 320px;
-    max-width: 280px; /* Un tamaño más adecuado para móviles */
+    min-height: 500px; /* Reducimos la altura para móvil */
+    max-width: 280px; 
+    display: flex; /* Añadimos flex para centrar */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
   }
+
   .foto-stack {
-    height: 240px;
-    max-width: 240px; /* Hacemos que coincida con el item */
+    height: 480px; /* Aumentamos la altura del stack */
+    max-width: 240px; 
   }
+
   .foto-stack .foto-item {
      max-width: 240px;
      border-width: 8px;
-     /* La base del transform con translateX(-50%) se hereda, no hay que repetirla */
+     bottom: 0; /* Añadido para centrado vertical */
+     margin: auto; /* Modificado para centrado V y H */
+     height: fit-content; /* Añadido para que se ajuste a la imagen */
   }
 
   /* La animación 'active' se hereda, solo ajustamos 'prev' y 'next' */
@@ -1037,16 +1066,14 @@ button:hover {
   .countdown span {
     font-size: 1.6em;
   }
-  /* --- TERMINA Bloque para Contador --- */
-
 
   /* --- INICIA Bloque para Galería de Pila --- */
   .foto-stack-container {
     max-width: 260px;
-    min-height: 320px;
+    min-height: 450px; /* Un poco menos de altura */
   }
   .foto-stack {
-    height: 230px;
+    height: 420px; /* Un poco menos de altura */
   }
   .foto-stack .foto-item {
     max-width: 230px;
