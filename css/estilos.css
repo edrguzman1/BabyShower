@@ -1,6 +1,13 @@
 /* ======================================== */
 /*   CONFIGURACIÓN GLOBAL / VARIABLES       */
 /* ======================================== */
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
 :root {
   /* Tipografías */
   --font-base: 'Quicksand', sans-serif;
@@ -151,7 +158,8 @@ button:hover {
 .logo {
   display: block;
   margin: 0 auto;
-  width: 400px;
+  width: 100%; /* Usamos porcentaje para que sea flexible */
+  max-width: 600px; /* Establecemos un tamaño máximo para pantallas grandes */
 }
 
 /* ======================================== */
@@ -852,8 +860,6 @@ button:hover {
     font-size: 1em;
   }
 
-  .logo { width: 250px; }
-
   .menu-toggle { display: none; }
   .menu-links {
     flex-direction: row;
@@ -980,8 +986,6 @@ button:hover {
     font-size: 0.9em;
   }
 
-  .logo { width: 280px; }
-  
   /* --- AJUSTES PARA MÓVIL (CORREGIDOS) --- */
 
   /* Videos */
@@ -1078,9 +1082,18 @@ button:hover {
 /* ======================================== */
 @media (max-width: 400px) {
 
-  /* --- INICIA Bloque para GIFs laterales --- */
+  /* --- AJUSTE CLAVE PARA EL CENTRADO --- */
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  /* --- FIN DEL AJUSTE --- */
+
+  
+
+  /* Los GIFs se mantienen visibles, el overflow lo controla la regla global */
   .gif-zigzag img {
-    width: 35px;
+    width: 60px;
     opacity: 0.7;
   }
   .gif-zigzag.izquierda img:nth-child(even) {
@@ -1089,7 +1102,6 @@ button:hover {
   .gif-zigzag.derecha img:nth-child(even) {
     margin-right: 20px;
   }
-  /* --- TERMINA Bloque para GIFs laterales --- */
 
 
   /* --- INICIA Bloque para Contador --- */
@@ -1105,14 +1117,16 @@ button:hover {
   .countdown span {
     font-size: 1.6em;
   }
+  /* --- TERMINA Bloque para Contador --- */
+
 
   /* --- INICIA Bloque para Galería de Pila --- */
   .foto-stack-container {
     max-width: 260px;
-    min-height: 450px; /* Un poco menos de altura */
+    min-height: 450px;
   }
   .foto-stack {
-    height: 420px; /* Un poco menos de altura */
+    height: 420px;
   }
   .foto-stack .foto-item {
     max-width: 230px;
