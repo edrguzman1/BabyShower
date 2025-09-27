@@ -2,4 +2,6 @@
 #El directorio .vs/DbComWeb/v16 si debe ser respaldado en el repositorio
 
 /VideosBebe
+/VideosBebe_CalidadOriginal
+/ImgBebe_CalidadOriginal
 /public
