@@ -72,7 +72,10 @@
   <img src="img/derecha/22.png" alt="Decoración 22">
 </div>
 
-<img src="img/Baby Logo 2.gif" class="logo" alt="Bebé feliz">
+<video class="logo" autoplay loop muted playsinline>
+  <source src="img/Baby Logo 2.webm" type="video/webm">
+  Tu navegador no soporta el video.
+</video>
 
   <div class="card" id="inicio">
     <h1 id="saludo-principal">¡Estás Invitado!</h1>
@@ -115,15 +118,15 @@
         </div>
 
         <div id="rsvp-personalizado" class="rsvp-form" style="display: none;">
-             <h3>Confirma tu asistencia</h3>
-             <p>Por favor, selecciona una opción:</p>
-             <div class="botones-rsvp">
-                <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
-                    <span class="icono-btn">✔️</span> ¡Claro que sí!
-                </button>
-                <button class="btn-decline" onclick="registrarAsistencia('cancelado')">
-                    <span class="icono-btn">❌</span> No podré asistir
-                </button>
+              <h3>Confirma tu asistencia</h3>
+              <p>Por favor, selecciona una opción:</p>
+              <div class="botones-rsvp">
+                  <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
+                      <span class="icono-btn">✔️</span> ¡Claro que sí!
+                  </button>
+                  <button class="btn-decline" onclick="registrarAsistencia('cancelado')">
+                      <span class="icono-btn">❌</span> No podré asistir
+                  </button>
             </div>
         </div>
     </div>
@@ -170,11 +173,11 @@
   <div class="foto-stack-container">
     <div class="foto-stack">
       <figure class="foto-item">
-        <img src="ImgBebe/1.webp" alt="Embarazo 1" data-description="Este dia nos sorprendiste 25/05/2025" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/1.webp" alt="Embarazo 1" data-description="Este día nos sorprendiste 25/05/2025" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/2.webp" alt="Zapatos bebé" data-description="El papa no soporto" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/2.webp" alt="Zapatos bebé" data-description="El papá no soportó" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
@@ -182,7 +185,7 @@
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/4.webp" alt="Ultrasonido" data-description="9 Semenas. Escuchamos tu corazón" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/4.webp" alt="Ultrasonido" data-description="9 Semanas. Escuchamos tu corazón" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
@@ -190,19 +193,19 @@
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/6.webp" alt="Ultrasonido" data-description="10 Semenas. Ahora la mama no esta soportando" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/6.webp" alt="Ultrasonido" data-description="10 Semanas. Ahora la mamá no está soportando" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/7.webp" alt="Ultrasonido" data-description="12 Semanas. " onclick="abrirLightbox(this)">
+        <img src="ImgBebe/7.webp" alt="Ultrasonido" data-description="12 Semanas." onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/8.webp" alt="Ultrasonido" data-description="13 Semenas. Nos alegra saber que estas muy sano" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/8.webp" alt="Ultrasonido" data-description="13 Semanas. Nos alegra saber que estás muy sano" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
-        <img src="ImgBebe/9.webp" alt="Ultrasonido" data-description="13 Semanas. Hechas a volar nuestra imaginación" onclick="abrirLightbox(this)">
+        <img src="ImgBebe/9.webp" alt="Ultrasonido" data-description="13 Semanas. Echas a volar nuestra imaginación" onclick="abrirLightbox(this)">
         <figcaption class="foto-descripcion"></figcaption>
       </figure>
       <figure class="foto-item">
@@ -235,7 +238,7 @@
         <source src="VideosBebe/1.mp4" type="video/mp4">
         Tu navegador no soporta el video.
       </video>
-      <p class="video-title">11 Semanasa. Eres un ajolotito.</p>
+      <p class="video-title">11 Semanas. Eres un ajolotito.</p>
     </div>
     <div class="video-item">
       <video controls>
@@ -249,7 +252,7 @@
         <source src="VideosBebe/3.mp4" type="video/mp4">
         Tu navegador no soporta el video.
       </video>
-      <p class="video-title">15 semanas. Tu corazon late muy fuerte.</p>
+      <p class="video-title">15 semanas. Tu corazón late muy fuerte.</p>
     </div>
 
   </div>
@@ -258,7 +261,7 @@
 
   <div class="seccion" id="ubicacion">
     <h3>📍 Ubicación del evento</h3>
-    <p>Salon Santander, Calle Norte 50 #3844, Col. Emiliano Zapata, Gustavo A. Madero, Ciudad de México</p>
+    <p>Salón Santander, Calle Norte 50 #3844, Col. Emiliano Zapata, Gustavo A. Madero, Ciudad de México</p>
     <div class="mapa">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3761.807862303136!2d-99.1182707!3d19.4638491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f998cd3aa5c7%3A0xc472d01ddc43a8df!2sSal%C3%B3n%20De%20Fiestas.%20Santander!5e0!3m2!1ses!2smx!4v1753757854301!5m2!1ses!2smx"
