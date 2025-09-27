@@ -291,6 +291,31 @@
 
   <script src="js/main.js"></script>
 
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
+      authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
+      databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
+      projectId: "babyshowerguzmanmiranda",
+      storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
+      messagingSenderId: "564665563453",
+      appId: "1:564665563453:web:242aaba73a4768fa89ad54",
+      measurementId: "G-DJHTP10XY0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
   <div id="lightbox" class="lightbox">
     <span class="cerrar" onclick="cerrarLightbox()">✖</span>
     <img id="lightbox-img" src="" alt="Imagen ampliada">
