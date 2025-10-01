@@ -633,7 +633,7 @@ button:hover {
 }
 
 .stack-nav {
-  display: none; 
+  display: flex; 
   justify-content: space-between;
   align-items: center;
   position: absolute;
@@ -677,16 +677,6 @@ button:hover {
 
 .next-btn {
   margin-right: -75px; /* Más separado (antes -50px) */
-}
-
-/* ======================================== */
-/* MEDIA QUERY PARA MOSTRAR BOTONES     */
-/* ======================================== */
-
-@media (min-width: 769px) {
-  .stack-nav {
-    display: flex;
-  }
 }
 
 
