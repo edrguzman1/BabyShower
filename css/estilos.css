@@ -12,7 +12,7 @@ html, body {
   /* Tipografías */
   --font-base: 'Quicksand', sans-serif;
   --font-ui: 'Segoe UI', sans-serif;
-  --font-title: 'Pacifico', cursive;
+ --font-title: 'Kaushan Script', cursive;
 
   /* Colores */
   --pink: #F5B895; /* Durazno Cálido (Color Principal) */
@@ -38,6 +38,7 @@ h1, h2, h3 {
   margin-bottom: 10px;
   text-align: center;
   color: var(--pink);
+  font-size: 2em;
 }
 h2 { color: #4fc3f7; } /* override específico por sección */
 
@@ -585,7 +586,7 @@ button:hover {
 
 /* Estilo mejorado y más llamativo para los botones */
 .stack-nav-button {
-  background-color: rgba(255, 105, 180, 0.75); /* Usamos el rosa del tema, semitransparente */
+  background-color: var(--blue); /* CORREGIDO: Usamos el color secundario de la paleta */
   border: 2px solid rgba(255, 255, 255, 0.8); /* Borde blanco sutil */
   border-radius: 50%;
   width: 50px;  /* Aumentamos el tamaño */
@@ -603,7 +604,7 @@ button:hover {
 }
 
 .stack-nav-button:hover {
-  background-color: var(--pink-hover); /* Color rosa más intenso al pasar el cursor */
+  background-color: var(--blue-dark); /* CORREGIDO: Usamos la variable para el hover */
   transform: scale(1.1); /* Efecto de crecimiento sutil */
   box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
@@ -927,6 +928,7 @@ button:hover {
   .mapa iframe { height: 200px; }
 
   /* --- Galería de Pila en Móvil --- */
+  /* --- Galería de Pila en Móvil --- */
   .foto-stack-container {
     min-height: 500px; 
     max-width: 280px; 
@@ -943,17 +945,14 @@ button:hover {
   .foto-stack .foto-item {
      max-width: 240px;
      border-width: 8px;
-     bottom: 0; 
-     margin: auto; 
-     height: fit-content;
   }
 
   .foto-stack .foto-item.prev {
-    transform: translateX(calc(-50% - 20px)) rotate(-7deg) scale(0.95);
+    transform: translateX(-20px) rotate(-7deg) scale(0.95);
   }
 
   .foto-stack .foto-item.next {
-    transform: translateX(calc(-50% + 20px)) rotate(7deg) scale(0.95);
+    transform: translateX(20px) rotate(7deg) scale(0.95);
   }
 
   /* GIF zigzag más pequeño */
@@ -961,7 +960,7 @@ button:hover {
     gap: 6px;
   }
   .gif-zigzag img {
-    width: 50px;
+    width: 75px;
     opacity: 0.8;
   }
   .gif-zigzag.izquierda img:nth-child(even) { margin-left: 40px; }
