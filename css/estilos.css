@@ -15,13 +15,13 @@ html, body {
   --font-title: 'Pacifico', cursive;
 
   /* Colores */
-  --pink: #ff69b4;
-  --pink-hover: #f50057;
-  --light-pink-bg: #ffe0f0;
-  --light-blue-bg: #e0f7ff;
-  --blue: #03a9f4;
-  --blue-dark: #0288d1;
-  --link-bg-hover: #ffe0f0;
+  --pink: #F5B895; /* Durazno Cálido (Color Principal) */
+  --pink-hover: #E89F71; /* Durazno más oscuro para hover */
+  --light-pink-bg: #FEF6F0; /* Fondo Durazno muy claro */
+  --light-blue-bg: #F4F7F4; /* Fondo Salvia muy claro */
+  --blue: #A8D0B5; /* Verde Salvia (Color Secundario) */
+  --blue-dark: #8RB895; /* Salvia más oscuro para hover */
+  --link-bg-hover: #FBEAE0; /* Fondo para hover de enlaces */
   --text-muted: #aaa;
   --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   --radius: 20px;
