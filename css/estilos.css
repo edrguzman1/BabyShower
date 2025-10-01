@@ -1,5 +1,5 @@
 /* ======================================== */
-/*   CONFIGURACIÓN GLOBAL / VARIABLES       */
+/* CONFIGURACIÓN GLOBAL / VARIABLES       */
 /* ======================================== */
 
 html, body {
@@ -28,7 +28,7 @@ html, body {
 }
 
 /* Tipografías generales */
-body, p, input, textarea, button {
+body, p, input, button {
   font-family: var(--font-base);
 }
 
@@ -42,7 +42,7 @@ h1, h2, h3 {
 h2 { color: #4fc3f7; } /* override específico por sección */
 
 /* ======================================== */
-/*   LAYOUT / ESTRUCTURA PRINCIPAL           */
+/* LAYOUT / ESTRUCTURA PRINCIPAL           */
 /* ======================================== */
 html {
   scroll-behavior: smooth;
@@ -72,7 +72,7 @@ body {
 }
 
 /* ======================================== */
-/*   NAVBAR                                 */
+/* NAVBAR                                 */
 /* ======================================== */
 .navbar {
   position: fixed;
@@ -84,16 +84,6 @@ body {
   padding: 10px 20px;
   display: flex;
   justify-content: center;
-}
-
-.navbar-content {
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .menu-toggle {
@@ -123,9 +113,9 @@ body {
 }
 
 /* ======================================== */
-/*   TIPOGRAFÍA / INTERACTIVOS               */
+/* TIPOGRAFÍA / INTERACTIVOS               */
 /* ======================================== */
-input, textarea {
+input {
   width: 100%;
   padding: 10px;
   margin: 10px 0 15px;
@@ -151,7 +141,7 @@ button:hover {
 }
 
 /* ======================================== */
-/*   COMPONENTES ESPECÍFICOS                 */
+/* COMPONENTES ESPECÍFICOS                 */
 /* ======================================== */
 
 /* Logo */
@@ -234,19 +224,19 @@ button:hover {
 .tooltip-texto {
     visibility: hidden;
     width: 260px;
-    background-color: #495057; /* ** COLOR CAMBIADO A GRIS MÁS OSCURO ** */
+    background-color: #495057;
     color: #fff;
     text-align: center;
     border-radius: 8px;
     padding: 12px;
     position: absolute;
     z-index: 10;
-    top: 150%; /* ** POSICIÓN CAMBIADA A ABAJO ** */
+    top: 150%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.3s ease;
-    font-family: var(--font-base); /* Usa la fuente base del sitio */
+    font-family: var(--font-base);
     font-size: 0.9em;
     line-height: 1.5;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -256,12 +246,12 @@ button:hover {
 .tooltip-texto::after {
     content: "";
     position: absolute;
-    bottom: 100%; /* ** POSICIÓN DE LA FLECHA CAMBIADA ** */
+    bottom: 100%;
     left: 50%;
     margin-left: -6px;
     border-width: 6px;
     border-style: solid;
-    border-color: transparent transparent #495057 transparent; /* ** DIRECCIÓN Y COLOR DE LA FLECHA CAMBIADA ** */
+    border-color: transparent transparent #495057 transparent;
 }
 
 /* Muestra el tooltip al pasar el mouse sobre el ícono */
@@ -353,9 +343,6 @@ button:hover {
   color: var(--pink);
 }
 
-
-
-
 /* Videos: carrusel horizontal */
 .video-grid {
   display: flex;
@@ -411,28 +398,6 @@ button:hover {
   margin-top: 15px;
 }
 
-/* Mesa de regalos */
-.regalos {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.regalos a {
-  background-color: var(--blue);
-  color: white;
-  text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  transition: background 0.3s ease;
-}
-
-.regalos a:hover {
-  background-color: var(--blue-dark);
-}
-
 /* Lightbox para imágenes */
 .lightbox {
   display: none;
@@ -469,33 +434,6 @@ button:hover {
   gap: 20px;
   padding: 10px;
   scroll-snap-type: x mandatory;
-}
-
-.timeline-card {
-  flex: 0 0 auto;
-  background: white;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  scroll-snap-align: center;
-  transition: transform 0.3s ease;
-}
-
-.timeline-card:hover {
-  transform: scale(1.05);
-}
-
-.timeline-card img {
-  width: 200px;
-  height: auto;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.timeline-card img:hover {
-  transform: scale(1.1);
 }
 
 /* ======================================== */
@@ -714,28 +652,12 @@ button:hover {
   margin-left: 0;
 }
 
-/* Pie de página */
-.footer {
-  margin-top: 15px;
-  font-size: 0.9em;
-  color: var(--text-muted);
-  text-align: center;
-}
-
 /* ======================================== */
-/*   ANIMACIONES                            */
+/* ANIMACIONES                            */
 /* ======================================== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes bounce {
-  0%   { transform: translateY(0); }
-  30%  { transform: translateY(-10px); }
-  50%  { transform: translateY(0); }
-  70%  { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
 }
 
 @keyframes flotar {
@@ -743,8 +665,6 @@ button:hover {
   50%  { transform: translateY(-10px); }
   100% { transform: translateY(0); }
 }
-
-
 
 /* ======================================== */
 /* ESTILOS MEJORADOS MESA DE REGALOS      */
@@ -795,13 +715,6 @@ button:hover {
   object-fit: contain;
 }
 
-.tienda-descripcion {
-  color: #667;
-  font-size: 0.95em;
-  flex-grow: 1; /* Permite que este elemento crezca y empuje el botón hacia abajo */
-  margin-bottom: 25px;
-}
-
 .btn-tienda {
   display: inline-block;
   background: var(--blue);
@@ -824,12 +737,8 @@ button:hover {
   filter: invert(15%);
 }
 
-
-
-
-
 /* ======================================== */
-/*   ADAPTATIVOS / MEDIA QUERIES           */
+/* ADAPTATIVOS / MEDIA QUERIES           */
 /* ======================================== */
 
 /* TABLET */
@@ -896,13 +805,9 @@ button:hover {
 
   /* --- FIN DE LOS AJUSTES --- */
 
-  .regalos a { font-size: 1em; padding: 10px 20px; }
-
-  input, textarea, button { font-size: 1em; padding: 10px; }
+  input, button { font-size: 1em; padding: 10px; }
 
   .mapa iframe { height: 250px; }
-
-  .footer { font-size: 0.9em; }
 
   .foto-stack-container {
     min-height: 600px;
@@ -1016,14 +921,10 @@ button:hover {
 
   /* --- FIN DE LOS AJUSTES --- */
 
-  .regalos a { font-size: 0.9em; padding: 8px 16px; }
-
-  input, textarea { font-size: 0.95em; padding: 8px; }
+  input { font-size: 0.95em; padding: 8px; }
   button { font-size: 0.95em; padding: 8px 16px; }
 
   .mapa iframe { height: 200px; }
-
-  .footer { font-size: 0.8em; }
 
   /* --- Galería de Pila en Móvil --- */
   .foto-stack-container {
