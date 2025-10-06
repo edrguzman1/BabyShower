@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader 4 - Baby Shower</title>
+    <style>
+        /* ======================================== */
+        /* ESTILOS DEL LOADER             */
+        /* ======================================== */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #F0FAF7, #FFF9E6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+        }
+
+        #loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-container {
+            position: relative;
+            width: 300px; /* Ancho para acomodar los bloques */
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blocks-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Estilo de cada bloque */
+        .block {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation: bounce 1.6s ease-in-out infinite;
+        }
+
+        /* Letra dentro del bloque */
+        .block span {
+            font-family: 'Kaushan Script', cursive;
+            font-size: 30px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Colores y retraso de animación para cada bloque */
+        .block-b1 {
+            background-color: #84DCC6; /* Menta */
+            animation-delay: 0s;
+        }
+        .block-a {
+            background-color: #FFD34E; /* Amarillo */
+            animation-delay: 0.15s;
+        }
+        .block-b2 {
+            background-color: #C5A9E0; /* Lavanda (de las paletas sugeridas) */
+            animation-delay: 0.3s;
+        }
+        .block-y {
+            background-color: #F5B895; /* Durazno (de las paletas sugeridas) */
+            animation-delay: 0.45s;
+        }
+
+        /* Texto de "Cargando..." */
+        .loading-text {
+            margin-top: 40px;
+            font-family: 'Kaushan Script', cursive;
+            font-size: 1.8em;
+            color: #84DCC6;
+            letter-spacing: 2px;
+        }
+
+        /* Animación de rebote */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-40px);
+            }
+        }
+
+        /* Contenido de la página (para el ejemplo) */
+        #page-content {
+            display: none;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== INICIO DEL CÓDIGO DEL LOADER ======== -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="blocks-container">
+                <div class="block block-b1"><span>B</span></div>
+                <div class="block block-a"><span>A</span></div>
+                <div class="block block-b2"><span>B</span></div>
+                <div class="block block-y"><span>Y</span></div>
+            </div>
+            <p class="loading-text">Cargando...</p>
+        </div>
+    </div>
+    <!-- ======== FIN DEL CÓDIGO DEL LOADER ======== -->
+
+    <!-- Este es solo un ejemplo del contenido de tu página -->
+    <div id="page-content">
+        <h1>¡La página ha cargado!</h1>
+        <p>Aquí iría todo el contenido de tu invitación.</p>
+    </div>
+
+    <script>
+        // Este script se encarga de ocultar el loader cuando la página está lista.
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            
+            const minimumLoaderTime = 5000; // 5000ms = 5 segundos
+
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 1500); // Coincide con la transición de 1.5s en el CSS
+                }
+
+                // Muestra el contenido principal (solo para el ejemplo)
+                const pageContent = document.getElementById('page-content');
+                if (pageContent) {
+                    pageContent.style.display = 'block';
+                }
+            }, minimumLoaderTime);
+        });
+    </script>
+</body>
+</html>

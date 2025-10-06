@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader 15 - Baby Shower</title>
+    <style>
+        /* ======================================== */
+        /* ESTILOS DEL LOADER             */
+        /* ======================================== */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #F0FAF7, #FFF9E6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+            overflow: hidden;
+        }
+
+        #loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ultrasound-loader {
+            width: 220px;
+            height: 160px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            border: 5px solid #bdc3c7;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heartbeat-svg {
+            width: 180px;
+            height: 80px;
+        }
+
+        .heartbeat-path {
+            stroke: #84DCC6; /* Menta */
+            stroke-width: 4;
+            stroke-dasharray: 250;
+            stroke-dashoffset: 250;
+            animation: draw-line 2s ease-in-out infinite;
+        }
+        
+        .pulsing-heart {
+            fill: #FFD34E; /* Amarillo */
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 55px; 
+            left: 118px; 
+            opacity: 0;
+            transform-origin: center;
+            animation: pulse-heart 2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            margin-top: 25px;
+            font-family: 'Kaushan Script', cursive;
+            font-size: 1.8em;
+            color: #84DCC6; /* Menta */
+            letter-spacing: 2px;
+        }
+
+        /* Animaciones */
+        @keyframes draw-line {
+            0% {
+                stroke-dashoffset: 250;
+            }
+            50% {
+                stroke-dashoffset: 0;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes pulse-heart {
+            0%, 40%, 100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            80% {
+                 opacity: 0;
+                 transform: scale(0.8);
+            }
+        }
+
+        #page-content {
+            display: none;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== INICIO DEL CÓDIGO DEL LOADER ======== -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="ultrasound-loader">
+                <svg class="heartbeat-svg" viewBox="0 0 180 80">
+                    <path class="heartbeat-path" fill="none" d="M0 40 H30 L40 20 L50 60 L60 30 L70 50 L80 40 H180"/>
+                </svg>
+                <svg class="pulsing-heart" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+                </svg>
+            </div>
+            <p class="loading-text">Cargando un milagro...</p>
+        </div>
+    </div>
+    <!-- ======== FIN DEL CÓDIGO DEL LOADER ======== -->
+
+    <!-- Contenido de ejemplo de la página -->
+    <div id="page-content">
+        <h1>¡La página ha cargado!</h1>
+        <p>Aquí iría todo el contenido de tu invitación.</p>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            const minimumLoaderTime = 5000;
+
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 1500);
+                }
+                const pageContent = document.getElementById('page-content');
+                if (pageContent) {
+                    pageContent.style.display = 'block';
+                }
+            }, minimumLoaderTime);
+        });
+    </script>
+</body>
+</html>

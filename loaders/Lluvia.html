@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader 10 - Baby Shower</title>
+    <style>
+        /* ======================================== */
+        /* ESTILOS DEL LOADER             */
+        /* ======================================== */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #F0FAF7, #FFF9E6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+            overflow: hidden;
+        }
+
+        #loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .raining-cloud-loader {
+            width: 200px;
+            height: 150px;
+            position: relative;
+        }
+
+        .cloud {
+            width: 150px;
+            height: 50px;
+            background: #fff;
+            border-radius: 50px;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation: float-cloud 4s ease-in-out infinite;
+        }
+        
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 70px;
+            height: 70px;
+            top: -35px;
+            left: 20px;
+        }
+
+        .cloud::after {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            right: 25px;
+        }
+
+        .rain {
+            position: absolute;
+            top: 60px; /* Debajo de la nube */
+            left: 0;
+            width: 100%;
+            height: 90px;
+        }
+        
+        .drop {
+            position: absolute;
+            bottom: 100%;
+            width: 12px;
+            height: 12px;
+            opacity: 0;
+            animation: rain-hearts 2.5s linear infinite;
+        }
+
+        .drop::before, .drop::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 20px;
+            background: #FFD34E; /* Amarillo */
+            border-radius: 12px 12px 0 0;
+        }
+
+        .drop::before {
+            transform: rotate(-45deg);
+        }
+
+        .drop::after {
+            transform: rotate(45deg);
+            left: 6px;
+        }
+
+        /* Asignar diferentes posiciones y retrasos a las gotas */
+        .drop:nth-child(1) { left: 20%; animation-delay: 0s; transform: scale(0.9); }
+        .drop:nth-child(2) { left: 40%; animation-delay: 0.5s; transform: scale(1); }
+        .drop:nth-child(3) { left: 60%; animation-delay: 1s; transform: scale(0.8); }
+        .drop:nth-child(4) { left: 75%; animation-delay: 1.5s; transform: scale(1.1); }
+        .drop:nth-child(5) { left: 30%; animation-delay: 2s; transform: scale(0.9); }
+
+        .loading-text {
+            margin-top: 20px;
+            font-family: 'Kaushan Script', cursive;
+            font-size: 1.8em;
+            color: #84DCC6; /* Menta */
+            letter-spacing: 2px;
+        }
+
+        /* Animación para la nube flotante */
+        @keyframes float-cloud {
+            0%, 100% { transform: translateX(-55%); }
+            50% { transform: translateX(-45%); }
+        }
+
+        /* Animación para la lluvia de corazones */
+        @keyframes rain-hearts {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+        }
+
+        #page-content {
+            display: none;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== INICIO DEL CÓDIGO DEL LOADER ======== -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="raining-cloud-loader">
+                <div class="cloud"></div>
+                <div class="rain">
+                    <span class="drop"></span>
+                    <span class="drop"></span>
+                    <span class="drop"></span>
+                    <span class="drop"></span>
+                    <span class="drop"></span>
+                </div>
+            </div>
+            <p class="loading-text">Lluvia de amor...</p>
+        </div>
+    </div>
+    <!-- ======== FIN DEL CÓDIGO DEL LOADER ======== -->
+
+    <!-- Contenido de ejemplo de la página -->
+    <div id="page-content">
+        <h1>¡La página ha cargado!</h1>
+        <p>Aquí iría todo el contenido de tu invitación.</p>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            const minimumLoaderTime = 5000;
+
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 1500);
+                }
+                const pageContent = document.getElementById('page-content');
+                if (pageContent) {
+                    pageContent.style.display = 'block';
+                }
+            }, minimumLoaderTime);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader 30 - Biberón Mágico</title>
+    <style>
+        /* ======================================== */
+        /* ESTILOS DEL LOADER             */
+        /* ======================================== */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #F0FAF7, #FFF9E6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+            overflow: hidden;
+        }
+
+        #loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+        }
+        
+        .bottle-svg {
+            width: 180px;
+            height: 180px;
+            overflow: visible;
+        }
+
+        .liquid {
+            animation: fill-up 5s linear infinite;
+        }
+        
+        .star-bubble {
+            opacity: 0;
+            animation: bubble-up 3s ease-out infinite;
+        }
+
+        .star-bubble-1 { animation-delay: 0s; }
+        .star-bubble-2 { animation-delay: 1s; }
+        .star-bubble-3 { animation-delay: 2s; }
+        .star-bubble-4 { animation-delay: 0.5s; }
+        .star-bubble-5 { animation-delay: 1.5s; }
+
+        .loading-text {
+            margin-top: 20px;
+            font-family: 'Kaushan Script', cursive;
+            font-size: 1.8em;
+            color: #84DCC6; /* Menta */
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Animaciones */
+        @keyframes fill-up {
+            from {
+                transform: translateY(60px);
+            }
+            to {
+                transform: translateY(0px);
+            }
+        }
+        
+        @keyframes bubble-up {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(1);
+            }
+        }
+
+        #page-content {
+            display: none;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== INICIO DEL CÓDIGO DEL LOADER ======== -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <svg class="bottle-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Capa de estrellas que se va a revelar -->
+                <defs>
+                    <clipPath id="bottle-mask">
+                        <path d="M 35 95 L 35 30 A 15 15 0 0 1 65 30 L 65 95 Z" />
+                    </clipPath>
+                    <pattern id="star-pattern" patternUnits="userSpaceOnUse" width="20" height="20">
+                         <path d="M10 0 L13 7 L20 7 L15 12 L17 19 L10 15 L3 19 L5 12 L0 7 L7 7 Z" fill="#FFD34E"/>
+                    </pattern>
+                </defs>
+
+                <!-- Líquido de estrellas animado -->
+                <g clip-path="url(#bottle-mask)">
+                    <rect class="liquid" x="30" y="30" width="40" height="70" fill="url(#star-pattern)"/>
+                </g>
+
+                <!-- Biberón (contorno) -->
+                <g>
+                    <!-- Cuerpo del biberón -->
+                    <path d="M 35 95 L 35 30 A 15 15 0 0 1 65 30 L 65 95 Z" fill="rgba(132, 220, 198, 0.2)" stroke="#84DCC6" stroke-width="2"/>
+                    <!-- Tapa -->
+                    <rect x="30" y="20" width="40" height="10" fill="#FFD34E" rx="3"/>
+                    <!-- Chupón -->
+                    <path d="M 45 20 C 45 10, 55 10, 55 20 Z" fill="#F2B900" />
+                </g>
+                
+                <!-- Burbujas de estrellas -->
+                <g>
+                   <path class="star-bubble star-bubble-1" d="M48 80 l2-2 2 2 -2 2z" fill="#FFD34E" />
+                   <path class="star-bubble star-bubble-2" d="M55 85 l1.5-1.5 1.5 1.5 -1.5 1.5z" fill="#FFF9E6" />
+                   <path class="star-bubble star-bubble-3" d="M42 75 l2.5-2.5 2.5 2.5 -2.5 2.5z" fill="#FFD34E" />
+                   <path class="star-bubble star-bubble-4" d="M60 70 l2-2 2 2 -2 2z" fill="#FFF9E6" />
+                   <path class="star-bubble star-bubble-5" d="M45 90 l1.5-1.5 1.5 1.5 -1.5 1.5z" fill="#FFD34E" />
+                </g>
+            </svg>
+            <p class="loading-text">Llenando de magia...</p>
+        </div>
+    </div>
+    <!-- ======== FIN DEL CÓDIGO DEL LOADER ======== -->
+
+    <!-- Contenido de ejemplo de la página -->
+    <div id="page-content">
+        <h1>¡La página ha cargado!</h1>
+        <p>Aquí iría todo el contenido de tu invitación.</p>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            const minimumLoaderTime = 5000;
+
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 1500);
+                }
+                const pageContent = document.getElementById('page-content');
+                if (pageContent) {
+                    pageContent.style.display = 'block';
+                }
+            }, minimumLoaderTime);
+        });
+    </script>
+</body>
+</html>
