@@ -1,0 +1,131 @@
+/* ======================================== */
+/* ESTILOS PARA LOADERS ALEATORIOS          */
+/* ======================================== */
+
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #F0FAF7, #FFF9E6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+    overflow: hidden;
+}
+
+#loader-wrapper.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+}
+
+.loading-text {
+    margin-top: 20px;
+    font-family: 'Kaushan Script', cursive;
+    font-size: 1.8em;
+    color: #84DCC6;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* --- ESTILOS LOADER BIBERÓN MÁGICO --- */
+.bottle-svg { width: 180px; height: 180px; overflow: visible; }
+.liquid { animation: fill-up 5s linear infinite; }
+.star-bubble { opacity: 0; animation: bubble-up 3s ease-out infinite; }
+.star-bubble-1 { animation-delay: 0s; }
+.star-bubble-2 { animation-delay: 1s; }
+.star-bubble-3 { animation-delay: 2s; }
+.star-bubble-4 { animation-delay: 0.5s; }
+.star-bubble-5 { animation-delay: 1.5s; }
+@keyframes fill-up { from { transform: translateY(60px); } to { transform: translateY(0px); } }
+@keyframes bubble-up { 0% { opacity: 0; transform: translateY(0) scale(0.5); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-80px) scale(1); } }
+
+/* --- ESTILOS LOADER BLOQUES --- */
+.blocks-container { display: flex; gap: 10px; }
+.block { width: 50px; height: 50px; border-radius: 8px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: bounce 1.6s ease-in-out infinite; }
+.block span { font-family: 'Kaushan Script', cursive; font-size: 30px; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+.block-b1 { background-color: #84DCC6; animation-delay: 0s; }
+.block-a { background-color: #FFD34E; animation-delay: 0.15s; }
+.block-b2 { background-color: #C5A9E0; animation-delay: 0.3s; }
+.block-y { background-color: #F5B895; animation-delay: 0.45s; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } }
+
+/* --- ESTILOS LOADER CIGÜEÑA --- */
+.stork-loader { width: 300px; height: 120px; animation: fly-across 3.5s ease-in-out infinite; }
+#stork-svg { width: 150px; height: 100px; overflow: visible; }
+#stork-wing { transform-origin: 55px 45px; animation: flap-wing 0.5s ease-in-out infinite alternate; }
+@keyframes fly-across { 0% { transform: translateX(-150px) translateY(20px) scale(0.9); opacity: 0; } 25% { transform: translateX(50px) translateY(0) scale(1); opacity: 1; } 75% { transform: translateX(150px) translateY(-20px) scale(0.95); opacity: 1; } 100% { transform: translateX(300px) translateY(-30px) scale(0.8); opacity: 0; } }
+@keyframes flap-wing { from { transform: rotate(-10deg); } to { transform: rotate(15deg); } }
+
+/* --- ESTILOS LOADER OSO --- */
+.teddy-loader-svg { width: 200px; height: 200px; }
+.peeking-bear { animation: peek-a-boo 3s ease-in-out infinite; }
+.rocking-box { animation: rock-box 3s ease-in-out infinite; transform-origin: center bottom; }
+@keyframes peek-a-boo { 0%, 100% { transform: translateY(20px); } 50% { transform: translateY(0); } }
+@keyframes rock-box { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-2deg); } 75% { transform: rotate(2deg); } }
+
+/* --- OTROS LOADERS --- */
+.pram-rocking { animation: rock-pram 4s ease-in-out infinite; transform-origin: center 85px; }
+.zzz { font-family: sans-serif; font-size: 14px; fill: #84DCC6; animation: float-zzz 5s infinite; opacity: 0; }
+.zzz-1 { animation-delay: 0s; } .zzz-2 { animation-delay: 1.5s; } .zzz-3 { animation-delay: 3s; }
+@keyframes rock-pram { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes float-zzz { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 75% { transform: translateY(-40px); opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }
+
+.oven-door { animation: open-oven 4s ease-in-out infinite; transform-origin: bottom; }
+.cupcake { animation: pop-up 4s ease-in-out infinite; }
+.cupcake-frosting::after { animation: beat 1s infinite; }
+@keyframes open-oven { 0%, 20%, 80%, 100% { transform: perspective(1200px) rotateX(0deg); } 40%, 60% { transform: perspective(1200px) rotateX(80deg); } }
+@keyframes pop-up { 0%, 35%, 75%, 100% { transform: translateX(-50%) scale(0); opacity: 0; } 50% { transform: translateX(-50%) scale(1); opacity: 1; } 65% { transform: translateX(-50%) scale(1); opacity: 1; } }
+@keyframes beat { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.2); } }
+
+.raining-cloud-loader { width: 200px; height: 150px; position: relative; }
+.cloud { animation: float-cloud 4s ease-in-out infinite; }
+.drop { animation: rain-hearts 2.5s linear infinite; }
+@keyframes float-cloud { 0%, 100% { transform: translateX(-55%); } 50% { transform: translateX(-45%); } }
+@keyframes rain-hearts { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(100px); opacity: 0; } }
+
+.sleeping-moon-loader { animation: rock-moon 4s ease-in-out infinite; transform-origin: bottom center; }
+.star { animation: twinkle-star 2s ease-in-out infinite; }
+@keyframes rock-moon { 0%, 100% { transform: rotate(10deg); } 50% { transform: rotate(-10deg); } }
+@keyframes twinkle-star { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.8); opacity: 0.5; } }
+
+.ultrasound-loader { animation: none; }
+.heartbeat-path { animation: draw-line 2s ease-in-out infinite; }
+.pulsing-heart { animation: pulse-heart 2s ease-in-out infinite; }
+@keyframes draw-line { 0% { stroke-dashoffset: 250; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+@keyframes pulse-heart { 0%, 40%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 60% { opacity: 1; transform: scale(1); } 80% { opacity: 0; transform: scale(0.8); } }
+
+.rocking-duck { animation: rock-duck 4s ease-in-out infinite; transform-origin: center 80%; }
+.bubble { animation: float-bubble 6s infinite; }
+@keyframes rock-duck { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+@keyframes float-bubble { 0% { transform: translateY(0) scale(1); opacity: 0.6; } 100% { transform: translateY(-150px) scale(0); opacity: 0; } }
+
+.pinwheel-blades { animation: spin 4s linear infinite; }
+.pinwheel-stick { animation: bob 3s ease-in-out infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+.crib-bouncer { animation: bounce 2s ease-in-out infinite; }
+.sparkle { animation: sparkle-effect 2s ease-out infinite; }
+@keyframes sparkle-effect { 0%, 100% { opacity: 0; transform: scale(0.5) translateY(0); } 50% { opacity: 1; transform: scale(1.2) translateY(-20px); } 80% { opacity: 0; } }
+
+.rattle-loader { animation: shake-rattle 1s ease-in-out infinite alternate; }
+.note { animation: float-notes 2s ease-out infinite; }
+@keyframes shake-rattle { from { transform: rotate(-15deg); } to { transform: rotate(15deg); } }
+@keyframes float-notes { 0% { opacity: 1; transform: translateY(0) translateX(0) scale(1); } 100% { opacity: 0; transform: translateY(-50px) translateX(10px) scale(0.5); } }
+
+.sock { animation: sway 3s ease-in-out infinite alternate; }
+@keyframes sway { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
