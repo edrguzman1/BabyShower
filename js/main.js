@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         //'HorneandoAlgo.html',
         //'Lluvia.html',
         //'Luna.html',
-        //'Milagro.html',
+        'Milagro.html'
         //'Patito.html',
         //'Rehilete.html',
         //'Saltando.html',

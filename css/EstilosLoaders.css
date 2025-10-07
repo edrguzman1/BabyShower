@@ -123,13 +123,17 @@
 @keyframes rock-moon { 0%, 100% { transform: rotate(10deg); } 50% { transform: rotate(-10deg); } }
 @keyframes twinkle-star { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.8); opacity: 0.5; } }
 
-/* --- ESTILOS LOADER MILAGRO (ULTRASONIDO) --- */
+/* --- ESTILOS LOADER MILAGRO (ULTRASONIDO) - CORREGIDO CON CORAZÓN CSS --- */
 .ultrasound-loader { width: 220px; height: 160px; background-color: #2c3e50; border-radius: 10px; border: 5px solid #bdc3c7; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
 .heartbeat-svg { width: 180px; height: 80px; }
-.heartbeat-path { stroke: #84DCC6; stroke-width: 4; stroke-dasharray: 250; stroke-dashoffset: 250; animation: draw-line 2s ease-in-out infinite; }
-.pulsing-heart { fill: #FFD34E; position: absolute; width: 30px; height: 30px; top: 55px; left: 118px; opacity: 0; transform-origin: center; animation: pulse-heart 2s ease-in-out infinite; }
-@keyframes draw-line { 0% { stroke-dashoffset: 250; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
-@keyframes pulse-heart { 0%, 40%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 60% { opacity: 1; transform: scale(1); } 80% { opacity: 0; transform: scale(0.8); } }
+.heartbeat-path { stroke: #84DCC6; stroke-width: 4; stroke-dasharray: 250; stroke-dashoffset: 250; animation: milagro-draw-line 2s ease-in-out infinite; }
+.pulsing-heart-css { position: absolute; width: 20px; height: 20px; top: 65px; left: 128px; opacity: 0; animation: milagro-pulse-heart 2s ease-in-out infinite; }
+.pulsing-heart-css::before, .pulsing-heart-css::after { content: ''; position: absolute; width: 20px; height: 32px; background: red; border-radius: 20px 20px 0 0; }
+.pulsing-heart-css::before { transform: rotate(-45deg); }
+.pulsing-heart-css::after { transform: rotate(45deg); left: 10px; }
+.ultrasound-loader + .loading-text { margin-top: 25px !important; }
+@keyframes milagro-draw-line { 0% { stroke-dashoffset: 250; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+@keyframes milagro-pulse-heart { 0%, 40%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 60% { opacity: 1; transform: scale(1); } 80% { opacity: 0; transform: scale(0.8); } }
 
 /* --- ESTILOS LOADER PATITO --- */
 .duck-loader { position: relative; width: 100px; animation: float 4s ease-in-out infinite; }
