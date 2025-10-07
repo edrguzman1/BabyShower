@@ -70,62 +70,114 @@
 @keyframes fly-across { 0% { transform: translateX(-150px) translateY(20px) scale(0.9); opacity: 0; } 25% { transform: translateX(50px) translateY(0) scale(1); opacity: 1; } 75% { transform: translateX(150px) translateY(-20px) scale(0.95); opacity: 1; } 100% { transform: translateX(300px) translateY(-30px) scale(0.8); opacity: 0; } }
 @keyframes flap-wing { from { transform: rotate(-10deg); } to { transform: rotate(15deg); } }
 
-/* --- ESTILOS LOADER OSO --- */
-.teddy-loader-svg { width: 200px; height: 200px; }
-.peeking-bear { animation: peek-a-boo 3s ease-in-out infinite; }
-.rocking-box { animation: rock-box 3s ease-in-out infinite; transform-origin: center bottom; }
-@keyframes peek-a-boo { 0%, 100% { transform: translateY(20px); } 50% { transform: translateY(0); } }
-@keyframes rock-box { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-2deg); } 75% { transform: rotate(2deg); } }
-
-/* --- OTROS LOADERS --- */
+/* --- ESTILOS LOADER COCHECITO --- */
+.pram-svg { width: 250px; height: 250px; overflow: visible; }
 .pram-rocking { animation: rock-pram 4s ease-in-out infinite; transform-origin: center 85px; }
 .zzz { font-family: sans-serif; font-size: 14px; fill: #84DCC6; animation: float-zzz 5s infinite; opacity: 0; }
 .zzz-1 { animation-delay: 0s; } .zzz-2 { animation-delay: 1.5s; } .zzz-3 { animation-delay: 3s; }
 @keyframes rock-pram { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
 @keyframes float-zzz { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 75% { transform: translateY(-40px); opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }
 
-.oven-door { animation: open-oven 4s ease-in-out infinite; transform-origin: bottom; }
-.cupcake { animation: pop-up 4s ease-in-out infinite; }
-.cupcake-frosting::after { animation: beat 1s infinite; }
+/* --- ESTILOS LOADER HORNEANDO ALGO --- */
+.oven-loader { width: 150px; height: 150px; position: relative; }
+.oven-body { width: 100%; height: 130px; background-color: #84DCC6; border-radius: 10px; position: absolute; bottom: 0; box-shadow: inset 0 -10px 0 rgba(0,0,0,0.05); }
+.oven-body::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; background-color: #78C6B3; border-radius: 5px 5px 0 0; }
+.oven-door { width: 100%; height: 90px; background-color: #A8DDCF; position: absolute; bottom: 10px; left: 0; border-radius: 5px; transform-origin: bottom; animation: open-oven 4s ease-in-out infinite; border: 3px solid #78C6B3; box-sizing: border-box; }
+.oven-door::before { content: ''; position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; background: #4A5C57; border-radius: 3px; }
+.oven-door::after { content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 50px; height: 8px; background: #FFD34E; border-radius: 4px; }
+.cupcake { width: 60px; height: 70px; position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%) scale(0); opacity: 0; animation: pop-up 4s ease-in-out infinite; }
+.cupcake-base { width: 100%; height: 40px; background-color: #F5B895; position: absolute; bottom: 0; border-radius: 5px 5px 15px 15px; }
+.cupcake-frosting { width: 100%; height: 35px; background-color: #fff; position: absolute; top: 0; border-radius: 50% 50% 0 0; }
+.cupcake-frosting::after { content: '♥'; font-size: 20px; color: #E89F71; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); animation: beat 1s infinite; }
 @keyframes open-oven { 0%, 20%, 80%, 100% { transform: perspective(1200px) rotateX(0deg); } 40%, 60% { transform: perspective(1200px) rotateX(80deg); } }
 @keyframes pop-up { 0%, 35%, 75%, 100% { transform: translateX(-50%) scale(0); opacity: 0; } 50% { transform: translateX(-50%) scale(1); opacity: 1; } 65% { transform: translateX(-50%) scale(1); opacity: 1; } }
 @keyframes beat { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.2); } }
 
+/* --- ESTILOS LOADER LLUVIA --- */
 .raining-cloud-loader { width: 200px; height: 150px; position: relative; }
-.cloud { animation: float-cloud 4s ease-in-out infinite; }
-.drop { animation: rain-hearts 2.5s linear infinite; }
+.cloud { width: 150px; height: 50px; background: #fff; border-radius: 50px; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: float-cloud 4s ease-in-out infinite; }
+.cloud::before, .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
+.cloud::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+.cloud::after { width: 50px; height: 50px; top: -25px; right: 25px; }
+.rain { position: absolute; top: 60px; left: 0; width: 100%; height: 90px; }
+.drop { position: absolute; bottom: 100%; width: 12px; height: 12px; opacity: 0; animation: rain-hearts 2.5s linear infinite; }
+.drop::before, .drop::after { content: ''; position: absolute; width: 12px; height: 20px; background: #FFD34E; border-radius: 12px 12px 0 0; }
+.drop::before { transform: rotate(-45deg); }
+.drop::after { transform: rotate(45deg); left: 6px; }
+.drop:nth-child(1) { left: 20%; animation-delay: 0s; transform: scale(0.9); }
+.drop:nth-child(2) { left: 40%; animation-delay: 0.5s; transform: scale(1); }
+.drop:nth-child(3) { left: 60%; animation-delay: 1s; transform: scale(0.8); }
+.drop:nth-child(4) { left: 75%; animation-delay: 1.5s; transform: scale(1.1); }
+.drop:nth-child(5) { left: 30%; animation-delay: 2s; transform: scale(0.9); }
 @keyframes float-cloud { 0%, 100% { transform: translateX(-55%); } 50% { transform: translateX(-45%); } }
 @keyframes rain-hearts { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(100px); opacity: 0; } }
 
-.sleeping-moon-loader { animation: rock-moon 4s ease-in-out infinite; transform-origin: bottom center; }
-.star { animation: twinkle-star 2s ease-in-out infinite; }
+/* --- ESTILOS LOADER LUNA --- */
+.sleeping-moon-loader { width: 120px; height: 120px; position: relative; animation: rock-moon 4s ease-in-out infinite; transform-origin: bottom center; }
+.moon { width: 100px; height: 100px; border-radius: 50%; box-shadow: -15px 15px 0 0 #FFD34E; position: absolute; top: 10px; left: 10px; }
+.star { position: absolute; color: #84DCC6; font-size: 20px; animation: twinkle-star 2s ease-in-out infinite; }
+.star-1 { top: 10px; left: 10px; font-size: 25px; animation-delay: 0s; }
+.star-2 { top: 80px; left: 20px; font-size: 15px; animation-delay: 0.5s; }
+.star-3 { top: 30px; right: 0px; font-size: 20px; animation-delay: 1s; }
+.star-4 { top: 70px; right: 25px; font-size: 18px; animation-delay: 1.5s; }
 @keyframes rock-moon { 0%, 100% { transform: rotate(10deg); } 50% { transform: rotate(-10deg); } }
 @keyframes twinkle-star { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.8); opacity: 0.5; } }
 
-.ultrasound-loader { animation: none; }
-.heartbeat-path { animation: draw-line 2s ease-in-out infinite; }
-.pulsing-heart { animation: pulse-heart 2s ease-in-out infinite; }
+/* --- ESTILOS LOADER MILAGRO (ULTRASONIDO) --- */
+.ultrasound-loader { width: 220px; height: 160px; background-color: #2c3e50; border-radius: 10px; border: 5px solid #bdc3c7; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+.heartbeat-svg { width: 180px; height: 80px; }
+.heartbeat-path { stroke: #84DCC6; stroke-width: 4; stroke-dasharray: 250; stroke-dashoffset: 250; animation: draw-line 2s ease-in-out infinite; }
+.pulsing-heart { fill: #FFD34E; position: absolute; width: 30px; height: 30px; top: 55px;  left: 118px;  opacity: 0; transform-origin: center; animation: pulse-heart 2s ease-in-out infinite; }
 @keyframes draw-line { 0% { stroke-dashoffset: 250; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
 @keyframes pulse-heart { 0%, 40%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 60% { opacity: 1; transform: scale(1); } 80% { opacity: 0; transform: scale(0.8); } }
 
-.rocking-duck { animation: rock-duck 4s ease-in-out infinite; transform-origin: center 80%; }
-.bubble { animation: float-bubble 6s infinite; }
-@keyframes rock-duck { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
-@keyframes float-bubble { 0% { transform: translateY(0) scale(1); opacity: 0.6; } 100% { transform: translateY(-150px) scale(0); opacity: 0; } }
+/* --- ESTILOS LOADER PATITO --- */
+.duck-loader { position: relative; width: 100px; animation: float 4s ease-in-out infinite; }
+.duck-body { width: 100px; height: 60px; background-color: #FFD34E; border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%; position: relative; }
+.duck-head { width: 50px; height: 50px; background-color: #FFD34E; border-radius: 50%; position: absolute; top: -35px; left: 45px; }
+.duck-eye { width: 6px; height: 6px; background-color: #333; border-radius: 50%; position: absolute; top: 18px; left: 30px; }
+.duck-beak { width: 25px; height: 12px; background-color: #F2B900; border-radius: 0 50% 50% 0; position: absolute; top: 25px; left: 45px; }
+.wave { position: absolute; bottom: -20px; left: 50%; width: 200px; height: 40px; background-color: #84DCC6; border-radius: 50%; transform: translateX(-50%); animation: wave-motion 3s linear infinite; }
+.wave.w2 { width: 220px; opacity: 0.7; bottom: -30px; animation-duration: 3.5s; animation-direction: reverse; }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+@keyframes wave-motion { 0% { transform: translateX(-50%) scaleX(1); } 50% { transform: translateX(-50%) scaleX(1.1); } 100% { transform: translateX(-50%) scaleX(1); } }
 
-.pinwheel-blades { animation: spin 4s linear infinite; }
+/* --- ESTILOS LOADER REHILETE --- */
+.pinwheel-svg { width: 250px; height: 250px; overflow: visible; }
+.pinwheel-blades { transform-origin: center; animation: spin 4s linear infinite; }
 .pinwheel-stick { animation: bob 3s ease-in-out infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
+/* --- ESTILOS LOADER SALTANDO (CUNA) --- */
+.crib-svg { width: 200px; height: 200px; }
 .crib-bouncer { animation: bounce 2s ease-in-out infinite; }
 .sparkle { animation: sparkle-effect 2s ease-out infinite; }
+.sparkle-1 { animation-delay: 0s; }
+.sparkle-2 { animation-delay: 0.5s; }
+.sparkle-3 { animation-delay: 1s; }
+.sparkle-4 { animation-delay: 1.5s; }
 @keyframes sparkle-effect { 0%, 100% { opacity: 0; transform: scale(0.5) translateY(0); } 50% { opacity: 1; transform: scale(1.2) translateY(-20px); } 80% { opacity: 0; } }
 
-.rattle-loader { animation: shake-rattle 1s ease-in-out infinite alternate; }
-.note { animation: float-notes 2s ease-out infinite; }
+/* --- ESTILOS LOADER SONAJERO --- */
+.rattle-loader { width: 100px; position: relative; animation: shake-rattle 1s ease-in-out infinite alternate; }
+.rattle-handle { width: 25px; height: 60px; background: #FFD34E; border-radius: 12.5px; position: absolute; bottom: 0; left: 37.5px; }
+.rattle-head { width: 80px; height: 80px; background: #FFF; border: 10px solid #84DCC6; border-radius: 50%; position: absolute; top: 0; left: 10px; }
+.notes { position: absolute; top: 10px; left: 100%; }
+.note { position: absolute; font-size: 20px; color: #84DCC6; animation: float-notes 2s ease-out infinite; }
+.note-1 { top: 0; left: 10px; animation-delay: 0s; }
+.note-2 { top: 20px; left: 30px; animation-delay: 0.5s; }
+.note-3 { top: -10px; left: 40px; animation-delay: 1s; }
+.note-4 { top: 10px; left: 60px; animation-delay: 1.5s; }
 @keyframes shake-rattle { from { transform: rotate(-15deg); } to { transform: rotate(15deg); } }
 @keyframes float-notes { 0% { opacity: 1; transform: translateY(0) translateX(0) scale(1); } 100% { opacity: 0; transform: translateY(-50px) translateX(10px) scale(0.5); } }
 
-.sock { animation: sway 3s ease-in-out infinite alternate; }
+/* --- ESTILOS LOADER TENDEDERO --- */
+.clothesline-loader { position: relative; width: 200px; height: 120px; }
+.line { width: 100%; height: 3px; background-color: #A0522D; position: absolute; top: 20px; }
+.sock { width: 40px; height: 60px; position: absolute; top: 23px; animation: sway 3s ease-in-out infinite alternate; }
+.sock-1 { left: 40px; }
+.sock-2 { left: 110px; animation-delay: 0.5s; }
+.sock-top { width: 100%; height: 15px; background-color: #FFD34E; border-radius: 5px 5px 0 0; }
+.sock-foot { width: 100%; height: 45px; background-color: #84DCC6; border-radius: 0 0 15px 15px; }
 @keyframes sway { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }

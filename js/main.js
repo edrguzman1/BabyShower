@@ -3,19 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Lista de todos tus archivos de loaders
     const loaderFiles = [
-        'Biberon.html',
-        'BloquesBaby.html',
-        'Cigueña.html',
-        'Cochecito.html',
-        'HorneandoAlgo.html',
-        'Lluvia.html',
-        'Luna.html',
-        'Milagro.html',
-        'Patito.html',
-        'Rehilete.html',
-        'Saltando.html',
-        'Sonajero.html',
-        'Tendedero.html'
+        //'Biberon.html',
+        //'BloquesBaby.html',
+        //'Cigueña.html',
+        //'Cochecito.html',
+        //'HorneandoAlgo.html',
+        //'Lluvia.html',
+        //'Luna.html',
+        //'Milagro.html',
+        //'Patito.html',
+        //'Rehilete.html',
+        //'Saltando.html',
+        //'Sonajero.html',
+        //'Tendedero.html'
     ];
     
     // Elige un loader al azar
