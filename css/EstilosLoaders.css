@@ -1,5 +1,5 @@
 /* ======================================== */
-/* ESTILOS PARA LOADERS ALEATORIOS          */
+/* ESTILOS PARA LOADERS ALEATORIOS (VERSIÓN FINAL CORREGIDA) */
 /* ======================================== */
 
 #loader-wrapper {
@@ -127,7 +127,7 @@
 .ultrasound-loader { width: 220px; height: 160px; background-color: #2c3e50; border-radius: 10px; border: 5px solid #bdc3c7; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
 .heartbeat-svg { width: 180px; height: 80px; }
 .heartbeat-path { stroke: #84DCC6; stroke-width: 4; stroke-dasharray: 250; stroke-dashoffset: 250; animation: draw-line 2s ease-in-out infinite; }
-.pulsing-heart { fill: #FFD34E; position: absolute; width: 30px; height: 30px; top: 55px;  left: 118px;  opacity: 0; transform-origin: center; animation: pulse-heart 2s ease-in-out infinite; }
+.pulsing-heart { fill: #FFD34E; position: absolute; width: 30px; height: 30px; top: 55px; left: 118px; opacity: 0; transform-origin: center; animation: pulse-heart 2s ease-in-out infinite; }
 @keyframes draw-line { 0% { stroke-dashoffset: 250; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
 @keyframes pulse-heart { 0%, 40%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 60% { opacity: 1; transform: scale(1); } 80% { opacity: 0; transform: scale(0.8); } }
 
@@ -160,11 +160,11 @@
 @keyframes sparkle-effect { 0%, 100% { opacity: 0; transform: scale(0.5) translateY(0); } 50% { opacity: 1; transform: scale(1.2) translateY(-20px); } 80% { opacity: 0; } }
 
 /* --- ESTILOS LOADER SONAJERO --- */
-.rattle-loader { width: 100px; position: relative; animation: shake-rattle 1s ease-in-out infinite alternate; }
-.rattle-handle { width: 25px; height: 60px; background: #FFD34E; border-radius: 12.5px; position: absolute; bottom: 0; left: 37.5px; }
-.rattle-head { width: 80px; height: 80px; background: #FFF; border: 10px solid #84DCC6; border-radius: 50%; position: absolute; top: 0; left: 10px; }
+.rattle-loader { width: 100px; height: 100px; position: relative; animation: shake-rattle 1s ease-in-out infinite alternate; }
+.rattle-handle { width: 25px; height: 60px; background: #FFD34E; border-radius: 12.5px; position: absolute; bottom: -10px; left: 37.5px; }
+.rattle-head { width: 80px; height: 80px; background: #FFF; border: 10px solid #84DCC6; border-radius: 50%; position: absolute; top: -10px; left: 10px; box-sizing: border-box; }
 .notes { position: absolute; top: 10px; left: 100%; }
-.note { position: absolute; font-size: 20px; color: #84DCC6; animation: float-notes 2s ease-out infinite; }
+.note { position: absolute; font-size: 20px; color: #84DCC6; animation: float-notes 2s ease-out infinite; opacity: 0;}
 .note-1 { top: 0; left: 10px; animation-delay: 0s; }
 .note-2 { top: 20px; left: 30px; animation-delay: 0.5s; }
 .note-3 { top: -10px; left: 40px; animation-delay: 1s; }
@@ -175,7 +175,7 @@
 /* --- ESTILOS LOADER TENDEDERO --- */
 .clothesline-loader { position: relative; width: 200px; height: 120px; }
 .line { width: 100%; height: 3px; background-color: #A0522D; position: absolute; top: 20px; }
-.sock { width: 40px; height: 60px; position: absolute; top: 23px; animation: sway 3s ease-in-out infinite alternate; }
+.sock { width: 40px; height: 60px; position: absolute; top: 23px; transform-origin: top center; animation: sway 3s ease-in-out infinite alternate; }
 .sock-1 { left: 40px; }
 .sock-2 { left: 110px; animation-delay: 0.5s; }
 .sock-top { width: 100%; height: 15px; background-color: #FFD34E; border-radius: 5px 5px 0 0; }
