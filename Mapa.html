@@ -39,7 +39,7 @@
             margin-bottom: 15px;
         }
 
-        /* --- NUEVO: ESTILOS PARA LA LEYENDA --- */
+        /* --- ESTILOS PARA LA LEYENDA --- */
         .legend-container {
             display: flex;
             gap: 20px;
@@ -66,12 +66,13 @@
         .legend-color.disponible {
             background-color: var(--silla-disponible);
         }
-        /* --- FIN DE NUEVOS ESTILOS --- */
+        /* --- FIN DE ESTILOS --- */
 
         #salon-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            /* --- CAMBIO: Se reduce el tamaño mínimo para que quepan más mesas --- */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px; /* Reducido para mayor compacidad */
             width: 100%;
             max-width: 1600px;
             padding: 20px;
@@ -80,7 +81,7 @@
         .mesa-container {
             background: white;
             border-radius: 15px;
-            padding: 20px;
+            padding: 12px; /* Reducido */
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
@@ -89,30 +90,28 @@
         
         .mesa-titulo {
             font-weight: 600;
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: var(--blue);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        /* --- CORRECCIÓN: AJUSTE DE LA MAQUETA DE LA MESA --- */
         .mesa-layout {
             display: grid;
-            /* Se definen 3 filas para separar las sillas de las cabeceras */
-            grid-template-columns: auto 1fr auto; /* Sillas Izq | Mesa | Sillas Der */
-            grid-template-rows: auto 1fr auto; /* Sillas Arriba | Centro | Sillas Abajo */
+            grid-template-columns: auto 1fr auto;
+            grid-template-rows: auto 1fr auto;
             align-items: center;
-            gap: 10px;
+            gap: 5px; /* Reducido */
         }
 
         .mesa {
-            /* La mesa ahora ocupa solo la celda central */
             grid-column: 2 / 3;
             grid-row: 2 / 3;
             background-color: var(--mesa-color);
             border: 1px solid var(--borde-color);
-            border-radius: 8px;
-            height: 200px;
-            width: 100px;
+            border-radius: 6px;
+            /* --- CAMBIO: Mesa más pequeña --- */
+            height: 140px;
+            width: 70px;
         }
         
         .sillas-lado {
@@ -128,17 +127,16 @@
             align-items: center;
         }
 
-        /* Se ajusta la posición de cada grupo de sillas en la nueva cuadrícula */
         .sillas-izquierda { grid-column: 1 / 2; grid-row: 2 / 3; }
         .sillas-derecha { grid-column: 3 / 4; grid-row: 2 / 3; }
         .sillas-arriba { grid-column: 2 / 3; grid-row: 1 / 2; }
         .sillas-abajo { grid-column: 2 / 3; grid-row: 3 / 4; }
-        /* --- FIN DE LA CORRECCIÓN --- */
 
 
         .silla {
-            width: 25px;
-            height: 25px;
+            /* --- CAMBIO: Sillas más pequeñas --- */
+            width: 20px;
+            height: 20px;
             border: 1px solid var(--borde-color);
             border-radius: 50%;
             cursor: pointer;
@@ -186,7 +184,7 @@
 
     <h1>Mapa de Asignación de Mesas</h1>
     
-    <!-- NUEVO: LEYENDA DE COLORES -->
+    <!-- LEYENDA DE COLORES -->
     <div class="legend-container">
         <div class="legend-item">
             <div class="legend-color ocupado"></div>
@@ -344,4 +342,3 @@
     </script>
 </body>
 </html>
-
