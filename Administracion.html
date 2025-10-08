@@ -101,9 +101,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nombre del Invitado</th>
+                    <th>Nombre</th>
                     <th>Estatus</th>
-                </tr>
+                    <th>Última Actualización</th>
+                    <th>Mesa</th> <th>Silla</th> </tr>
             </thead>
             <tbody id="lista-invitados">
                 <!-- Los invitados se cargarán aquí dinámicamente -->
@@ -142,7 +143,8 @@
         // 4. Escucha los cambios en la base de datos en tiempo real
         const asistentesRef = database.ref('asistentes');
         
-        asistentesRef.on('value', (snapshot) => {
+        // Ordena los resultados por nombre para mantener la lista organizada
+        asistentesRef.orderByChild('nombre').on('value', (snapshot) => {
             // Limpia la tabla actual antes de agregar los nuevos datos
             listaInvitadosBody.innerHTML = '';
             loadingMessage.style.display = 'none';
@@ -157,17 +159,19 @@
                     // Crea una nueva fila para la tabla
                     const fila = document.createElement('tr');
 
-                    // Crea la celda para el nombre
+                    // --- INICIO DE LA CORRECCIÓN ---
+
+                    // Celda 1: Nombre
                     const celdaNombre = document.createElement('td');
-                    celdaNombre.textContent = invitado.nombre;
+                    celdaNombre.textContent = invitado.nombre || 'Sin nombre';
                     fila.appendChild(celdaNombre);
 
-                    // Crea la celda para el estatus con un badge de color
+                    // Celda 2: Estatus
                     const celdaEstatus = document.createElement('td');
                     const badge = document.createElement('span');
-                    badge.textContent = invitado.estatus;
+                    badge.textContent = invitado.estatus || 'Sin estatus';
                     badge.classList.add('status-badge');
-
+                    
                     if (invitado.estatus === 'confirmado') {
                         badge.classList.add('status-confirmado');
                         confirmados++;
@@ -175,9 +179,30 @@
                         badge.classList.add('status-cancelado');
                         cancelados++;
                     }
-                    
                     celdaEstatus.appendChild(badge);
                     fila.appendChild(celdaEstatus);
+                    
+                    // Celda 3: Fecha de Actualización (¡ESTA FALTABA!)
+                    const celdaFecha = document.createElement('td');
+                    // Formateamos la fecha para que sea más legible
+                    try {
+                        celdaFecha.textContent = invitado.actualizadoEn ? new Date(invitado.actualizadoEn).toLocaleString() : 'N/A';
+                    } catch (e) {
+                        celdaFecha.textContent = 'Fecha inválida';
+                    }
+                    fila.appendChild(celdaFecha);
+
+                    // Celda 4: Mesa (¡ESTA FALTABA!)
+                    const celdaMesa = document.createElement('td');
+                    celdaMesa.textContent = invitado.mesa || 'N/A'; // Muestra N/A si no tiene mesa
+                    fila.appendChild(celdaMesa);
+
+                    // Celda 5: Silla (¡ESTA FALTABA!)
+                    const celdaSilla = document.createElement('td');
+                    celdaSilla.textContent = invitado.silla || 'N/A'; // Muestra N/A si no tiene silla
+                    fila.appendChild(celdaSilla);
+
+                    // --- FIN DE LA CORRECCIÓN ---
 
                     // Agrega la fila completa a la tabla
                     listaInvitadosBody.appendChild(fila);
