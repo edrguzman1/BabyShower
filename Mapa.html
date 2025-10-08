@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Mesas - Baby Shower</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Kaushan+Script&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #F5B895;
+            --blue: #A8D0B5;
+            --light-pink-bg: #FEF6F0;
+            --light-blue-bg: #F4F7F4;
+            --text-dark: #333;
+            --silla-ocupada: #4a90e2; /* Un azul claro y visible */
+            --silla-disponible: #ffffff;
+            --borde-color: #d1d1d1;
+            --mesa-color: #f7f7f7;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Kaushan Script', cursive;
+            color: var(--pink);
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* --- NUEVO: ESTILOS PARA LA LEYENDA --- */
+        .legend-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid var(--borde-color);
+        }
+        .legend-color.ocupado {
+            background-color: var(--silla-ocupada);
+        }
+        .legend-color.disponible {
+            background-color: var(--silla-disponible);
+        }
+        /* --- FIN DE NUEVOS ESTILOS --- */
+
+        #salon-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            width: 100%;
+            max-width: 1600px;
+            padding: 20px;
+        }
+
+        .mesa-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .mesa-titulo {
+            font-weight: 600;
+            font-size: 1.2em;
+            color: var(--blue);
+            margin-bottom: 15px;
+        }
+
+        /* --- CORRECCIÓN: AJUSTE DE LA MAQUETA DE LA MESA --- */
+        .mesa-layout {
+            display: grid;
+            /* Se definen 3 filas para separar las sillas de las cabeceras */
+            grid-template-columns: auto 1fr auto; /* Sillas Izq | Mesa | Sillas Der */
+            grid-template-rows: auto 1fr auto; /* Sillas Arriba | Centro | Sillas Abajo */
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mesa {
+            /* La mesa ahora ocupa solo la celda central */
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            background-color: var(--mesa-color);
+            border: 1px solid var(--borde-color);
+            border-radius: 8px;
+            height: 200px;
+            width: 100px;
+        }
+        
+        .sillas-lado {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+        }
+
+        .sillas-cabeza {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Se ajusta la posición de cada grupo de sillas en la nueva cuadrícula */
+        .sillas-izquierda { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .sillas-derecha { grid-column: 3 / 4; grid-row: 2 / 3; }
+        .sillas-arriba { grid-column: 2 / 3; grid-row: 1 / 2; }
+        .sillas-abajo { grid-column: 2 / 3; grid-row: 3 / 4; }
+        /* --- FIN DE LA CORRECCIÓN --- */
+
+
+        .silla {
+            width: 25px;
+            height: 25px;
+            border: 1px solid var(--borde-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .silla:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .silla.disponible {
+            background-color: var(--silla-disponible);
+        }
+
+        .silla.ocupada {
+            background-color: var(--silla-ocupada);
+            border-color: #3a7bc8;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            pointer-events: none;
+            opacity: 0;
+            transform: translate(-50%, -120%);
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+            z-index: 100;
+        }
+        
+        #loading-indicator {
+            font-size: 1.5em;
+            color: var(--text-dark);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Mapa de Asignación de Mesas</h1>
+    
+    <!-- NUEVO: LEYENDA DE COLORES -->
+    <div class="legend-container">
+        <div class="legend-item">
+            <div class="legend-color ocupado"></div>
+            <span>Ocupado</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color disponible"></div>
+            <span>Disponible</span>
+        </div>
+    </div>
+
+    <p id="loading-indicator">Cargando asignaciones...</p>
+    <div id="salon-container">
+        <!-- Las mesas y sillas se generarán aquí con JavaScript -->
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Scripts de Firebase (versión modular para compatibilidad moderna) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+
+        // 1. Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
+            authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
+            databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
+            projectId: "babyshowerguzmanmiranda",
+            storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
+            messagingSenderId: "564665563453",
+            appId: "1:564665563453:web:242aaba73a4768fa89ad54"
+        };
+
+        // 2. Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        const salonContainer = document.getElementById('salon-container');
+        const tooltip = document.getElementById('tooltip');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const MAX_MESAS = 15;
+        const SILLAS_POR_MESA = 10;
+
+        // 3. Genera la estructura de mesas y sillas
+        function generarMesas() {
+            for (let i = 1; i <= MAX_MESAS; i++) {
+                const mesaContainer = document.createElement('div');
+                mesaContainer.className = 'mesa-container';
+
+                mesaContainer.innerHTML = `
+                    <div class="mesa-titulo">Mesa ${i}</div>
+                    <div class="mesa-layout">
+                        <div class="sillas-cabeza sillas-arriba">
+                            <div class="silla disponible" id="silla-${i}-1" data-silla-num="1"></div>
+                        </div>
+                        <div class="sillas-lado sillas-izquierda">
+                            <div class="silla disponible" id="silla-${i}-2" data-silla-num="2"></div>
+                            <div class="silla disponible" id="silla-${i}-3" data-silla-num="3"></div>
+                            <div class="silla disponible" id="silla-${i}-4" data-silla-num="4"></div>
+                            <div class="silla disponible" id="silla-${i}-5" data-silla-num="5"></div>
+                        </div>
+                        <div class="mesa"></div>
+                        <div class="sillas-lado sillas-derecha">
+                            <div class="silla disponible" id="silla-${i}-7" data-silla-num="7"></div>
+                            <div class="silla disponible" id="silla-${i}-8" data-silla-num="8"></div>
+                            <div class="silla disponible" id="silla-${i}-9" data-silla-num="9"></div>
+                            <div class="silla disponible" id="silla-${i}-10" data-silla-num="10"></div>
+                        </div>
+                        <div class="sillas-cabeza sillas-abajo">
+                            <div class="silla disponible" id="silla-${i}-6" data-silla-num="6"></div>
+                        </div>
+                    </div>
+                `;
+                salonContainer.appendChild(mesaContainer);
+            }
+        }
+
+        // 4. Mapea los invitados a sus asientos
+        function mapearInvitados(asistentes) {
+             const mapaAsientos = {};
+             if (asistentes) {
+                for (const key in asistentes) {
+                    const invitado = asistentes[key];
+                    if (invitado.estatus === 'confirmado' && invitado.mesa && invitado.silla) {
+                        const sillaId = `silla-${invitado.mesa}-${invitado.silla}`;
+                        mapaAsientos[sillaId] = invitado.nombre;
+                    }
+                }
+             }
+             return mapaAsientos;
+        }
+
+        // 5. Actualiza la interfaz con los datos de Firebase
+        function actualizarUI(mapaAsientos) {
+            const sillas = document.querySelectorAll('.silla');
+            sillas.forEach(silla => {
+                const nombreInvitado = mapaAsientos[silla.id];
+                if (nombreInvitado) {
+                    silla.classList.remove('disponible');
+                    silla.classList.add('ocupada');
+                    silla.dataset.nombre = nombreInvitado;
+                } else {
+                    silla.classList.remove('ocupada');
+                    silla.classList.add('disponible');
+                    silla.dataset.nombre = 'Disponible';
+                }
+            });
+        }
+        
+        // 6. Manejo de Tooltips
+        function setupTooltips() {
+            salonContainer.addEventListener('mouseover', (e) => {
+                if (e.target.classList.contains('silla')) {
+                    const nombre = e.target.dataset.nombre || 'Disponible';
+                    tooltip.textContent = nombre;
+                    tooltip.style.opacity = '1';
+                }
+            });
+
+            salonContainer.addEventListener('mousemove', (e) => {
+                if (e.target.classList.contains('silla')) {
+                    tooltip.style.left = `${e.pageX}px`;
+                    tooltip.style.top = `${e.pageY}px`;
+                }
+            });
+            
+            salonContainer.addEventListener('mouseout', (e) => {
+                if (e.target.classList.contains('silla')) {
+                    tooltip.style.opacity = '0';
+                }
+            });
+        }
+
+
+        // 7. Carga inicial y escucha de cambios en tiempo real
+        function iniciarMapa() {
+            generarMesas();
+            setupTooltips();
+
+            const asistentesRef = ref(database, 'asistentes');
+            onValue(asistentesRef, (snapshot) => {
+                loadingIndicator.style.display = 'none';
+                const asistentes = snapshot.val();
+                const mapaAsientos = mapearInvitados(asistentes);
+                actualizarUI(mapaAsientos);
+            }, (error) => {
+                console.error("Error al leer los datos de Firebase:", error);
+                loadingIndicator.textContent = "Error al cargar los datos.";
+            });
+        }
+
+        // Iniciar la aplicación
+        iniciarMapa();
+
+    </script>
+</body>
+</html>
+
