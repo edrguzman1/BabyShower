@@ -8,21 +8,15 @@
     ],
     "headers": [
       {
-        "source": "**/*.mp4",
+        "source": "**/*.@(mp4|webm|png|jpg|jpeg|gif|webp|ico)",
         "headers": [
           { "key": "Cache-Control", "value": "public, max-age=31536000" }
         ]
       },
       {
-        "source": "**/*.png",
+        "source": "**/*.@(js|css)",
         "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=31536000" }
-        ]
-      },
-      {
-        "source": "**/*.jpg",
-        "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=31536000" }
+          { "key": "Cache-Control", "value": "public, max-age=86400" }
         ]
       }
     ],
