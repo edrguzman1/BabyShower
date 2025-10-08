@@ -1,0 +1,1030 @@
+/* ======================================== */
+/* CONFIGURACIÓN GLOBAL / VARIABLES       */
+/* ======================================== */
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+:root {
+  /* Tipografías */
+  --font-base: 'Quicksand', sans-serif;
+  --font-ui: 'Segoe UI', sans-serif;
+ --font-title: 'Kaushan Script', cursive;
+
+  /* Colores */
+  --pink: #F5B895; /* Durazno Cálido (Color Principal) */
+  --pink-hover: #E89F71; /* Durazno más oscuro para hover */
+  --light-pink-bg: #FEF6F0; /* Fondo Durazno muy claro */
+  --light-blue-bg: #F4F7F4; /* Fondo Salvia muy claro */
+  --blue: #A8D0B5; /* Verde Salvia (Color Secundario) */
+  --blue-dark: #8RB895; /* Salvia más oscuro para hover */
+  --link-bg-hover: #FBEAE0; /* Fondo para hover de enlaces */
+  --text-muted: #aaa;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --radius: 20px;
+}
+
+/* Tipografías generales */
+body, p, input, button {
+  font-family: var(--font-base);
+}
+
+/* Títulos */
+h1, h2, h3 {
+  font-family: var(--font-title);
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--pink);
+  font-size: 2em;
+}
+h2 { color: #4fc3f7; } /* override específico por sección */
+
+/* ======================================== */
+/* LAYOUT / ESTRUCTURA PRINCIPAL           */
+/* ======================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 40px 20px 0; /* espacio para navbar fija + padding general */
+  padding-top: 60px;
+  font-family: var(--font-ui);
+  background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Contenedores comunes */
+.card, .seccion {
+  background: white;
+  border-radius: var(--radius);
+  padding: 30px;
+  max-width: 800px;
+  width: 100%;
+  margin-top: 30px;
+  box-shadow: var(--shadow);
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* ======================================== */
+/* NAVBAR                                 */
+/* ======================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.menu-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--pink);
+  display: none; /* se activa en móvil */
+}
+
+.menu-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.menu-links a {
+  text-decoration: none;
+  color: var(--pink);
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-links a:hover {
+  background-color: var(--link-bg-hover);
+}
+
+/* ======================================== */
+/* TIPOGRAFÍA / INTERACTIVOS               */
+/* ======================================== */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+button {
+  background: var(--pink);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1em;
+}
+
+button:hover {
+  background: var(--pink-hover);
+}
+
+/* ======================================== */
+/* COMPONENTES ESPECÍFICOS                 */
+/* ======================================== */
+
+/* Logo */
+.logo {
+  display: block;
+  margin: 0 auto;
+  width: 100%; /* Usamos porcentaje para que sea flexible */
+  max-width: 600px; /* Establecemos un tamaño máximo para pantallas grandes */
+}
+
+/* ======================================== */
+/* ESTILOS PARA RSVP MEJORADO             */
+/* ======================================== */
+
+.card p.intro-text {
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-evento {
+  background-color: #fafbfe;
+  border-left: 4px solid var(--pink);
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.info-evento p {
+  margin: 5px 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
+/* Contenedor del formulario RSVP */
+.rsvp-form {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 2px dashed var(--light-pink-bg);
+}
+
+.rsvp-form h3 {
+  color: var(--blue);
+  font-size: 1.6em;
+  margin-bottom: 5px;
+}
+
+.rsvp-form p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ** INICIAN NUEVOS ESTILOS PARA TOOLTIP ** */
+.titulo-con-tooltip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px; /* Espacio antes del siguiente párrafo */
+}
+
+.tooltip-icono {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--blue);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: help;
+    user-select: none; /* Evita que el texto del ícono se seleccione */
+}
+
+.tooltip-texto {
+    visibility: hidden;
+    width: 260px;
+    background-color: #495057;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px;
+    position: absolute;
+    z-index: 10;
+    top: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-family: var(--font-base);
+    font-size: 0.9em;
+    line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Flecha del tooltip */
+.tooltip-texto::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #495057 transparent;
+}
+
+/* Muestra el tooltip al pasar el mouse sobre el ícono */
+.tooltip-icono:hover .tooltip-texto {
+    visibility: visible;
+    opacity: 1;
+}
+/* ** TERMINAN NUEVOS ESTILOS PARA TOOLTIP ** */
+
+
+/* Estilo mejorado para el campo de texto */
+.rsvp-form input {
+  border: 2px solid #ddd;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.1em;
+}
+
+.rsvp-form input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 8px var(--light-pink-bg);
+  outline: none;
+}
+
+/* Contenedor para los botones */
+.botones-rsvp {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* Estilo base para los nuevos botones */
+.btn-confirm, .btn-decline {
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: translateY(0);
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-confirm:hover, .btn-decline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* Botón de Confirmar */
+.btn-confirm {
+  background-color: #28a745; /* Verde */
+}
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+/* Botón de Cancelar */
+.btn-decline {
+  background-color: #dc3545; /* Rojo */
+}
+.btn-decline:hover {
+  background-color: #c82333;
+}
+
+/* Cuenta Regresiva */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.countdown div {
+  background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+  padding: 15px;
+  border-radius: 10px;
+  min-width: 80px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.countdown span {
+  display: block;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: var(--pink);
+}
+
+/* Videos: carrusel horizontal */
+.video-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.video-item {
+  flex: 0 0 390px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-snap-align: start;
+}
+
+.video-grid iframe,
+.video-grid video {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.video-title {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  font-family: var(--font-base);
+}
+
+/* Scrollbar personalizado para grids */
+.video-grid::-webkit-scrollbar,
+.timeline-horizontal::-webkit-scrollbar {
+  height: 10px;
+}
+
+.video-grid::-webkit-scrollbar-thumb,
+.timeline-horizontal::-webkit-scrollbar-thumb {
+  background-color: var(--pink);
+  border-radius: 10px;
+}
+
+/* Mapa */
+.mapa iframe {
+  width: 100%;
+  height: 300px;
+  border: none;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+/* Lightbox para imágenes */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox.active {
+  display: flex;
+}
+.lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 0 25px #fff;
+}
+.lightbox .cerrar {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Timeline horizontal */
+.timeline-horizontal {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+/* ======================================== */
+/* ITINERARIO DEL EVENTO                  */
+/* ======================================== */
+
+.itinerario-card {
+  flex: 0 0 180px; /* Ancho fijo para cada tarjeta */
+  background: linear-gradient(135deg, #fdf6f9, #f6faff);
+  border-radius: 15px;
+  padding: 20px 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+  scroll-snap-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f0e8f4;
+}
+
+.itinerario-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.itinerario-icono {
+  font-size: 2.5em; /* Tamaño del emoji */
+  margin-bottom: 10px;
+}
+
+.itinerario-hora {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--pink);
+  margin: 0;
+}
+
+.itinerario-actividad {
+  font-size: 1em;
+  color: #555;
+  margin: 5px 0 0 0;
+}
+
+
+/* ======================================== */
+/* INICIA SECCIÓN DE GALERÍA TIPO PILA    */
+/* ======================================== */
+
+#galeria-pila {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.foto-stack-container {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  min-height: 600px; /* Tu cambio para dar más altura */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-stack {
+  position: relative;
+  width: 100%;
+  height: 580px; /* Aumentado de 300px para dar espacio a las fotos verticales */
+  perspective: 1000px;
+}
+
+.foto-stack .foto-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Añade esta línea */
+  margin: auto; /* Modifica 'margin: 0 auto' por 'margin: auto' */
+  width: 100%;
+  max-width: 380px;
+  height: fit-content; /* Añade esta línea */
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  background-color: white;
+  border: 10px solid white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.foto-stack .foto-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer; /* Añadimos el cursor para indicar que es clickeable */
+}
+
+.foto-descripcion {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  padding: 15px 10px;
+  text-align: center;
+  color: #555;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+/* ESTADOS DE LAS TARJETAS */
+.foto-stack .foto-item.active {
+  opacity: 1;
+  z-index: 5;
+  transform: rotate(0deg) scale(1.05);
+}
+
+.foto-stack .foto-item.active .foto-descripcion {
+  opacity: 1;
+}
+
+.foto-stack .foto-item.prev {
+  opacity: 0.6;
+  z-index: 3;
+  transform: translateX(-40px) rotate(-7deg) scale(0.97);
+}
+
+.foto-stack .foto-item.next {
+  opacity: 0.6;
+  z-index: 2;
+  transform: translateX(40px) rotate(7deg) scale(0.97);
+}
+
+
+/* ======================================== */
+/* NAVEGACIÓN PARA GALERÍA TIPO PILA */
+/* ======================================== */
+
+.foto-stack-container {
+  position: relative; /* Esto se mantiene, es clave para el posicionamiento */
+}
+
+.stack-nav {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 10; 
+}
+
+/* Estilo mejorado y más llamativo para los botones */
+.stack-nav-button {
+  background-color: var(--blue); /* CORREGIDO: Usamos el color secundario de la paleta */
+  border: 2px solid rgba(255, 255, 255, 0.8); /* Borde blanco sutil */
+  border-radius: 50%;
+  width: 50px;  /* Aumentamos el tamaño */
+  height: 50px; /* Aumentamos el tamaño */
+  font-size: 24px; /* Hacemos la flecha más grande */
+  font-weight: bold;
+  color: white; /* Flecha en color blanco para mejor contraste */
+  cursor: pointer;
+  pointer-events: all;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stack-nav-button:hover {
+  background-color: var(--blue-dark); /* CORREGIDO: Usamos la variable para el hover */
+  transform: scale(1.1); /* Efecto de crecimiento sutil */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* Aumentamos la separación de los botones respecto a la galería */
+.prev-btn {
+  margin-left: -75px; /* Más separado (antes -50px) */
+}
+
+.next-btn {
+  margin-right: -75px; /* Más separado (antes -50px) */
+}
+
+
+/* Decoración flotante (gifs zigzag) */
+.gif-zigzag {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  z-index: 50;
+  pointer-events: none;
+}
+.gif-zigzag img {
+  width: 150px;
+  height: auto;
+  opacity: 1;
+  animation: flotar 5s ease-in-out infinite;
+}
+.gif-zigzag.izquierda {
+  left: 0;
+  align-items: flex-start;
+}
+.gif-zigzag.izquierda img:nth-child(even) {
+  margin-left: 80px;
+}
+.gif-zigzag.derecha {
+  right: 0;
+  align-items: flex-end;
+}
+.gif-zigzag.derecha img:nth-child(even) {
+  margin-right: 80px;
+  margin-left: 0;
+}
+
+/* ======================================== */
+/* ANIMACIONES                            */
+/* ======================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* ======================================== */
+/* ESTILOS MEJORADOS MESA DE REGALOS      */
+/* ======================================== */
+
+.regalos-intro {
+  text-align: center;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto 30px auto; /* Centra el párrafo y le da espacio inferior */
+  line-height: 1.6;
+}
+
+.regalos-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* Asegura que las tarjetas tengan la misma altura */
+  gap: 30px;
+  flex-wrap: wrap; /* Permite que las tarjetas se apilen en pantallas pequeñas */
+  margin-top: 20px;
+}
+
+.regalo-card {
+  background: linear-gradient(145deg, #f9faff, #fdf6f9);
+  border-radius: var(--radius);
+  border: 1px solid #eef;
+  padding: 25px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.regalo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.tienda-logo {
+  max-height: 50px; /* Altura máxima para los logos */
+  width: auto;
+  max-width: 150px;
+  margin: 0 auto 20px auto;
+  object-fit: contain;
+}
+
+.btn-tienda {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 50px; /* Botones más redondeados */
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-tienda:hover {
+  background-color: var(--blue-dark);
+  transform: scale(1.05);
+}
+
+/* Ajuste para el logo de Amazon para que se vea bien */
+.regalo-card img[alt*="Amazon"] {
+  filter: invert(15%);
+}
+
+/* ======================================== */
+/* ADAPTATIVOS / MEDIA QUERIES           */
+/* ======================================== */
+
+/* TABLET */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html { font-size: 16px; }
+  body {
+    padding: 30px 20px;
+    padding-top: 70px;
+    font-size: 1em;
+  }
+
+  h1, h2, h3 { font-size: 1.8em; }
+
+  .card, .seccion {
+    padding: 25px;
+    max-width: 90%; /* Un poco más de ancho para aprovechar la pantalla */
+    margin: 30px auto;
+    font-size: 1em;
+  }
+
+  .menu-toggle { display: none; }
+  .menu-links {
+    flex-direction: row;
+    gap: 16px;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+  .menu-links a {
+    font-size: 1em;
+    padding: 8px 16px;
+    border: none;
+  }
+
+  /* --- AJUSTES PARA MANTENER DISEÑO ESCRITORIO --- */
+  
+  /* Itinerario */
+  .timeline-horizontal {
+    justify-content: flex-start; /* Alinea al inicio */
+  }
+
+  .itinerario-card {
+      flex: 0 0 180px; /* Asegura que no se encojan */
+  }
+
+  /* Videos */
+  .video-grid {
+    justify-content: flex-start; /* Alinea al inicio */
+  }
+
+  .video-item {
+      flex: 0 0 390px; /* Mantiene el ancho fijo */
+  }
+  
+  .video-grid iframe,
+  .video-grid video { height: 200px; }
+
+  /* Mesa de Regalos */
+  .regalos-container {
+      flex-wrap: nowrap; /* Evita que los elementos se apilen */
+      justify-content: center;
+  }
+
+  /* --- FIN DE LOS AJUSTES --- */
+
+  input, button { font-size: 1em; padding: 10px; }
+
+  .mapa iframe { height: 250px; }
+
+  .foto-stack-container {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .foto-stack {
+    height: 580px;
+  }
+  
+  .foto-stack .foto-item {
+    bottom: 0;
+    margin: auto;
+    height: fit-content;
+  }
+}
+
+/* MÓVIL */
+@media (max-width: 768px) {
+
+  .countdown {
+    gap: 8px;
+  }
+  .countdown div {
+    padding: 10px;
+    min-width: 60px;
+  }
+  .countdown span {
+    font-size: 1.8em;
+  }
+
+  html { font-size: 14px; }
+  body {
+    padding: 20px 10px;
+    padding-top: 60px;
+    font-size: 0.85em;
+  }
+
+  h1, h2, h3 { font-size: 1.5em; }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 10px;
+  }
+
+  .menu-toggle { display: block; font-size: 22px; padding: 5px; }
+  .menu-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+    background-color: #fff;
+    border-top: 1px solid var(--light-pink-bg);
+  }
+  .menu-links.show { display: flex; }
+  .menu-links a {
+    font-size: 0.9em;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--light-pink-bg);
+    text-align: left;
+  }
+
+  .card, .seccion {
+    padding: 15px;
+    max-width: 90%;
+    margin: 20px auto;
+    font-size: 0.9em;
+  }
+
+  /* --- AJUSTES PARA MÓVIL (CORREGIDOS) --- */
+
+  /* Videos */
+  .video-item {
+      flex: 0 0 280px;
+      scroll-snap-align: center;
+  }
+  .video-grid iframe,
+  .video-grid video { height: 150px; }
+  .video-title { font-size: 14px; }
+
+  /* Itinerario */
+  .itinerario-card {
+      flex: 0 0 150px;
+  }
+
+  /* Mesa de Regalos (AHORA CORREGIDO) */
+  .regalos-container {
+    flex-wrap: nowrap; /* ¡IMPORTANTE! Evita que las tarjetas se apilen */
+    gap: 15px; /* Reduce el espacio entre tarjetas */
+  }
+  
+  .regalo-card {
+      flex: 1; /* Permite que las tarjetas se encojan para caber */
+      padding: 15px; /* Reduce el espacio interno */
+      min-width: 0; /* Necesario para que flexbox pueda encoger los elementos */
+  }
+
+  .tienda-logo {
+      max-height: 35px; /* Hace los logos un poco más pequeños */
+      margin-bottom: 15px;
+  }
+
+  .btn-tienda {
+      padding: 10px 15px; /* Botones más compactos */
+      font-size: 0.9em;
+  }
+
+  /* --- FIN DE LOS AJUSTES --- */
+
+  input { font-size: 0.95em; padding: 8px; }
+  button { font-size: 0.95em; padding: 8px 16px; }
+
+  .mapa iframe { height: 200px; }
+
+  /* --- Galería de Pila en Móvil --- */
+  /* --- Galería de Pila en Móvil --- */
+  .foto-stack-container {
+    min-height: 500px; 
+    max-width: 280px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .foto-stack {
+    height: 480px;
+    max-width: 240px; 
+  }
+  
+  .foto-stack .foto-item {
+     max-width: 240px;
+     border-width: 8px;
+  }
+
+  .foto-stack .foto-item.prev {
+    transform: translateX(-20px) rotate(-7deg) scale(0.95);
+  }
+
+  .foto-stack .foto-item.next {
+    transform: translateX(20px) rotate(7deg) scale(0.95);
+  }
+
+  /* GIF zigzag más pequeño */
+  .gif-zigzag {
+    gap: 6px;
+  }
+  .gif-zigzag img {
+    width: 75px;
+    opacity: 0.8;
+  }
+  .gif-zigzag.izquierda img:nth-child(even) { margin-left: 40px; }
+  .gif-zigzag.derecha img:nth-child(even) { margin-right: 40px; }
+}
+
+/* ======================================== */
+/* AJUSTES PARA MÓVILES MUY PEQUEÑOS      */
+/* ======================================== */
+@media (max-width: 400px) {
+
+  /* --- AJUSTE CLAVE PARA EL CENTRADO --- */
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  /* --- FIN DEL AJUSTE --- */
+
+  
+
+  /* Los GIFs se mantienen visibles, el overflow lo controla la regla global */
+  .gif-zigzag img {
+    width: 60px;
+    opacity: 0.7;
+  }
+  .gif-zigzag.izquierda img:nth-child(even) {
+    margin-left: 20px;
+  }
+  .gif-zigzag.derecha img:nth-child(even) {
+    margin-right: 20px;
+  }
+
+
+  /* --- INICIA Bloque para Contador --- */
+  .countdown {
+    gap: 6px;
+  }
+  .countdown div {
+    padding: 10px 5px;
+    min-width: 0;
+    flex: 1;
+    font-size: 0.85em;
+  }
+  .countdown span {
+    font-size: 1.6em;
+  }
+  /* --- TERMINA Bloque para Contador --- */
+
+
+  /* --- INICIA Bloque para Galería de Pila --- */
+  .foto-stack-container {
+    max-width: 260px;
+    min-height: 450px;
+  }
+  .foto-stack {
+    height: 420px;
+  }
+  .foto-stack .foto-item {
+    max-width: 230px;
+  }
+  .foto-stack .foto-item.prev {
+    transform: translateX(-20px) rotate(-7deg) scale(0.95);
+  }
+  .foto-stack .foto-item.next {
+    transform: translateX(20px) rotate(7deg) scale(0.95);
+  }
+}

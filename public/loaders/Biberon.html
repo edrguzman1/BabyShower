@@ -1,0 +1,38 @@
+<div class="loader-container">
+    <svg class="bottle-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Capa de estrellas que se va a revelar -->
+        <defs>
+            <clipPath id="bottle-mask">
+                <path d="M 35 95 L 35 30 A 15 15 0 0 1 65 30 L 65 95 Z" />
+            </clipPath>
+            <pattern id="star-pattern" patternUnits="userSpaceOnUse" width="20" height="20">
+                <path d="M10 0 L13 7 L20 7 L15 12 L17 19 L10 15 L3 19 L5 12 L0 7 L7 7 Z" fill="#FFD34E"/>
+            </pattern>
+        </defs>
+
+        <!-- Líquido de estrellas animado -->
+        <g clip-path="url(#bottle-mask)">
+            <rect class="liquid" x="30" y="30" width="40" height="70" fill="url(#star-pattern)"/>
+        </g>
+
+        <!-- Biberón (contorno) -->
+        <g>
+            <!-- Cuerpo del biberón -->
+            <path d="M 35 95 L 35 30 A 15 15 0 0 1 65 30 L 65 95 Z" fill="rgba(132, 220, 198, 0.2)" stroke="#84DCC6" stroke-width="2"/>
+            <!-- Tapa -->
+            <rect x="30" y="20" width="40" height="10" fill="#FFD34E" rx="3"/>
+            <!-- Chupón -->
+            <path d="M 45 20 C 45 10, 55 10, 55 20 Z" fill="#F2B900" />
+        </g>
+        
+        <!-- Burbujas de estrellas -->
+        <g>
+            <path class="star-bubble star-bubble-1" d="M48 80 l2-2 2 2 -2 2z" fill="#FFD34E" />
+            <path class="star-bubble star-bubble-2" d="M55 85 l1.5-1.5 1.5 1.5 -1.5 1.5z" fill="#FFF9E6" />
+            <path class="star-bubble star-bubble-3" d="M42 75 l2.5-2.5 2.5 2.5 -2.5 2.5z" fill="#FFD34E" />
+            <path class="star-bubble star-bubble-4" d="M60 70 l2-2 2 2 -2 2z" fill="#FFF9E6" />
+            <path class="star-bubble star-bubble-5" d="M45 90 l1.5-1.5 1.5 1.5 -1.5 1.5z" fill="#FFD34E" />
+        </g>
+    </svg>
+    <p class="loading-text">Llenando de magia...</p>
+</div>
