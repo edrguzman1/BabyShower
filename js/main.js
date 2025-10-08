@@ -165,7 +165,7 @@ function initPageFunctions() {
 
     function normalizarNombre(nombre) {
         if (!nombre) return '';
-        return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z\s]/g, '').trim().toUpperCase();
+        return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, '').trim().toUpperCase();
     }
 
     window.registrarAsistencia = (nuevoEstatus) => {
