@@ -225,7 +225,7 @@ function initPageFunctions() {
                 showSimpleAlert(
                     'success',
                     '¡Ya estás confirmado!',
-                    `Gracias por registrarte de nuevo, ${nombreOriginal}. Te recordamos tu lugar: Mesa ${asistenteData.mesa}, Silla ${asistenteData.silla}.`
+                    `Gracias por registrarte, ${nombreOriginal}. Nos encantara verte.`
                 );
                 if (nombreInput) nombreInput.value = '';
                 return;
@@ -288,7 +288,7 @@ function initPageFunctions() {
                  showSimpleAlert(
                     'success', 
                     '¡Confirmación Exitosa!', 
-                    `Gracias por confirmar, ${nombreOriginal}. Tu lugar es: Mesa ${lugar.mesa}, Silla ${lugar.silla}.`
+                    `Gracias por confirmar, ${nombreOriginal}. Nos encatara verte pronto.`
                 );
             } else {
                  showSimpleAlert('success', '¡Gracias!', 'Tu respuesta se guardó correctamente.');

@@ -13,7 +13,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px; /* Ancho aumentado para la nueva columna */
             margin: 20px auto;
             background: white;
             padding: 30px;
@@ -36,46 +36,96 @@
             background-color: #fafbfe;
             border-radius: 8px;
         }
-        .stat-item h2 {
-            margin: 0 0 5px 0;
-            font-size: 2em;
-        }
-        .stat-item p {
-            margin: 0;
-            font-size: 0.9em;
-            color: #667;
-        }
+        .stat-item h2 { margin: 0 0 5px 0; font-size: 2em; }
+        .stat-item p { margin: 0; font-size: 0.9em; color: #667; }
         #confirmados-count { color: #28a745; }
         #cancelados-count { color: #dc3545; }
         #total-count { color: #007bff; }
         
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            color: white;
-            font-size: 0.85em;
-            font-weight: 500;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; font-weight: 600; }
+        td:last-child, th:last-child { text-align: center; } /* Centrar columna de acciones */
+        
+        .status-badge { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.85em; font-weight: 500; }
         .status-confirmado { background-color: #28a745; }
         .status-cancelado { background-color: #dc3545; }
-        #loading-message {
-            text-align: center;
-            padding: 40px;
-            color: #888;
+        #loading-message { text-align: center; padding: 40px; color: #888; }
+
+        .action-btn {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin: 0 3px;
+            transition: opacity 0.2s;
         }
+        .action-btn:hover { opacity: 0.8; }
+        .edit-btn { background-color: #007bff; color: white; }
+        .delete-btn { background-color: #dc3545; color: white; }
+
+        /* Estilos para el Modal de Edición */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateY(-50px);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: translateY(0);
+        }
+        .modal-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 { margin: 0; font-size: 1.2em; }
+        .modal-header #edit-guest-name { font-style: italic; color: #007bff; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal-footer {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .modal-footer button {
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .cancel-edit-btn { background-color: #6c757d; color: white; margin-right: 10px; }
+        .save-edit-btn { background-color: #28a745; color: white; }
     </style>
 </head>
 <body>
@@ -104,21 +154,44 @@
                     <th>Nombre</th>
                     <th>Estatus</th>
                     <th>Última Actualización</th>
-                    <th>Mesa</th> <th>Silla</th> </tr>
+                    <th>Mesa</th>
+                    <th>Silla</th>
+                    <th>Acciones</th> </tr>
             </thead>
             <tbody id="lista-invitados">
-                <!-- Los invitados se cargarán aquí dinámicamente -->
-            </tbody>
+                </tbody>
         </table>
         <p id="loading-message">Cargando lista de invitados...</p>
     </div>
 
-    <!-- Scripts de Firebase -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editando a <span id="edit-guest-name"></span></h2>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-guest-id">
+                <div class="form-group">
+                    <label for="edit-mesa">Mesa</label>
+                    <input type="number" id="edit-mesa" min="1" max="15">
+                </div>
+                <div class="form-group">
+                    <label for="edit-silla">Silla</label>
+                    <input type="number" id="edit-silla" min="1" max="10">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-edit-btn" onclick="closeEditModal()">Cancelar</button>
+                <button class="save-edit-btn" onclick="saveGuestChanges()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // 1. Pega aquí tu configuración de Firebase (la misma que usaste antes)
         const firebaseConfig = {
             apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
             authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
@@ -129,23 +202,20 @@
             appId: "1:564665563453:web:242aaba73a4768fa89ad54"
         };
 
-        // 2. Inicializa Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 3. Obtén referencias a los elementos del HTML
         const listaInvitadosBody = document.getElementById('lista-invitados');
         const loadingMessage = document.getElementById('loading-message');
         const confirmadosCountEl = document.getElementById('confirmados-count');
         const canceladosCountEl = document.getElementById('cancelados-count');
         const totalCountEl = document.getElementById('total-count');
+        const editModal = document.getElementById('edit-modal');
 
-        // 4. Escucha los cambios en la base de datos en tiempo real
         const asistentesRef = database.ref('asistentes');
         
-        // Ordena los resultados por nombre para mantener la lista organizada
+        // Escucha cambios en tiempo real y actualiza la tabla
         asistentesRef.orderByChild('nombre').on('value', (snapshot) => {
-            // Limpia la tabla actual antes de agregar los nuevos datos
             listaInvitadosBody.innerHTML = '';
             loadingMessage.style.display = 'none';
 
@@ -154,65 +224,39 @@
 
             if (snapshot.exists()) {
                 snapshot.forEach((childSnapshot) => {
+                    const guestId = childSnapshot.key;
                     const invitado = childSnapshot.val();
-
-                    // Crea una nueva fila para la tabla
                     const fila = document.createElement('tr');
-
-                    // --- INICIO DE LA CORRECCIÓN ---
-
-                    // Celda 1: Nombre
-                    const celdaNombre = document.createElement('td');
-                    celdaNombre.textContent = invitado.nombre || 'Sin nombre';
-                    fila.appendChild(celdaNombre);
-
-                    // Celda 2: Estatus
-                    const celdaEstatus = document.createElement('td');
-                    const badge = document.createElement('span');
-                    badge.textContent = invitado.estatus || 'Sin estatus';
-                    badge.classList.add('status-badge');
                     
-                    if (invitado.estatus === 'confirmado') {
-                        badge.classList.add('status-confirmado');
-                        confirmados++;
-                    } else {
-                        badge.classList.add('status-cancelado');
-                        cancelados++;
-                    }
-                    celdaEstatus.appendChild(badge);
-                    fila.appendChild(celdaEstatus);
+                    const isConfirmed = invitado.estatus === 'confirmado';
+
+                    // Se crea el contenido de la fila de forma más eficiente
+                    fila.innerHTML = `
+                        <td>${invitado.nombre || 'Sin nombre'}</td>
+                        <td>
+                            <span class="status-badge ${isConfirmed ? 'status-confirmado' : 'status-cancelado'}">
+                                ${invitado.estatus || 'N/A'}
+                            </span>
+                        </td>
+                        <td>${invitado.actualizadoEn ? new Date(invitado.actualizadoEn).toLocaleString() : 'N/A'}</td>
+                        <td>${invitado.mesa || 'N/A'}</td>
+                        <td>${invitado.silla || 'N/A'}</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="openEditModal('${guestId}', '${invitado.nombre}', '${invitado.mesa || ''}', '${invitado.silla || ''}')">Editar</button>
+                            <button class="action-btn delete-btn" onclick="deleteGuest('${guestId}', '${invitado.nombre}')">Eliminar</button>
+                        </td>
+                    `;
                     
-                    // Celda 3: Fecha de Actualización (¡ESTA FALTABA!)
-                    const celdaFecha = document.createElement('td');
-                    // Formateamos la fecha para que sea más legible
-                    try {
-                        celdaFecha.textContent = invitado.actualizadoEn ? new Date(invitado.actualizadoEn).toLocaleString() : 'N/A';
-                    } catch (e) {
-                        celdaFecha.textContent = 'Fecha inválida';
-                    }
-                    fila.appendChild(celdaFecha);
-
-                    // Celda 4: Mesa (¡ESTA FALTABA!)
-                    const celdaMesa = document.createElement('td');
-                    celdaMesa.textContent = invitado.mesa || 'N/A'; // Muestra N/A si no tiene mesa
-                    fila.appendChild(celdaMesa);
-
-                    // Celda 5: Silla (¡ESTA FALTABA!)
-                    const celdaSilla = document.createElement('td');
-                    celdaSilla.textContent = invitado.silla || 'N/A'; // Muestra N/A si no tiene silla
-                    fila.appendChild(celdaSilla);
-
-                    // --- FIN DE LA CORRECCIÓN ---
-
-                    // Agrega la fila completa a la tabla
                     listaInvitadosBody.appendChild(fila);
+
+                    if (isConfirmed) confirmados++;
+                    else cancelados++;
                 });
             } else {
                 loadingMessage.textContent = "Aún no hay respuestas.";
                 loadingMessage.style.display = 'block';
             }
 
-            // Actualiza los contadores
             confirmadosCountEl.textContent = confirmados;
             canceladosCountEl.textContent = cancelados;
             totalCountEl.textContent = confirmados + cancelados;
@@ -220,6 +264,102 @@
             console.error("Error al leer los datos: ", error);
             loadingMessage.textContent = "Error al cargar los datos.";
             loadingMessage.style.display = 'block';
+        });
+
+        // --- FUNCIONES PARA ELIMINAR INVITADOS ---
+        function deleteGuest(guestId, guestName) {
+            if (confirm(`¿Estás seguro de que quieres eliminar a ${guestName}? Esta acción es irreversible.`)) {
+                asistentesRef.child(guestId).remove()
+                    .then(() => {
+                        alert(`${guestName} ha sido eliminado.`);
+                    })
+                    .catch((error) => {
+                        alert('Hubo un error al eliminar al invitado.');
+                        console.error("Error al eliminar:", error);
+                    });
+            }
+        }
+
+        // --- FUNCIONES PARA EDITAR INVITADOS (MODAL) ---
+        function openEditModal(guestId, guestName, mesa, silla) {
+            document.getElementById('edit-guest-id').value = guestId;
+            document.getElementById('edit-guest-name').textContent = guestName;
+            document.getElementById('edit-mesa').value = mesa;
+            document.getElementById('edit-silla').value = silla;
+            editModal.classList.add('visible');
+        }
+
+        function closeEditModal() {
+            editModal.classList.remove('visible');
+        }
+
+        async function saveGuestChanges() {
+            const guestId = document.getElementById('edit-guest-id').value;
+            const newMesa = parseInt(document.getElementById('edit-mesa').value, 10);
+            const newSilla = parseInt(document.getElementById('edit-silla').value, 10);
+
+            if (!guestId || isNaN(newMesa) || isNaN(newSilla)) {
+                alert("Por favor, introduce un número válido para mesa y silla.");
+                return;
+            }
+
+            try {
+                // Obtenemos los datos del invitado que se está editando
+                const currentGuestSnapshot = await asistentesRef.child(guestId).once('value');
+                const currentGuestData = currentGuestSnapshot.val();
+                
+                // Buscamos si otro invitado ocupa el asiento de destino
+                const snapshot = await asistentesRef.once('value');
+                let targetSeatOccupiedBy = null;
+                let otherGuestId = null;
+
+                snapshot.forEach(childSnapshot => {
+                    const invitado = childSnapshot.val();
+                    if (invitado.mesa === newMesa && invitado.silla === newSilla && childSnapshot.key !== guestId) {
+                        targetSeatOccupiedBy = invitado;
+                        otherGuestId = childSnapshot.key;
+                    }
+                });
+                
+                // Si el asiento está ocupado, hacemos el intercambio
+                if (targetSeatOccupiedBy && otherGuestId) {
+                    if (!confirm(`El asiento ${newMesa}-${newSilla} está ocupado por ${targetSeatOccupiedBy.nombre}. ¿Deseas intercambiar sus lugares?`)) {
+                        return; // El usuario canceló la operación
+                    }
+                    
+                    const updates = {};
+                    // Mover invitado actual al nuevo asiento
+                    updates[`/asistentes/${guestId}/mesa`] = newMesa;
+                    updates[`/asistentes/${guestId}/silla`] = newSilla;
+                    // Mover al otro invitado al asiento antiguo del invitado actual
+                    updates[`/asistentes/${otherGuestId}/mesa`] = currentGuestData.mesa;
+                    updates[`/asistentes/${otherGuestId}/silla`] = currentGuestData.silla;
+
+                    await database.ref().update(updates);
+                    alert("¡Intercambio realizado con éxito!");
+
+                } else {
+                    // Si el asiento está libre, simplemente actualizamos
+                    await asistentesRef.child(guestId).update({
+                        mesa: newMesa,
+                        silla: newSilla
+                    });
+                    alert("Asignación actualizada correctamente.");
+                }
+
+                closeEditModal();
+
+            } catch(error) {
+                alert("Ocurrió un error al guardar los cambios.");
+                console.error("Error al guardar:", error);
+            }
+        }
+        
+        // Cierra el modal si se hace clic fuera de él
+        window.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                closeEditModal();
+            }
         });
 
     </script>
