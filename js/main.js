@@ -288,7 +288,7 @@ function initPageFunctions() {
                  showSimpleAlert(
                     'success', 
                     '¡Confirmación Exitosa!', 
-                    `Gracias por confirmar, ${nombreOriginal}. Nos encatara verte pronto.`
+                    `Gracias por confirmar, ${nombreOriginal}. Nos encantara verte pronto.`
                 );
             } else {
                  showSimpleAlert('success', '¡Gracias!', 'Tu respuesta se guardó correctamente.');
