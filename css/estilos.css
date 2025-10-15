@@ -390,6 +390,93 @@ button:hover {
   border-radius: 10px;
 }
 
+/* ======================================== */
+/* NUEVOS ESTILOS PARA LA GALERÍA DE VIMEO */
+/* ======================================== */
+
+/* Contenedor principal del carrusel de Vimeo */
+.vimeo-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+/* Contenedor de cada video individual */
+.vimeo-item {
+  flex: 0 0 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-snap-align: start;
+}
+
+/* Contenedor responsive para el iframe */
+.vimeo-item .vimeo-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Proporción 16:9 para el video */
+    height: 0;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.vimeo-item .vimeo-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Título debajo de cada video de Vimeo */
+.vimeo-title {
+  margin-top: 15px; /* Aumentamos el margen para que no esté pegado */
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  font-family: var(--font-base);
+}
+
+/* Placeholder para videos que aún no se han subido */
+.vimeo-placeholder {
+    width: 100%;
+    padding-top: 56.25%; /* Proporción 16:9 */
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #aaa;
+    font-family: var(--font-base);
+}
+
+/* Scrollbar personalizado para grids */
+.vimeo-grid::-webkit-scrollbar,
+.timeline-horizontal::-webkit-scrollbar {
+  height: 10px;
+}
+
+.vimeo-grid::-webkit-scrollbar-thumb,
+.timeline-horizontal::-webkit-scrollbar-thumb {
+  background-color: var(--pink);
+  border-radius: 10px;
+}
+
+
+/* Mapa */
+.mapa iframe {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+
 /* Mapa */
 .mapa iframe {
   width: 100%;

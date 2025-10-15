@@ -95,7 +95,7 @@
     <div id="contenedor-formulario">
         <div id="rsvp-normal" class="rsvp-form">
             <div class="titulo-con-tooltip">
-                <h3>Confirma tu asistencia</h3>
+                <h3>Cupo limitado confirma tu asistencia</h3>
                 <div class="tooltip-icono">?
                     <span class="tooltip-texto">
                         Si vienes con acompañantes, puedes confirmar su asistencia registrando un nombre a la vez.
@@ -104,7 +104,7 @@
                     </span>
                 </div>
             </div>
-            <p>Por favor, escribe tu nombre y selecciona una opción:</p>
+            <p>Por favor, escribe tu nombre completo y selecciona una opción:</p>
             <input type="text" id="nombreInvitado" placeholder="Tu nombre completo" required />
             <div class="botones-rsvp">
                 <button class="btn-confirm" onclick="registrarAsistencia('confirmado')">
@@ -234,51 +234,75 @@
     </div>
 </div>
 
-<div class="seccion" id="videos">
+<!-- NUEVA SECCIÓN DE VIDEOS DE VIMEO -->
+<div class="seccion" id="vimeo-videos">
   <h3>🎬 Nuestro embarazo capturado en video</h3>
-  <div class="video-grid">
+  <div class="vimeo-grid">
 
-    <div class="video-item">
-      <video controls>
-        <source src="VideosBebe/1.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <p class="video-title">11 Semanas. Eres un ajolotito.</p>
+    <div class="vimeo-item">
+      <div class="vimeo-wrapper">
+        <iframe 
+          src="https://player.vimeo.com/video/1127607690?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+          title="1">
+        </iframe>
+      </div>
+      <p class="vimeo-title">11 Semanas. Eres un ajolotito.</p>
     </div>
-    <div class="video-item">
-      <video controls>
-        <source src="VideosBebe/2.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <p class="video-title">13 Semanas. Wow tu corazoncito.</p>
+
+    <div class="vimeo-item">
+      <div class="vimeo-wrapper">
+        <iframe 
+          src="https://player.vimeo.com/video/1127607787?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+          title="2">
+        </iframe>
+      </div>
+      <p class="vimeo-title">13 Semanas. Wow tu corazoncito.</p>
     </div>
-    <div class="video-item">
-      <video controls>
-        <source src="VideosBebe/3.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <p class="video-title">15 semanas. Tu corazón late muy fuerte.</p>
+
+    <div class="vimeo-item">
+      <div class="vimeo-wrapper">
+        <iframe 
+          src="https://player.vimeo.com/video/1127607863?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+          title="3">
+        </iframe>
+      </div>
+      <p class="vimeo-title">15 semanas. Tu corazón late muy fuerte.</p>
     </div>
-    <div class="video-item">
-      <video controls>
-        <source src="VideosBebe/4.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <p class="video-title">23 Semanas. Cuanto has crecido.</p>
+
+    <div class="vimeo-item">
+      <div class="vimeo-wrapper">
+        <iframe 
+          src="https://player.vimeo.com/video/1127607455?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+          title="4">
+        </iframe>
+      </div>
+      <p class="vimeo-title">23 Semanas. Cuanto has crecido.</p>
     </div>
-    <div class="video-item">
-      <video controls>
-        <source src="VideosBebe/5.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <p class="video-title">23 Semanas. Que hermoso tu corazoncito.</p>
+
+    <div class="vimeo-item">
+      <div class="vimeo-wrapper">
+        <iframe 
+          src="https://player.vimeo.com/video/1127607539?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+          title="5">
+        </iframe>
+      </div>
+      <p class="vimeo-title">23 Semanas. Que hermoso tu corazoncito.</p>
     </div>
-    <div class="video-item">
-      <video controls>
-        <source src="VideosBebe/6.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <p class="video-title">23 semanas. Dan mucha ternura tus pies.</p>
+    
+    <div class="vimeo-item">
+      <div class="vimeo-wrapper">
+        <iframe 
+          src="https://player.vimeo.com/video/1127607628?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+          title="6">
+        </iframe>
+      </div>
+      <p class="vimeo-title">23 semanas. Dan mucha ternura tus pies.</p>
     </div>
 
   </div>

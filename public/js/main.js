@@ -3,19 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Lista de todos tus archivos de loaders
     const loaderFiles = [
-        'Biberon.html',
-        'BloquesBaby.html',
-        'Cigueña.html',
-        'Cochecito.html',
-        'HorneandoAlgo.html',
-        'Lluvia.html',
-        'Luna.html',
-        'Milagro.html',
-        'Patito.html',
-        'Rehilete.html',
-        'Saltando.html',
-        'Sonajero.html',
-        'Tendedero.html'
+        'Biberon.html', 'BloquesBaby.html', 'Cigueña.html', 'Cochecito.html', 
+        'HorneandoAlgo.html', 'Lluvia.html', 'Luna.html', 'Milagro.html', 
+        'Patito.html', 'Rehilete.html', 'Saltando.html', 'Sonajero.html', 'Tendedero.html'
     ];
     
     // Elige un loader al azar
@@ -33,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (html.trim().length > 0) {
                     loaderWrapper.innerHTML = html;
                 } else {
-                    // Si el archivo está vacío, oculta el wrapper y continúa
                     hideLoaderAndInitPage();
                 }
             })
@@ -42,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideLoaderAndInitPage();
             });
     } else {
-        // Si no hay wrapper o archivo, inicia la página directamente
         initPageFunctions();
     }
 
@@ -65,14 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // --- FUNCIÓN QUE INICIALIZA TODO EL JAVASCRIPT DE LA PÁGINA ---
 function initPageFunctions() {
-    // Esta bandera evita que la función se ejecute más de una vez
     if (window.pageInitialized) return;
     window.pageInitialized = true;
 
     console.log("Inicializando funciones de la página...");
 
     // =================================================================================
-    // AQUÍ COMIENZA TODO TU CÓDIGO ORIGINAL (MODAL, FIREBASE, GALERÍA, ETC.)
+    // CÓDIGO DEL MODAL Y CONFIGURACIÓN DE FIREBASE
     // =================================================================================
     let modalContainer = document.getElementById('custom-modal-container');
     let modal = document.getElementById('custom-modal');
@@ -162,58 +149,169 @@ function initPageFunctions() {
 
     const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
+    
+    // =================================================================================
+    // LÓGICA PARA ASIGNACIÓN DE MESAS Y SILLAS (CORREGIDA)
+    // =================================================================================
+
+    const MAX_MESAS = 15;
+    const SILLAS_POR_MESA = 10;
 
     function normalizarNombre(nombre) {
         if (!nombre) return '';
-        return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z\s]/g, '').trim().toUpperCase();
+        return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, '').trim().toUpperCase();
+    }
+    
+    // *** FUNCIÓN MODIFICADA ***
+    // Ahora solo considera ocupados los lugares de invitados con estatus 'confirmado'.
+    async function encontrarLugarDisponible() {
+        const asistentesRef = database.ref('asistentes');
+        const snapshot = await asistentesRef.once('value');
+        const asistentes = snapshot.val();
+        let lugaresOcupados = new Set();
+
+        if (asistentes) {
+            for (const key in asistentes) {
+                const invitado = asistentes[key];
+                // Solo si el invitado está 'confirmado' y tiene lugar, se considera ocupado.
+                if (invitado.estatus === 'confirmado' && invitado.mesa && invitado.silla) {
+                    lugaresOcupados.add(`${invitado.mesa}-${invitado.silla}`);
+                }
+            }
+        }
+        
+        for (let mesa = 1; mesa <= MAX_MESAS; mesa++) {
+            for (let silla = 1; silla <= SILLAS_POR_MESA; silla++) {
+                if (!lugaresOcupados.has(`${mesa}-${silla}`)) {
+                    return { mesa, silla };
+                }
+            }
+        }
+        return null;
     }
 
-    window.registrarAsistencia = (nuevoEstatus) => {
+    window.registrarAsistencia = async (nuevoEstatus) => {
         const nombreInput = document.getElementById('nombreInvitado');
         let nombreOriginal = nombreDesdeURL || (nombreInput ? nombreInput.value.trim() : '');
+
         if (nombreOriginal === '') {
             showSimpleAlert('error', '¡Oh, no!', 'Por favor, escribe tu nombre antes de confirmar.');
             return;
         }
+
         const nombreNormalizado = normalizarNombre(nombreOriginal);
-        const nombreParaGuardar = nombreOriginal.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         const esConfirmacion = nuevoEstatus === 'confirmado';
+
+        if (!esConfirmacion) {
+            const config = {
+                type: 'error',
+                title: '¿No podrás asistir?',
+                message: `Lamentaremos no verte, ${nombreOriginal}. ¿Estás seguro?`,
+                onConfirm: () => {
+                     guardarAsistencia(nombreOriginal, nombreNormalizado, nuevoEstatus, null);
+                },
+                onCancel: () => console.log("El usuario canceló el rechazo.")
+            };
+            showCustomConfirm(config);
+            return;
+        }
+
+        const asistentesRef = database.ref('asistentes');
+        const snapshot = await asistentesRef.orderByChild('nombreNormalizado').equalTo(nombreNormalizado).once('value');
+
+        if (snapshot.exists()) {
+            const asistenteData = Object.values(snapshot.val())[0];
+            if (asistenteData.estatus === 'confirmado' && asistenteData.mesa && asistenteData.silla) {
+                showSimpleAlert(
+                    'success',
+                    '¡Ya estás confirmado!',
+                    `Gracias por registrarte, ${nombreOriginal}. Nos encantara verte.`
+                );
+                if (nombreInput) nombreInput.value = '';
+                return;
+            }
+        }
+        
+        const lugar = await encontrarLugarDisponible();
+        if (!lugar) {
+            showSimpleAlert('error', '¡Evento Lleno!', 'Lo sentimos, todos los lugares han sido ocupados.');
+            return;
+        }
+
         const config = {
-            type: esConfirmacion ? 'success' : 'error',
-            title: esConfirmacion ? '¿Confirmas tu asistencia?' : '¿No podrás asistir?',
-            message: esConfirmacion ? `¡Qué alegría, ${nombreOriginal}! Te esperamos.` : `Lamentaremos no verte, ${nombreOriginal}. ¿Estás seguro?`,
+            type: 'success',
+            title: '¿Confirmas tu asistencia?',
+            message: `¡Qué alegría, ${nombreOriginal}! Te esperamos.`,
             onConfirm: () => {
-                const asistentesRef = database.ref('asistentes');
-                asistentesRef.once('value').then(snapshot => {
-                    let claveDelAsistente = null;
-                    snapshot.forEach(childSnapshot => {
-                        const nombreEnDBNormalizado = normalizarNombre(childSnapshot.val().nombre);
-                        if (nombreEnDBNormalizado === nombreNormalizado) {
-                            claveDelAsistente = childSnapshot.key;
-                        }
-                    });
-                    if (claveDelAsistente) {
-                        return database.ref(`asistentes/${claveDelAsistente}`).update({ estatus: nuevoEstatus, actualizadoEn: new Date().toISOString() });
-                    } else {
-                        return asistentesRef.push({ nombre: nombreParaGuardar, estatus: nuevoEstatus, registradoEn: new Date().toISOString() });
-                    }
-                }).then(() => {
-                    showSimpleAlert('success', '¡Gracias!', 'Tu respuesta se guardó correctamente.', () => {
-                        if (nombreDesdeURL) {
-                            window.location.href = window.location.pathname;
-                        }
-                    });
-                    if(nombreInput) nombreInput.value = '';
-                }).catch(error => {
-                    console.error("¡ERROR DE FIREBASE!", error);
-                    showSimpleAlert('error', 'Error', 'Ocurrió un problema al guardar tu respuesta.');
-                });
+                guardarAsistencia(nombreOriginal, nombreNormalizado, nuevoEstatus, lugar);
             },
-            onCancel: () => console.log("El usuario canceló la operación desde el modal.")
+            onCancel: () => console.log("El usuario canceló la confirmación.")
         };
         showCustomConfirm(config);
+    };
+
+    // *** FUNCIÓN MODIFICADA ***
+    // Ahora, si el estatus no es 'confirmado', borra la mesa y silla (asigna null).
+    async function guardarAsistencia(nombreOriginal, nombreNormalizado, estatus, lugar) {
+        const asistentesRef = database.ref('asistentes');
+        const snapshot = await asistentesRef.orderByChild('nombreNormalizado').equalTo(nombreNormalizado).once('value');
+        const fechaISO = new Date().toISOString();
+        let datosParaGuardar = {
+            nombre: nombreOriginal.trim(),
+            nombreNormalizado: nombreNormalizado,
+            estatus: estatus,
+            actualizadoEn: fechaISO
+        };
+
+        if (estatus === 'confirmado' && lugar) {
+            datosParaGuardar.mesa = lugar.mesa;
+            datosParaGuardar.silla = lugar.silla;
+        } else {
+            // Si cancela o cualquier otro estatus, se libera el asiento.
+            datosParaGuardar.mesa = null;
+            datosParaGuardar.silla = null;
+        }
+
+        let operacionFirebase;
+        if (snapshot.exists()) {
+            const claveDelAsistente = Object.keys(snapshot.val())[0];
+            operacionFirebase = database.ref(`asistentes/${claveDelAsistente}`).update(datosParaGuardar);
+        } else {
+            datosParaGuardar.registradoEn = fechaISO;
+            operacionFirebase = asistentesRef.push(datosParaGuardar);
+        }
+
+        try {
+            await operacionFirebase;
+            
+            if (estatus === 'confirmado' && lugar) {
+                 showSimpleAlert(
+                    'success', 
+                    '¡Confirmación Exitosa!', 
+                    `Gracias por confirmar, ${nombreOriginal}. Nos encantara verte pronto.`
+                );
+            } else {
+                 showSimpleAlert('success', '¡Gracias!', 'Tu respuesta se guardó correctamente.');
+            }
+
+            const nombreInput = document.getElementById('nombreInvitado');
+            if (nombreInput) nombreInput.value = '';
+            
+            if (nombreDesdeURL) {
+                setTimeout(() => {
+                    window.location.href = window.location.pathname;
+                }, 4000); 
+            }
+
+        } catch (error) {
+            console.error("¡ERROR DE FIREBASE!", error);
+            showSimpleAlert('error', 'Error', 'Ocurrió un problema al guardar tu respuesta.');
+        }
     }
 
+    // =================================================================================
+    // EL RESTO DE TU CÓDIGO (GALERÍA, CUENTA REGRESIVA, ETC.)
+    // =================================================================================
     window.abrirLightbox = (imagen) => {
         const lightbox = document.getElementById("lightbox");
         const lightboxImg = document.getElementById("lightbox-img");
@@ -255,7 +353,7 @@ function initPageFunctions() {
             if (diferencia < 0) {
                 clearInterval(actualizarCuentaRegresiva);
                 if(document.getElementById("countdown")) {
-                  document.getElementById("countdown").innerHTML = "¡El gran día ha llegado!";
+                    document.getElementById("countdown").innerHTML = "¡El gran día ha llegado!";
                 }
                 return;
             }
