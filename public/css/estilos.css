@@ -17,9 +17,9 @@ html, body {
   /* Colores */
   --pink: #F5B895; /* Durazno Cálido (Color Principal) */
   --pink-hover: #E89F71; /* Durazno más oscuro para hover */
-  --light-pink-bg: #FEF6F0; /* Fondo Durazno muy claro */
-  --light-blue-bg: #F4F7F4; /* Fondo Salvia muy claro */
-  --blue: #A8D0B5; /* Verde Salvia (Color Secundario) */
+  --light-pink-bg: #fef4f0; /* Fondo Durazno muy claro */
+  --light-blue-bg: #f7f5f4; /* Fondo Salvia muy claro */
+  --blue: #d0b7a8; /* Verde Salvia (Color Secundario) */
   --blue-dark: #8RB895; /* Salvia más oscuro para hover */
   --link-bg-hover: #FBEAE0; /* Fondo para hover de enlaces */
   --text-muted: #aaa;
@@ -187,7 +187,7 @@ button:hover {
 }
 
 .rsvp-form h3 {
-  color: var(--blue);
+  color:#e43e0b;
   font-size: 1.6em;
   margin-bottom: 5px;
 }
