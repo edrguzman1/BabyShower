@@ -55,14 +55,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const generoElement = document.getElementById('info-genero');
         const nombreElement = document.getElementById('info-nombre');
         const inicioSection = document.getElementById('inicio'); 
+        const itinerarioSection = document.getElementById('itinerario'); 
         const ubicacionSection = document.getElementById('ubicacion'); 
         const videoElement = document.querySelector('video.logo');
         const videoSource = document.querySelector('video.logo source');
 
         // Función para manejar el estado por defecto (antes de la revelación o en error)
         const setDefaultState = () => {
+            document.body.classList.remove('theme-girl'); // <-- QUITA LA CLASE DEL TEMA
             if (revelacionSection) revelacionSection.style.display = 'none'; 
             if (inicioSection) inicioSection.style.display = 'block'; 
+            if (itinerarioSection) itinerarioSection.style.display = 'block'; 
             if (ubicacionSection) ubicacionSection.style.display = 'block';
             if (videoSource && videoElement) {
                 videoSource.src = 'img/Baby Logo 2.webm';
@@ -81,18 +84,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (configData && configData.mostrarRevelacion === true) {
                     // --- Estado "Revelado" ---
-                    // Esto se ejecuta MIENTRAS el loader está visible
+                    document.body.classList.add('theme-girl'); // <-- AÑADE LA CLASE DEL TEMA
+
                     if (revelacionSection && generoElement && nombreElement) {
-                        generoElement.textContent = `Género: ${configData.genero || 'No especificado'}`;
-                        nombreElement.textContent = `Nombre: ${configData.nombre || 'No especificado'}`;
+                        
+                        generoElement.textContent = configData.genero || '¡Es una Niña!';
+                        
+                        const nombreTexto = configData.nombre || 'Bebé Guzmán Miranda';
+                        const palabras = nombreTexto.split(' ');
+                        nombreElement.innerHTML = ''; 
+                        palabras.forEach((palabra, index) => {
+                            const span = document.createElement('span');
+                            span.textContent = palabra; 
+                            span.style.animationDelay = `${0.8 + index * 0.2}s`; 
+                            nombreElement.appendChild(span);
+                        });
+                        
                         revelacionSection.style.display = 'block';
+                        // Generar iconos SÓLO para la sección de revelación si está activa
+                        const revelacionIconContainer = document.getElementById('revelacion-icon-container');
+                        if(revelacionIconContainer) generarIconosFlotantes(revelacionIconContainer);
+
                     }
+                    
                     if (inicioSection) inicioSection.style.display = 'none'; 
+                    if (itinerarioSection) itinerarioSection.style.display = 'none';
                     if (ubicacionSection) ubicacionSection.style.display = 'none';
+                    
                     if (videoSource && videoElement) {
                         videoSource.src = 'img/Familia Logo.webm'; 
                         videoElement.load(); 
                     }
+                    
                     if (regalosIntroElement && configData.mesaRegalos) {
                         regalosIntroElement.innerHTML = configData.mesaRegalos; 
                     }
@@ -111,11 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- INICIALIZA EL RESTO DE LA UI (MODALES, GALERÍA, ETC.) ---
-    // Esto se ejecuta en paralelo, no espera a las promesas
+    // Y AHORA TAMBIÉN GENERA LOS ICONOS PARA TODAS LAS SECCIONES
     initPageUI(database); 
 
     // --- OCULTAR EL LOADER ---
-    // Espera a que las 3 tareas (tiempo, loader, firebase) terminen
     Promise.all([minTimePromise, loaderFetchPromise, firebaseDataPromise])
         .then(() => {
             if (loaderWrapper) {
@@ -129,15 +151,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }); // Fin de DOMContentLoaded
 
 // --- FUNCIÓN QUE INICIALIZA EL RESTO DE LA PÁGINA ---
-// (Ya no contiene la lógica del loader ni la consulta de config)
+// (Modificada para llamar a generarIconosFlotantes para todos los contenedores)
 function initPageUI(database) {
     if (window.pageInitialized) return;
     window.pageInitialized = true;
 
-    console.log("Inicializando UI de la página (modales, galería, etc.)...");
+    console.log("Inicializando UI de la página (modales, galería, iconos flotantes, etc.)...");
 
     // =================================================================================
-    // CÓDIGO DEL MODAL Y LÓGICA DE ASISTENCIA
+    // CÓDIGO DEL MODAL Y LÓGICA DE ASISTENCIA (sin cambios)
     // =================================================================================
     let modalContainer = document.getElementById('custom-modal-container');
     let modal = document.getElementById('custom-modal');
@@ -216,7 +238,7 @@ function initPageUI(database) {
     }
     
     // =================================================================================
-    // LÓGICA PARA ASIGNACIÓN DE MESAS Y SILLAS
+    // LÓGICA PARA ASIGNACIÓN DE MESAS Y SILLAS (sin cambios)
     // =================================================================================
 
     const MAX_MESAS = 15;
@@ -369,7 +391,7 @@ function initPageUI(database) {
     }
 
     // =================================================================================
-    // EL RESTO DE TU CÓDIGO (GALERÍA, CUENTA REGRESIVA, ETC.)
+    // EL RESTO DE TU CÓDIGO (GALERÍA, CUENTA REGRESIVA, ETC.) (sin cambios)
     // =================================================================================
     window.abrirLightbox = (imagen) => {
         const lightbox = document.getElementById("lightbox");
@@ -464,5 +486,49 @@ function initPageUI(database) {
         }
         
         updateStack();
+    }
+
+    // --- (MODIFICADO) Generar iconos para TODAS las secciones ---
+    const iconContainers = document.querySelectorAll('.icon-container'); // Selecciona TODOS los contenedores
+    iconContainers.forEach(container => {
+        // Llama a la función solo si el contenedor NO es el de revelación (ese se maneja arriba si es true)
+        if(container.id !== 'revelacion-icon-container'){
+             generarIconosFlotantes(container);
+        }
+    });
+}
+
+
+/**
+ * (MODIFICADO)
+ * Genera los iconos flotantes para un contenedor específico.
+ * @param {HTMLElement} iconContainer - El elemento div donde se agregarán los iconos.
+ */
+function generarIconosFlotantes(iconContainer) {
+    if (!iconContainer) return; // Salir si el contenedor no existe
+
+    iconContainer.innerHTML = ''; // Limpiar por si acaso
+    const iconCount = 10; // Cantidad de iconos por contenedor
+    // SVGs de Corazón y Estrella
+    const icons = [
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.04 3 5.5l7 7Z"/></svg>`,
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+    ];
+
+    for (let i = 0; i < iconCount; i++) {
+        const iconWrapper = document.createElement('div');
+        iconWrapper.classList.add('floating-icon');
+        iconWrapper.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+
+        // (MODIFICADO) Rango de tamaño aprox 20% más grande: 14px a 34px
+        const size = Math.random() * 20 + 14; 
+        iconWrapper.style.width = `${size}px`;
+        iconWrapper.style.height = `${size}px`;
+        iconWrapper.style.left = `${Math.random() * 100}%`;
+        iconWrapper.style.bottom = `${Math.random() * 20 - 10}%`;
+        iconWrapper.style.animationDelay = `${Math.random() * 5}s`;
+        iconWrapper.style.animationDuration = `${Math.random() * 4 + 5}s`; // entre 5 y 9 segundos
+
+        iconContainer.appendChild(iconWrapper);
     }
 }

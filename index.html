@@ -29,6 +29,7 @@
 </head>
 <body>
 
+  <!-- Este contenedor ahora estará vacío. JavaScript lo llenará. -->
   <div id="loader-wrapper"></div>
   
   <div class="navbar">
@@ -76,6 +77,9 @@
   </video>
 
   <div class="card" id="inicio">
+    <!-- Contenedor de Iconos Flotantes para #inicio -->
+    <div class="icon-container" id="inicio-icon-container"></div> 
+    
     <h1 id="saludo-principal">¡Estás Invitado!</h1>
     <p class="intro-text" id="texto-introduccion">Una nueva aventura está por comenzar y queremos que seas parte de ella. <strong>¡Acompáñanos a celebrar la dulce espera de nuestro bebé!</strong> 💖💙</p>
     
@@ -130,218 +134,255 @@
     </div>
 </div>
 
-<div class="seccion" id="revelacion-info" style="display: none;"> 
-  <h3>💖💙 ¡La Sorpresa! 💙💖</h3>
-  <p id="info-genero"></p>
-  <p id="info-nombre"></p>
+<!-- ===== SECCIÓN DE REVELACIÓN MODIFICADA ===== -->
+<div class="seccion" id="revelacion-info" style="display: none;">
+    <!-- Contenedor para iconos flotantes (CSS) -->
+    <div class="icon-container" id="revelacion-icon-container">
+        <!-- El JS lo llenará de iconos -->
+    </div>
+    <h3>¡Gracias por formar parte de este momento!</h3>
+    <!-- Género -->
+    <div class="revelacion-titulo-container">
+        <!-- Icono de corazón -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="revelacion-icon"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.04 3 5.5l7 7Z"/></svg>
+        
+        <!-- Este <p> será llenado por JS con el dato de "genero" -->
+        <p id="info-genero" class="revelacion-genero"></p>
+        
+        <!-- Icono de corazón -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="revelacion-icon"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.04 3 5.5l7 7Z"/></svg>
+    </div>
+
+    <p class="revelacion-subtexto">Estamos muy felices de compartir que pronto llegará:</p>
+
+    <!-- Este <h1> será llenado por JS con el dato de "nombre" -->
+    <h1 id="info-nombre" class="revelacion-nombre">
+        <!-- JS reemplazará esto con <span> por cada palabra -->
+    </h1>
+
+    <p class="revelacion-subtexto-final">¡Una nueva estrella iluminará nuestra familia!</p>
 </div>
+<!-- ===== FIN DE SECCIÓN MODIFICADA ===== -->
 
 <div class="seccion" id="itinerario">
-  <h3>🗓️ Itinerario del Evento</h3>
-  <div class="timeline-horizontal">
-    <div class="itinerario-card">
-      <div class="itinerario-icono">🎉</div>
-      <p class="itinerario-hora">2:00 PM</p>
-      <p class="itinerario-actividad">Bienvenida</p>
-    </div>
+    <!-- Contenedor de Iconos Flotantes para #itinerario -->
+    <div class="icon-container" id="itinerario-icon-container"></div>
 
-    <div class="itinerario-card">
-      <div class="itinerario-icono">🍽️</div>
-      <p class="itinerario-hora">2:30 PM</p>
-      <p class="itinerario-actividad">Comida</p>
+    <h3>🗓️ Itinerario del Evento</h3>
+    <div class="timeline-horizontal">
+        <div class="itinerario-card">
+          <div class="itinerario-icono">🎉</div>
+          <p class="itinerario-hora">2:00 PM</p>
+          <p class="itinerario-actividad">Bienvenida</p>
+        </div>
+    
+        <div class="itinerario-card">
+          <div class="itinerario-icono">🍽️</div>
+          <p class="itinerario-hora">2:30 PM</p>
+          <p class="itinerario-actividad">Comida</p>
+        </div>
+    
+        <div class="itinerario-card">
+          <div class="itinerario-icono">🎲</div>
+          <p class="itinerario-hora">4:00 PM</p>
+          <p class="itinerario-actividad">Juegos y Diversión</p>
+        </div>
+    
+        <div class="itinerario-card">
+          <div class="itinerario-icono">💙👶🏻💖</div>
+          <p class="itinerario-hora">6:00 PM</p>
+          <p class="itinerario-actividad">Revelación de género</p>
+        </div>
+    
+        <div class="itinerario-card">
+          <div class="itinerario-icono">🎂</div>
+          <p class="itinerario-hora">6:30 PM</p>
+          <p class="itinerario-actividad">Pastel</p>
+        </div>
+    
+        <div class="itinerario-card">
+          <div class="itinerario-icono">👋</div>
+          <p class="itinerario-hora">7:30 PM</p>
+          <p class="itinerario-actividad">Despedida</p>
+        </div>
     </div>
-
-    <div class="itinerario-card">
-      <div class="itinerario-icono">🎲</div>
-      <p class="itinerario-hora">4:00 PM</p>
-      <p class="itinerario-actividad">Juegos y Diversión</p>
-    </div>
-
-    <div class="itinerario-card">
-      <div class="itinerario-icono">💙👶🏻💖</div>
-      <p class="itinerario-hora">6:00 PM</p>
-      <p class="itinerario-actividad">Revelación de género</p>
-    </div>
-
-    <div class="itinerario-card">
-      <div class="itinerario-icono">🎂</div>
-      <p class="itinerario-hora">6:30 PM</p>
-      <p class="itinerario-actividad">Pastel</p>
-    </div>
-
-    <div class="itinerario-card">
-      <div class="itinerario-icono">👋</div>
-      <p class="itinerario-hora">7:30 PM</p>
-      <p class="itinerario-actividad">Despedida</p>
-    </div>
-  </div>
 </div>
 <div class="seccion" id="galeria-pila">
-  <h3>🖼️ Nuestro embarazo capturado en foto</h3>
-  <div class="foto-stack-container">
-    <div class="foto-stack">
-      <figure class="foto-item">
-        <img src="ImgBebe/1.webp" alt="Embarazo 1" data-description="Este día nos sorprendiste 25/05/2025" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/2.webp" alt="Zapatos bebé" data-description="El papá no soportó" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/3.webp" alt="Ropita rosa" data-description="6 Semanas. Primer Ultrasonido, pareces un huevo" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/4.webp" alt="Ultrasonido" data-description="9 Semanas. Escuchamos tu corazón" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/5.webp" alt="Ultrasonido" data-description="9 Semanas. Te vemos y nos llenas de ilusión" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/6.webp" alt="Ultrasonido" data-description="10 Semanas. Ahora la mamá no está soportando" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/7.webp" alt="Ultrasonido" data-description="12 Semanas." onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/8.webp" alt="Ultrasonido" data-description="13 Semanas. Nos alegra saber que estás muy sano" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/9.webp" alt="Ultrasonido" data-description="13 Semanas. Echas a volar nuestra imaginación" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/10.webp" alt="Ultrasonido" data-description="17 Semanas." onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/11.webp" alt="Ultrasonido" data-description="20 Semanas. La primera vez que te siento, estoy muy feliz" onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/12.webp" alt="Ultrasonido" data-description="22 Semanas. Poco a poco te asomas." onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/13.webp" alt="Ultrasonido" data-description="24 Semanas. Recibiendo cariño de las mascotas." onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-      <figure class="foto-item">
-        <img src="ImgBebe/14.webp" alt="Ultrasonido" data-description="26 Semanas." onclick="abrirLightbox(this)">
-        <figcaption class="foto-descripcion"></figcaption>
-      </figure>
-    </div>
-    
-    <div class="stack-nav">
-        <button class="stack-nav-button prev-btn" onclick="showPrev()">❮</button>
-        <button class="stack-nav-button next-btn" onclick="showNext()">❯</button>
-    </div>
+    <!-- Contenedor de Iconos Flotantes para #galeria-pila -->
+    <div class="icon-container" id="galeria-icon-container"></div>
+
+    <h3>🖼️ Nuestro embarazo capturado en foto</h3>
+    <div class="foto-stack-container">
+      <div class="foto-stack">
+        <figure class="foto-item">
+          <img src="ImgBebe/1.webp" alt="Embarazo 1" data-description="Este día nos sorprendiste 25/05/2025" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/2.webp" alt="Zapatos bebé" data-description="El papá no soportó" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/3.webp" alt="Ropita rosa" data-description="6 Semanas. Primer Ultrasonido, pareces un huevo" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/4.webp" alt="Ultrasonido" data-description="9 Semanas. Escuchamos tu corazón" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/5.webp" alt="Ultrasonido" data-description="9 Semanas. Te vemos y nos llenas de ilusión" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/6.webp" alt="Ultrasonido" data-description="10 Semanas. Ahora la mamá no está soportando" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/7.webp" alt="Ultrasonido" data-description="12 Semanas." onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/8.webp" alt="Ultrasonido" data-description="13 Semanas. Nos alegra saber que estás muy sano" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/9.webp" alt="Ultrasonido" data-description="13 Semanas. Echas a volar nuestra imaginación" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/10.webp" alt="Ultrasonido" data-description="17 Semanas." onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/11.webp" alt="Ultrasonido" data-description="20 Semanas. La primera vez que te siento, estoy muy feliz" onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/12.webp" alt="Ultrasonido" data-description="22 Semanas. Poco a poco te asomas." onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/13.webp" alt="Ultrasonido" data-description="24 Semanas. Recibiendo cariño de las mascotas." onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+        <figure class="foto-item">
+          <img src="ImgBebe/14.webp" alt="Ultrasonido" data-description="26 Semanas." onclick="abrirLightbox(this)">
+          <figcaption class="foto-descripcion"></figcaption>
+        </figure>
+      </div>
+      
+      <div class="stack-nav">
+          <button class="stack-nav-button prev-btn" onclick="showPrev()">❮</button>
+          <button class="stack-nav-button next-btn" onclick="showNext()">❯</button>
+      </div>
     </div>
 </div>
 
+<!-- NUEVA SECCIÓN DE VIDEOS DE VIMEO -->
 <div class="seccion" id="vimeo-videos">
-  <h3>🎬 Nuestro embarazo capturado en video</h3>
-  <div class="vimeo-grid">
+    <!-- Contenedor de Iconos Flotantes para #vimeo-videos -->
+    <div class="icon-container" id="vimeo-icon-container"></div>
 
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1127607690?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="1">
-        </iframe>
+    <h3>🎬 Nuestro embarazo capturado en video</h3>
+    <div class="vimeo-grid">
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1127607690?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="1">
+          </iframe>
+        </div>
+        <p class="vimeo-title">11 Semanas. Eres un ajolotito.</p>
       </div>
-      <p class="vimeo-title">11 Semanas. Eres un ajolotito.</p>
-    </div>
-
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1127607787?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="2">
-        </iframe>
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1127607787?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="2">
+          </iframe>
+        </div>
+        <p class="vimeo-title">13 Semanas. Wow tu corazoncito.</p>
       </div>
-      <p class="vimeo-title">13 Semanas. Wow tu corazoncito.</p>
-    </div>
-
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1127607863?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="3">
-        </iframe>
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1127607863?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="3">
+          </iframe>
+        </div>
+        <p class="vimeo-title">15 semanas. Tu corazón late muy fuerte.</p>
       </div>
-      <p class="vimeo-title">15 semanas. Tu corazón late muy fuerte.</p>
-    </div>
-
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1127607455?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="4">
-        </iframe>
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1127607455?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="4">
+          </iframe>
+        </div>
+        <p class="vimeo-title">23 Semanas. Cuanto has crecido.</p>
       </div>
-      <p class="vimeo-title">23 Semanas. Cuanto has crecido.</p>
-    </div>
-
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1127607539?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="5">
-        </iframe>
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1127607539?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="5">
+          </iframe>
+        </div>
+        <p class="vimeo-title">23 Semanas. Que hermoso tu corazoncito.</p>
       </div>
-      <p class="vimeo-title">23 Semanas. Que hermoso tu corazoncito.</p>
-    </div>
-    
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1128386925?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="6">
-        </iframe>
+      
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1128386925?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="6">
+          </iframe>
+        </div>
+        <p class="vimeo-title">23 semanas. Dan mucha ternura tus pies.</p>
       </div>
-      <p class="vimeo-title">23 semanas. Dan mucha ternura tus pies.</p>
-    </div>
-
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1128387699?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="6">
-        </iframe>
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1128387699?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="6">
+          </iframe>
+        </div>
+        <p class="vimeo-title">24 semanas. Consulta de mes, estamos muy emocionados.</p>
       </div>
-      <p class="vimeo-title">24 semanas. Consulta de mes, estamos muy emocionados.</p>
-    </div>
-
-    <div class="vimeo-item">
-      <div class="vimeo-wrapper">
-        <iframe 
-          src="https://player.vimeo.com/video/1128391682?badge=0&autopause=0&player_id=0&app_id=58479" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-          title="6">
-        </iframe>
+  
+      <div class="vimeo-item">
+        <div class="vimeo-wrapper">
+          <iframe 
+            src="https://player.vimeo.com/video/1128391682?badge=0&autopause=0&player_id=0&app_id=58479" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+            title="6">
+          </iframe>
+        </div>
+        <p class="vimeo-title">26 semanas. Mami comiendose un antojo de bebe.</p>
       </div>
-      <p class="vimeo-title">26 semanas. Mami comiendose un antojo de bebe.</p>
+  
     </div>
-
-  </div>
 </div>
 
 
-  <div class="seccion" id="ubicacion">
+<div class="seccion" id="ubicacion">
+    <!-- Contenedor de Iconos Flotantes para #ubicacion -->
+    <div class="icon-container" id="ubicacion-icon-container"></div>
+
     <h3>📍 Ubicación del evento</h3>
     <p>Salón Santander, Calle Norte 50 #3844, Col. Emiliano Zapata, Gustavo A. Madero, Ciudad de México</p>
     <div class="mapa">
@@ -351,9 +392,12 @@
       </iframe>
       
     </div>
-  </div>
+</div>
 
-  <div class="seccion" id="regalos">
+<div class="seccion" id="regalos">
+    <!-- Contenedor de Iconos Flotantes para #regalos -->
+    <div class="icon-container" id="regalos-icon-container"></div>
+
     <h3>🎁 Mesa de Regalos</h3>
     <p class="regalos-intro">Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo para la llegada de nuestro bebé, hemos preparado un par de opciones con mucho cariño.</p>
     
@@ -368,7 +412,7 @@
         <a href="http://mesaderegalos.liverpool.com.mx/milistaderegalos/51733106" target="_blank" class="btn-tienda">Ver Mesa de Liverpool</a>
       </div>
     </div>
-  </div>
+</div>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
