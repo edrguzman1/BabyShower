@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Función para manejar el estado por defecto (antes de la revelación o en error)
         const setDefaultState = () => {
-            document.body.classList.remove('theme-girl'); // <-- QUITA LA CLASE DEL TEMA
+            document.body.classList.remove('theme-girl'); 
             if (revelacionSection) revelacionSection.style.display = 'none'; 
             if (inicioSection) inicioSection.style.display = 'block'; 
             if (itinerarioSection) itinerarioSection.style.display = 'block'; 
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (configData && configData.mostrarRevelacion === true) {
                     // --- Estado "Revelado" ---
-                    document.body.classList.add('theme-girl'); // <-- AÑADE LA CLASE DEL TEMA
+                    document.body.classList.add('theme-girl'); 
 
                     if (revelacionSection && generoElement && nombreElement) {
                         
@@ -95,9 +95,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         nombreElement.innerHTML = ''; 
                         palabras.forEach((palabra, index) => {
                             const span = document.createElement('span');
-                            span.textContent = palabra; 
-                            span.style.animationDelay = `${0.8 + index * 0.2}s`; 
+                            span.textContent = palabra; // Solo la palabra
+                            span.style.animationDelay = `${0.8 + index * 0.2}s`;
                             nombreElement.appendChild(span);
+
+                            // Añadir un nodo de texto con un espacio DESPUÉS de cada span, excepto el último
+                            if (index < palabras.length - 1) {
+                                nombreElement.appendChild(document.createTextNode(' '));
+                            }
                         });
                         
                         revelacionSection.style.display = 'block';
@@ -134,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- INICIALIZA EL RESTO DE LA UI (MODALES, GALERÍA, ETC.) ---
-    // Y AHORA TAMBIÉN GENERA LOS ICONOS PARA TODAS LAS SECCIONES
     initPageUI(database); 
 
     // --- OCULTAR EL LOADER ---
@@ -151,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
 }); // Fin de DOMContentLoaded
 
 // --- FUNCIÓN QUE INICIALIZA EL RESTO DE LA PÁGINA ---
-// (Modificada para llamar a generarIconosFlotantes para todos los contenedores)
 function initPageUI(database) {
     if (window.pageInitialized) return;
     window.pageInitialized = true;
