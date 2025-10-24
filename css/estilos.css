@@ -816,7 +816,7 @@ button:hover {
 
 .btn-tienda {
   display: inline-block;
-s  background: var(--blue);
+  background: var(--blue);
   color: white;
   text-decoration: none;
   padding: 12px 25px;
