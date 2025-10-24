@@ -1,65 +1,168 @@
-// --- LÓGICA DEL LOADER ALEATORIO (SE EJECUTA AL INICIO) ---
+// --- LÓGICA DE CARGA MEJORADA (SE EJECUTA AL INICIO) ---
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Lista de todos tus archivos de loaders
-    const loaderFiles = [
-        'Biberon.html', 'BloquesBaby.html', 'Cigueña.html', 'Cochecito.html', 
-        'HorneandoAlgo.html', 'Lluvia.html', 'Luna.html', 'Milagro.html', 
-        'Patito.html', 'Rehilete.html', 'Saltando.html', 'Sonajero.html', 'Tendedero.html'
-    ];
-    
-    // Elige un loader al azar
-    const randomLoaderFile = loaderFiles[Math.floor(Math.random() * loaderFiles.length)];
+    // --- 1. INICIALIZAR FIREBASE PRIMERO ---
+    // Se necesita 'database' en el scope global para las funciones de asistencia
+    const firebaseConfig = {
+        apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
+        authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
+        databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
+        projectId: "babyshowerguzmanmiranda",
+        storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
+        messagingSenderId: "564665563453",
+        appId: "1:564665563453:web:242aaba73a4768fa89ad54"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(); // 'database' ahora es accesible para initPageUI
+
     const loaderWrapper = document.getElementById('loader-wrapper');
 
-    // Carga el HTML del loader elegido y lo inserta en la página
-    if (loaderWrapper && randomLoaderFile) {
-        fetch(`loaders/${randomLoaderFile}`)
-            .then(response => {
-                if (!response.ok) throw new Error("Error al cargar el loader: " + response.statusText);
-                return response.text();
-            })
-            .then(html => {
-                if (html.trim().length > 0) {
-                    loaderWrapper.innerHTML = html;
+    // --- TAREA 1: PROMESA DE TIEMPO MÍNIMO ---
+    const minTimePromise = new Promise(resolve => {
+        setTimeout(resolve, 5000); // 5 segundos de tiempo mínimo del loader
+    });
+
+    // --- TAREA 2: PROMESA DE CARGA DEL LOADER HTML ---
+    const loaderFetchPromise = new Promise((resolve) => {
+        const loaderFiles = [
+            'Biberon.html', 'BloquesBaby.html', 'Cigueña.html', 'Cochecito.html', 
+            'HorneandoAlgo.html', 'Lluvia.html', 'Luna.html', 'Milagro.html', 
+            'Patito.html', 'Rehilete.html', 'Saltando.html', 'Sonajero.html', 'Tendedero.html'
+        ];
+        const randomLoaderFile = loaderFiles[Math.floor(Math.random() * loaderFiles.length)];
+
+        if (loaderWrapper && randomLoaderFile) {
+            fetch(`loaders/${randomLoaderFile}`)
+                .then(response => response.ok ? response.text() : '')
+                .then(html => {
+                    if (html.trim().length > 0) {
+                        loaderWrapper.innerHTML = html;
+                    }
+                })
+                .catch(error => console.error('No se pudo cargar el loader:', error))
+                .finally(() => resolve()); // Siempre resolvemos para no bloquear la carga
+        } else {
+            resolve(); // Resuelve si no hay loader
+        }
+    });
+
+    // --- TAREA 3: PROMESA DE DATOS DE FIREBASE Y PRE-CONFIGURACIÓN DE UI ---
+    const firebaseDataPromise = new Promise((resolve) => {
+        // Referencias a todos los elementos que vamos a cambiar
+        const regalosIntroElement = document.querySelector('#regalos .regalos-intro');
+        const textoOriginalRegalos = regalosIntroElement ? regalosIntroElement.innerHTML : ''; 
+        const revelacionSection = document.getElementById('revelacion-info');
+        const generoElement = document.getElementById('info-genero');
+        const nombreElement = document.getElementById('info-nombre');
+        const inicioSection = document.getElementById('inicio'); 
+        const itinerarioSection = document.getElementById('itinerario'); 
+        const ubicacionSection = document.getElementById('ubicacion'); 
+        const videoElement = document.querySelector('video.logo');
+        const videoSource = document.querySelector('video.logo source');
+
+        // Función para manejar el estado por defecto (antes de la revelación o en error)
+        const setDefaultState = () => {
+            document.body.classList.remove('theme-girl'); 
+            if (revelacionSection) revelacionSection.style.display = 'none'; 
+            if (inicioSection) inicioSection.style.display = 'block'; 
+            if (itinerarioSection) itinerarioSection.style.display = 'block'; 
+            if (ubicacionSection) ubicacionSection.style.display = 'block';
+            if (videoSource && videoElement) {
+                videoSource.src = 'img/Baby Logo 2.webm';
+                videoElement.load(); 
+            }
+            if (regalosIntroElement) {
+                regalosIntroElement.innerHTML = textoOriginalRegalos;
+            }
+        };
+
+        const configRef = database.ref('configuracion'); 
+        
+        configRef.once('value')
+            .then((snapshot) => {
+                const configData = snapshot.val();
+
+                if (configData && configData.mostrarRevelacion === true) {
+                    // --- Estado "Revelado" ---
+                    document.body.classList.add('theme-girl'); 
+
+                    if (revelacionSection && generoElement && nombreElement) {
+                        
+                        generoElement.textContent = configData.genero || '¡Es una Niña!';
+                        
+                        const nombreTexto = configData.nombre || 'Bebé Guzmán Miranda';
+                        const palabras = nombreTexto.split(' ');
+                        nombreElement.innerHTML = ''; 
+                        palabras.forEach((palabra, index) => {
+                            const span = document.createElement('span');
+                            span.textContent = palabra; // Solo la palabra
+                            span.style.animationDelay = `${0.8 + index * 0.2}s`;
+                            nombreElement.appendChild(span);
+
+                            // Añadir un nodo de texto con un espacio DESPUÉS de cada span, excepto el último
+                            if (index < palabras.length - 1) {
+                                nombreElement.appendChild(document.createTextNode(' '));
+                            }
+                        });
+                        
+                        revelacionSection.style.display = 'block';
+                        // Generar iconos SÓLO para la sección de revelación si está activa
+                        const revelacionIconContainer = document.getElementById('revelacion-icon-container');
+                        if(revelacionIconContainer) generarIconosFlotantes(revelacionIconContainer);
+
+                    }
+                    
+                    if (inicioSection) inicioSection.style.display = 'none'; 
+                    if (itinerarioSection) itinerarioSection.style.display = 'none';
+                    if (ubicacionSection) ubicacionSection.style.display = 'none';
+                    
+                    if (videoSource && videoElement) {
+                        videoSource.src = 'img/Familia Logo.webm'; 
+                        videoElement.load(); 
+                    }
+                    
+                    if (regalosIntroElement && configData.mesaRegalos) {
+                        regalosIntroElement.innerHTML = configData.mesaRegalos; 
+                    }
                 } else {
-                    hideLoaderAndInitPage();
+                    // --- Estado por Defecto ---
+                    setDefaultState();
                 }
             })
-            .catch(error => {
-                console.error('No se pudo cargar el loader:', error);
-                hideLoaderAndInitPage();
+            .catch((error) => {
+                console.error("Error al leer la configuración de Firebase con .once():", error);
+                setDefaultState(); // Pone el estado por defecto si falla
+            })
+            .finally(() => {
+                resolve(); // Resuelve la promesa de Firebase, haya éxito o no
             });
-    } else {
-        initPageFunctions();
-    }
+    });
 
-    // Oculta el loader después de un tiempo mínimo
-    const minimumLoaderTime = 5000;
-    setTimeout(hideLoaderAndInitPage, minimumLoaderTime);
+    // --- INICIALIZA EL RESTO DE LA UI (MODALES, GALERÍA, ETC.) ---
+    initPageUI(database); 
 
-    function hideLoaderAndInitPage() {
-        if (loaderWrapper && loaderWrapper.style.display !== 'none') {
-            loaderWrapper.classList.add('hidden');
-            setTimeout(() => {
-                if (loaderWrapper) loaderWrapper.style.display = 'none';
-                initPageFunctions();
-            }, 1500); // Duración de la transición en CSS
-        } else {
-            initPageFunctions();
-        }
-    }
-});
+    // --- OCULTAR EL LOADER ---
+    Promise.all([minTimePromise, loaderFetchPromise, firebaseDataPromise])
+        .then(() => {
+            if (loaderWrapper) {
+                loaderWrapper.classList.add('hidden');
+                setTimeout(() => {
+                    if (loaderWrapper) loaderWrapper.style.display = 'none';
+                }, 1500); // Duración de la transición en CSS
+            }
+        });
 
-// --- FUNCIÓN QUE INICIALIZA TODO EL JAVASCRIPT DE LA PÁGINA ---
-function initPageFunctions() {
+}); // Fin de DOMContentLoaded
+
+// --- FUNCIÓN QUE INICIALIZA EL RESTO DE LA PÁGINA ---
+function initPageUI(database) {
     if (window.pageInitialized) return;
     window.pageInitialized = true;
 
-    console.log("Inicializando funciones de la página...");
+    console.log("Inicializando UI de la página (modales, galería, iconos flotantes, etc.)...");
 
     // =================================================================================
-    // CÓDIGO DEL MODAL Y CONFIGURACIÓN DE FIREBASE
+    // CÓDIGO DEL MODAL Y LÓGICA DE ASISTENCIA (sin cambios)
     // =================================================================================
     let modalContainer = document.getElementById('custom-modal-container');
     let modal = document.getElementById('custom-modal');
@@ -73,7 +176,7 @@ function initPageFunctions() {
 
     const icons = {
         success: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,95 C74.85,95 95,74.85 95,50 C95,25.15 74.85,5 50,5 C25.15,5 5,25.15 5,50 C5,74.85 25.15,95 50,95 Z" fill="#d1fae5"/><path d="M66.3,34.4c-1.2-1.2-3.1-1.2-4.2,0L45.8,50.7l-6.3-6.3c-1.2-1.2-3.1-1.2-4.2,0c-1.2,1.2-1.2,3.1,0,4.2l8.4,8.4c0.6,0.6,1.4,0.9,2.1,0.9s1.5-0.3,2.1-0.9l18.4-18.4C67.5,37.5,67.5,35.6,66.3,34.4z" fill="#10b981"/><path d="M55.8,62.5H44.2c-2.8,0-5-2.2-5-5V46.7c0-2.8,2.2-5,5-5h11.7c2.8,0,5,2.2,5,5v10.8C60.8,60.3,58.6,62.5,55.8,62.5z" fill="#a7f3d0"/><path d="M50,39.2c-1.4,0-2.5-1.1-2.5-2.5v-5c0-1.4,1.1-2.5,2.5-2.5s2.5,1.1,2.5,2.5v5C52.5,38.1,51.4,39.2,50,39.2z" fill="#34d399"/></svg>`,
-        error: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,95 C74.85,95 95,74.85 95,50 C95,25.15 74.85,5 50,5 C25.15,5 5,25.15 5,50 C5,74.85 25.15,95 50,95 Z" fill="#fee2e2"/><path d="M50 67.5c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" fill="#ef4444"/><path d="M47,30v25c0,1.7,1.3,3,3,3s3-1.3,3-3V30c0-1.7-1.3-3-3-3S47,28.3,47,30z" fill="#ef4444"/><circle cx="35" cy="25" r="4" fill="#fca5a5"/><circle cx="65" cy="25" r="4" fill="#fca5a5"/></svg>`
+        error: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,95 C74.85,95 95,74.85 95,50 C95,25.15 74.85,5 50,5 C25.15,5 5,25.15 5,50 C5,74.85 25.15,95 50,95 Z" fill="#fee2e2"/><path d="M50 67.5c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" fill="#ef4444"/><path d="M47,30v25c0-1.7,1.3,3,3,3s3-1.3,3-3V30c0-1.7-1.3-3-3-3S47,28.3,47,30z" fill="#ef4444"/><circle cx="35" cy="25" r="4" fill="#fca5a5"/><circle cx="65" cy="25" r="4" fill="#fca5a5"/></svg>`
     };
 
     window.showCustomConfirm = ({ type, title, message, onConfirm, onCancel }) => {
@@ -136,22 +239,9 @@ function initPageFunctions() {
         if (onCancelCallback) onCancelCallback();
         hideModal();
     }
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
-        authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
-        databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
-        projectId: "babyshowerguzmanmiranda",
-        storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
-        messagingSenderId: "564665563453",
-        appId: "1:564665563453:web:242aaba73a4768fa89ad54"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
     
     // =================================================================================
-    // LÓGICA PARA ASIGNACIÓN DE MESAS Y SILLAS (CORREGIDA)
+    // LÓGICA PARA ASIGNACIÓN DE MESAS Y SILLAS (sin cambios)
     // =================================================================================
 
     const MAX_MESAS = 15;
@@ -162,10 +252,8 @@ function initPageFunctions() {
         return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, '').trim().toUpperCase();
     }
     
-    // *** FUNCIÓN MODIFICADA ***
-    // Ahora solo considera ocupados los lugares de invitados con estatus 'confirmado'.
     async function encontrarLugarDisponible() {
-        const asistentesRef = database.ref('asistentes');
+        const asistentesRef = database.ref('asistentes'); // 'database' viene del argumento de initPageUI
         const snapshot = await asistentesRef.once('value');
         const asistentes = snapshot.val();
         let lugaresOcupados = new Set();
@@ -173,7 +261,6 @@ function initPageFunctions() {
         if (asistentes) {
             for (const key in asistentes) {
                 const invitado = asistentes[key];
-                // Solo si el invitado está 'confirmado' y tiene lugar, se considera ocupado.
                 if (invitado.estatus === 'confirmado' && invitado.mesa && invitado.silla) {
                     lugaresOcupados.add(`${invitado.mesa}-${invitado.silla}`);
                 }
@@ -250,8 +337,6 @@ function initPageFunctions() {
         showCustomConfirm(config);
     };
 
-    // *** FUNCIÓN MODIFICADA ***
-    // Ahora, si el estatus no es 'confirmado', borra la mesa y silla (asigna null).
     async function guardarAsistencia(nombreOriginal, nombreNormalizado, estatus, lugar) {
         const asistentesRef = database.ref('asistentes');
         const snapshot = await asistentesRef.orderByChild('nombreNormalizado').equalTo(nombreNormalizado).once('value');
@@ -267,7 +352,6 @@ function initPageFunctions() {
             datosParaGuardar.mesa = lugar.mesa;
             datosParaGuardar.silla = lugar.silla;
         } else {
-            // Si cancela o cualquier otro estatus, se libera el asiento.
             datosParaGuardar.mesa = null;
             datosParaGuardar.silla = null;
         }
@@ -310,7 +394,7 @@ function initPageFunctions() {
     }
 
     // =================================================================================
-    // EL RESTO DE TU CÓDIGO (GALERÍA, CUENTA REGRESIVA, ETC.)
+    // EL RESTO DE TU CÓDIGO (GALERÍA, CUENTA REGRESIVA, ETC.) (sin cambios)
     // =================================================================================
     window.abrirLightbox = (imagen) => {
         const lightbox = document.getElementById("lightbox");
@@ -405,5 +489,49 @@ function initPageFunctions() {
         }
         
         updateStack();
+    }
+
+    // --- (MODIFICADO) Generar iconos para TODAS las secciones ---
+    const iconContainers = document.querySelectorAll('.icon-container'); // Selecciona TODOS los contenedores
+    iconContainers.forEach(container => {
+        // Llama a la función solo si el contenedor NO es el de revelación (ese se maneja arriba si es true)
+        if(container.id !== 'revelacion-icon-container'){
+             generarIconosFlotantes(container);
+        }
+    });
+}
+
+
+/**
+ * (MODIFICADO)
+ * Genera los iconos flotantes para un contenedor específico.
+ * @param {HTMLElement} iconContainer - El elemento div donde se agregarán los iconos.
+ */
+function generarIconosFlotantes(iconContainer) {
+    if (!iconContainer) return; // Salir si el contenedor no existe
+
+    iconContainer.innerHTML = ''; // Limpiar por si acaso
+    const iconCount = 10; // Cantidad de iconos por contenedor
+    // SVGs de Corazón y Estrella
+    const icons = [
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.04 3 5.5l7 7Z"/></svg>`,
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+    ];
+
+    for (let i = 0; i < iconCount; i++) {
+        const iconWrapper = document.createElement('div');
+        iconWrapper.classList.add('floating-icon');
+        iconWrapper.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+
+        // (MODIFICADO) Rango de tamaño aprox 20% más grande: 14px a 34px
+        const size = Math.random() * 20 + 14; 
+        iconWrapper.style.width = `${size}px`;
+        iconWrapper.style.height = `${size}px`;
+        iconWrapper.style.left = `${Math.random() * 100}%`;
+        iconWrapper.style.bottom = `${Math.random() * 20 - 10}%`;
+        iconWrapper.style.animationDelay = `${Math.random() * 5}s`;
+        iconWrapper.style.animationDuration = `${Math.random() * 4 + 5}s`; // entre 5 y 9 segundos
+
+        iconContainer.appendChild(iconWrapper);
     }
 }

@@ -20,7 +20,7 @@ html, body {
   --light-pink-bg: #fef4f0; /* Fondo Durazno muy claro */
   --light-blue-bg: #f7f5f4; /* Fondo Salvia muy claro */
   --blue: #d0b7a8; /* Verde Salvia (Color Secundario) */
-  --blue-dark: #8RB895; /* Salvia más oscuro para hover */
+  --blue-dark: #bba192; /* Salvia más oscuro para hover (Corregido de 8RB895) */
   --link-bg-hover: #FBEAE0; /* Fondo para hover de enlaces */
   --text-muted: #aaa;
   --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -58,6 +58,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* (NUEVO) Transición suave para el cambio de fondo */
+  transition: background 0.5s ease-out;
 }
 
 /* Contenedores comunes */
@@ -70,6 +72,9 @@ body {
   margin-top: 30px;
   box-shadow: var(--shadow);
   animation: fadeIn 1.2s ease-in-out;
+  /* (NUEVO) Posicionamiento para iconos flotantes */
+  position: relative;
+  overflow: hidden;
 }
 
 /* ======================================== */
@@ -106,7 +111,7 @@ body {
   font-weight: bold;
   padding: 8px 12px;
   border-radius: 8px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease; /* (NUEVO) Transición de color */
 }
 
 .menu-links a:hover {
@@ -171,6 +176,7 @@ button:hover {
   padding: 15px 20px;
   margin: 20px 0;
   border-radius: 8px;
+  transition: border-color 0.3s ease; /* (NUEVO) Transición de borde */
 }
 
 .info-evento p {
@@ -184,6 +190,7 @@ button:hover {
   margin-top: 25px;
   padding-top: 25px;
   border-top: 2px dashed var(--light-pink-bg);
+  transition: border-color 0.3s ease; /* (NUEVO) Transición de borde */
 }
 
 .rsvp-form h3 {
@@ -220,6 +227,7 @@ button:hover {
     font-size: 14px;
     cursor: help;
     user-select: none; /* Evita que el texto del ícono se seleccione */
+    transition: background-color 0.3s ease; /* (NUEVO) Transición de color */
 }
 
 .tooltip-texto {
@@ -335,6 +343,7 @@ button:hover {
   border-radius: 10px;
   min-width: 80px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: background 0.3s ease; /* (NUEVO) Transición de fondo */
 }
 
 .countdown span {
@@ -342,6 +351,7 @@ button:hover {
   font-size: 2.5em;
   font-weight: bold;
   color: var(--pink);
+  transition: color 0.3s ease; /* (NUEVO) Transición de color */
 }
 
 /* Videos: carrusel horizontal */
@@ -387,7 +397,7 @@ button:hover {
 .video-grid::-webkit-scrollbar-thumb,
 .timeline-horizontal::-webkit-scrollbar-thumb {
   background-color: var(--pink);
-  border-radius: 10px;
+  transition: background-color 0.3s ease; /* (NUEVO) Transición de color */
 }
 
 /* ======================================== */
@@ -555,6 +565,7 @@ button:hover {
   font-weight: bold;
   color: var(--pink);
   margin: 0;
+  transition: color 0.3s ease; /* (NUEVO) Transición de color */
 }
 
 .itinerario-actividad {
@@ -1015,7 +1026,6 @@ button:hover {
   .mapa iframe { height: 200px; }
 
   /* --- Galería de Pila en Móvil --- */
-  /* --- Galería de Pila en Móvil --- */
   .foto-stack-container {
     min-height: 500px; 
     max-width: 280px; 
@@ -1066,8 +1076,6 @@ button:hover {
   }
   /* --- FIN DEL AJUSTE --- */
 
-  
-
   /* Los GIFs se mantienen visibles, el overflow lo controla la regla global */
   .gif-zigzag img {
     width: 60px;
@@ -1114,4 +1122,185 @@ button:hover {
   .foto-stack .foto-item.next {
     transform: translateX(20px) rotate(7deg) scale(0.95);
   }
+
+  /* (NUEVO) Ajuste responsivo para el nombre del bebé en la revelación */
+  .revelacion-nombre {
+    font-size: 2.2rem;
+  }
+  .revelacion-genero {
+    font-size: 1.5rem;
+  }
+}
+
+
+/* ================================================= */
+/* --- INICIO: NUEVOS ESTILOS DE REVELACIÓN Y TEMA --- */
+/* ================================================= */
+
+/* --- Estilos Sección Revelación (Ejemplo 5 Adaptado) --- */
+
+#revelacion-info {
+    position: relative;
+    text-align: center;
+    /* (ELIMINADO o COMENTADO) background: linear-gradient(to bottom right, #fff1f2, #fce7f3); */
+    /* Heredará el background: white; de .seccion */
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    overflow: hidden;
+    animation: fadeInScaleUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInScaleUp {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.revelacion-titulo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* 8px */
+    margin-bottom: 1rem; /* 16px */
+}
+
+.revelacion-icon {
+    color: #f472b6; /* Rosa */
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0; 
+}
+
+.revelacion-genero {
+    font-family: 'Comfortaa', sans-serif; /* Fuente de tu proyecto */
+    font-size: 1.75rem; /* 28px */
+    font-weight: 700;
+    color: #ec4899; /* Rosa más fuerte */
+    margin: 0; 
+    padding: 0; 
+}
+
+.revelacion-subtexto {
+    font-family: 'Quicksand', sans-serif; /* Fuente de tu proyecto */
+    font-size: 1.1rem; /* 18px */
+    color: #4b5563; /* Gris oscuro */
+    margin-bottom: 1.5rem; /* 24px */
+}
+
+.revelacion-nombre {
+    font-family: 'Kaushan Script', cursive; /* Fuente Script de tu proyecto */
+    font-size: 3rem; /* 48px */
+    color: #374151; /* Gris muy oscuro */
+    margin-bottom: 2rem; /* 32px */
+    line-height: 1.2;
+    font-weight: normal; 
+}
+
+.revelacion-nombre span {
+    display: inline-block;
+    opacity: 0;
+    transform-origin: bottom;
+    animation: unfold 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes unfold {
+    0% { opacity: 0; transform: translateY(20px) scaleY(0.5); }
+    100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+.revelacion-subtexto-final {
+    font-family: 'Quicksand', sans-serif; /* Fuente de tu proyecto */
+    font-size: 0.9rem; /* 14px */
+    color: #6b7280; /* Gris medio */
+}
+
+/* --- Animación de Iconos Flotantes --- */
+
+.icon-container {
+    position: absolute;
+    inset: 0; 
+    overflow: hidden; 
+    pointer-events: none;
+    z-index: 0; 
+}
+
+.floating-icon {
+    position: absolute;
+    opacity: 0;
+    animation: floatAndFade 6s ease-in-out infinite;
+    color: #ec4899; /* Rosa más fuerte */
+    z-index: -1;
+}
+
+.floating-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 1.5;
+}
+
+@keyframes floatAndFade {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    20%, 70% { opacity: 0.3; } 
+    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+}
+
+
+/* ============================================== */
+/* --- INICIO: NUEVO TEMA "THEME-GIRL" --- */
+/* ============================================== */
+
+/* Este bloque se activará cuando JS añada la clase .theme-girl al <body> */
+body.theme-girl {
+  /* 1. Sobreescribimos las variables de :root */
+  --pink: #ec4899; /* Fucsia */
+  --pink-hover: #db2777; /* Fucsia oscuro */
+  --light-pink-bg: #fdf2f8; /* Rosa pálido */
+  --light-blue-bg: #f5f3ff; /* Lavanda pálido */
+  --blue: #c4b5fd; /* Lavanda */
+  --blue-dark: #a78bfa; /* Lavanda oscuro */
+  --link-bg-hover: #fce7f3; /* Rosa muy pálido */
+}
+
+/* 2. Sobreescribimos el color estático de h2 */
+body.theme-girl h2 {
+  color: #f472b6; /* Rosa medio */
+}
+
+/* 3. Sobreescribimos el color del ícono del tooltip (que usaba --blue) */
+body.theme-girl .tooltip-icono {
+  background-color: var(--blue);
+}
+
+/* 4. Sobreescribimos los botones de regalos y galería (que usaban --blue) */
+body.theme-girl .btn-tienda,
+body.theme-girl .stack-nav-button {
+  background-color: var(--blue);
+}
+body.theme-girl .btn-tienda:hover,
+body.theme-girl .stack-nav-button:hover {
+  background-color: var(--blue-dark);
+}
+
+/* 5. Sobreescribimos los colores de la cuenta regresiva */
+body.theme-girl #countdown div {
+    background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+}
+body.theme-girl #countdown span {
+    color: var(--pink);
+}
+
+/* 6. Sobreescribimos el borde del info-evento */
+body.theme-girl .info-evento {
+  border-left-color: var(--pink);
+}
+
+/* 7. Sobreescribimos el borde punteado del formulario */
+body.theme-girl .rsvp-form {
+  border-top-color: var(--light-pink-bg);
+}
+
+/* 8. Sobreescribimos el color de la barra de scroll */
+body.theme-girl .video-grid::-webkit-scrollbar-thumb,
+body.theme-girl .timeline-horizontal::-webkit-scrollbar-thumb {
+  background-color: var(--pink);
 }

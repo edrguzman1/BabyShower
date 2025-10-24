@@ -228,6 +228,14 @@
                 color: #333;
             }
         }
+        /* === INICIO: ESTILOS AÑADIDOS PARA REVELACIÓN === */
+        .reveal-controls { margin-top: 30px; padding-top: 20px; border-top: 2px solid #eef; text-align: center; }
+        .reveal-controls h2 { font-size: 1.5em; margin-bottom: 15px; color: #1a2c4e; }
+        .reveal-btn { padding: 10px 20px; border-radius: 8px; font-size: 1em; cursor: pointer; margin: 0 10px; border: none; color: white; font-weight: bold; }
+        .show-reveal-btn { background-color: #ff69b4; /* Rosa */ }
+        .hide-reveal-btn { background-color: #6c757d; /* Gris */ }
+        .reveal-status { margin-top: 15px; font-style: italic; color: #555; }
+        /* === FIN: ESTILOS AÑADIDOS PARA REVELACIÓN === */
     </style>
 </head>
 <body>
@@ -271,6 +279,16 @@
             <tbody id="lista-invitados"></tbody>
         </table>
         <p id="loading-message">Cargando lista de invitados...</p>
+
+        <!-- === INICIO: SECCIÓN HTML AÑADIDA PARA REVELACIÓN === -->
+        <div class="reveal-controls">
+            <h2>Control de Revelación de Género</h2>
+            <button class="reveal-btn show-reveal-btn" onclick="toggleRevelacion(true)">Mostrar Revelación</button>
+            <button class="reveal-btn hide-reveal-btn" onclick="toggleRevelacion(false)">Ocultar Revelación</button>
+            <p class="reveal-status">Estado actual: <span id="reveal-current-status">Desconocido</span></p>
+        </div>
+        <!-- === FIN: SECCIÓN HTML AÑADIDA PARA REVELACIÓN === -->
+
     </div>
 
     <div class="modal-overlay" id="edit-modal">
@@ -307,6 +325,7 @@
         const auth = firebase.auth();
         const database = firebase.database();
         const asistentesRef = database.ref('asistentes');
+        const configRef = database.ref('configuracion'); // <-- Referencia añadida
 
         const loginWrapper = document.getElementById('login-wrapper');
         const adminPanel = document.getElementById('admin-panel');
@@ -318,18 +337,20 @@
         const canceladosCountEl = document.getElementById('cancelados-count');
         const totalCountEl = document.getElementById('total-count');
         const editModal = document.getElementById('edit-modal');
+        const revealStatusEl = document.getElementById('reveal-current-status'); // <-- Referencia añadida
 
         let dataListener = null; 
+        let configListener = null; // <-- Variable añadida
 
         auth.onAuthStateChanged(user => {
             if (user) {
-                // --- CAMBIO AQUÍ: Lista de UIDs de Administradores ---
-                const adminUIDs = ["c4Hy9GWI06RwTGzRdXDSbf8FPzB3"]; // <-- ¡IMPORTANTE! Añade los UIDs aquí
+                const adminUIDs = ["c4Hy9GWI06RwTGzRdXDSbf8FPzB3","7y8KPEK7rXW1SNiQvUYUk6LE4eO2"]; // <-- Asegúrate de que tu UID esté aquí
                 
                 if (adminUIDs.includes(user.uid)) {
                     loginWrapper.style.display = 'none';
                     adminPanel.style.display = 'block';
                     loadAdminData();
+                    listenToConfig(); // <-- Llamada a la nueva función
                 } else {
                     logout();
                     alert("No tienes permisos de administrador.");
@@ -337,9 +358,8 @@
             } else {
                 loginWrapper.style.display = 'flex';
                 adminPanel.style.display = 'none';
-                if(dataListener) {
-                    asistentesRef.off('value', dataListener);
-                }
+                if(dataListener) asistentesRef.off('value', dataListener);
+                if(configListener) configRef.child('mostrarRevelacion').off('value', configListener); // <-- Detener listener al cerrar sesión
             }
         });
 
@@ -379,6 +399,9 @@
                         const fila = document.createElement('tr');
                         
                         const isConfirmed = invitado.estatus === 'confirmado';
+                        
+                        // Escapa las comillas simples en el nombre para evitar errores en onclick
+                        const safeGuestName = invitado.nombre ? invitado.nombre.replace(/'/g, "\\'") : 'Invitado sin nombre';
 
                         fila.innerHTML = `
                             <td data-label="Nombre">${invitado.nombre || 'Sin nombre'}</td>
@@ -391,8 +414,8 @@
                             <td data-label="Mesa">${invitado.mesa || 'N/A'}</td>
                             <td data-label="Silla">${invitado.silla || 'N/A'}</td>
                             <td>
-                                <button class="action-btn edit-btn" onclick="openEditModal('${guestId}', '${invitado.nombre.replace(/'/g, "\\'")}', '${invitado.mesa || ''}', '${invitado.silla || ''}')">Editar</button>
-                                <button class="action-btn delete-btn" onclick="deleteGuest('${guestId}', '${invitado.nombre.replace(/'/g, "\\'")}')">Eliminar</button>
+                                <button class="action-btn edit-btn" onclick="openEditModal('${guestId}', '${safeGuestName}', '${invitado.mesa || ''}', '${invitado.silla || ''}')">Editar</button>
+                                <button class="action-btn delete-btn" onclick="deleteGuest('${guestId}', '${safeGuestName}')">Eliminar</button>
                             </td>
                         `;
                         
@@ -472,8 +495,36 @@
             }
         });
 
+        // === INICIO: FUNCIONES AÑADIDAS PARA REVELACIÓN ===
+        function listenToConfig() {
+            if(configListener) {
+                 configRef.child('mostrarRevelacion').off('value', configListener);
+            }
+            configListener = configRef.child('mostrarRevelacion').on('value', (snapshot) => {
+                const mostrar = snapshot.val();
+                if (revealStatusEl) {
+                    revealStatusEl.textContent = (mostrar === true) ? 'Mostrando' : 'Oculto';
+                }
+            }, (error) => {
+                console.error("Error al leer configuración:", error);
+                 if (revealStatusEl) {
+                    revealStatusEl.textContent = 'Error';
+                 }
+            });
+        }
+
+        function toggleRevelacion(mostrar) {
+            configRef.update({ mostrarRevelacion: mostrar })
+                .then(() => {
+                    alert(`Revelación ${mostrar ? 'mostrada' : 'ocultada'} correctamente.`);
+                })
+                .catch((error) => {
+                    alert('Error al actualizar el estado de la revelación.');
+                    console.error("Error al escribir configuración:", error);
+                });
+        }
+        // === FIN: FUNCIONES AÑADIDAS PARA REVELACIÓN ===
     </script>
 </body>
 </html>
-
 
