@@ -27,7 +27,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 900px; /* Ancho aumentado para la nueva columna */
+            max-width: 900px;
             margin: 20px auto;
             background: white;
             padding: 30px;
@@ -56,6 +56,71 @@
         #cancelados-count { color: #dc3545; }
         #total-count { color: #007bff; }
         
+        /* --- NUEVOS ESTILOS: Buscador y Tabla Ordenable --- */
+        .controls-container {
+            display: flex;
+            justify-content: center; /* Centrado */
+            align-items: center;
+            margin-bottom: 20px; /* Un poco más de espacio */
+            width: 100%; /* Asegura que el contenedor ocupe todo */
+        }
+
+        .search-box {
+            width: 100%; /* Ocupa todo el ancho disponible */
+            max-width: 100%; /* Eliminamos el límite de 400px */
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px; /* Un poco más alto para verse mejor */
+            padding-left: 40px; /* Espacio para el icono */
+            border: 1px solid #ccc; /* Borde un poco más visible */
+            border-radius: 8px; /* Bordes menos redondos, más estilo "input moderno" */
+            outline: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+            background-color: #fff;
+        }
+
+        .search-box input:focus { 
+            border-color: #007bff; 
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1); /* Efecto de brillo al seleccionar */
+        }
+        
+        /* Icono de lupa */
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1em;
+            color: #888;
+            pointer-events: none; /* El click pasa a través del icono */
+        }
+
+        /* Encabezados ordenables */
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 25px; /* Espacio para la flecha */
+        }
+        th.sortable:hover { background-color: #e9ecef; }
+        /* Indicadores de orden (flechas) */
+        th.sortable::after {
+            content: '↕';
+            position: absolute;
+            right: 8px;
+            color: #ccc;
+            font-size: 0.8em;
+        }
+        th.sortable.asc::after { content: '↑'; color: #333; }
+        th.sortable.desc::after { content: '↓'; color: #333; }
+        /* ---------------------------------------------- */
+
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #f8f9fa; font-weight: 600; }
@@ -172,70 +237,54 @@
         .login-button:hover { background-color: #0056b3; }
         #logout-btn { background-color: #6c757d; color: white; padding: 8px 16px; border-radius: 5px; border: none; cursor: pointer; float: right; margin-bottom: 15px;}
 
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto; /* Permite scroll horizontal */
+            -webkit-overflow-scrolling: touch; /* Scroll suave en móviles */
+            margin-bottom: 15px;
+            border: 1px solid #eee; /* Borde sutil para delimitar el área de scroll */
+            border-radius: 8px;
+        }
+
         /* --- ESTILOS RESPONSIVE --- */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            body { padding: 10px; }
+            .container, #login-container { padding: 15px; } /* Un poco menos de padding */
+            
+            h1 { font-size: 1.5em; }
+            .stat-item h2 { font-size: 1.5em; }
+            
+            /* Ajustes para que la tabla se vea bien compacta en móvil */
+            table {
+                min-width: 600px; /* Fuerza un ancho mínimo para que no se aplasten las columnas */
             }
-            .container, #login-container {
-                padding: 20px;
+            
+            th, td {
+                padding: 8px 5px; /* Menos espacio interno */
+                font-size: 0.85em; /* Texto un poco más pequeño */
             }
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-            h1 { font-size: 1.8em; }
-            .stat-item h2 { font-size: 1.8em; }
 
-            /* Conversión de tabla a tarjetas */
-            table thead {
-                display: none;
+            .action-btn {
+                padding: 4px 8px;
+                font-size: 0.85em;
+                display: inline-block;
+                margin-bottom: 2px;
             }
-            table, table tbody, table tr, table td {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            table tr {
-                margin-bottom: 15px;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                padding: 10px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-            table td {
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-                border-bottom: 1px solid #eee;
-                min-height: 24px; /* Altura mínima para celdas vacías */
-            }
-            table td:last-child {
-                text-align: center;
-                padding-left: 0;
-                border-bottom: none;
-                margin-top: 10px;
-            }
-            table td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 10px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                text-align: left;
-                font-weight: bold;
-                color: #333;
+            
+            /* Ajustamos el buscador en móvil */
+            .controls-container {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
-        /* === INICIO: ESTILOS AÑADIDOS PARA REVELACIÓN === */
+
+        /* === ESTILOS AÑADIDOS PARA REVELACIÓN === */
         .reveal-controls { margin-top: 30px; padding-top: 20px; border-top: 2px solid #eef; text-align: center; }
         .reveal-controls h2 { font-size: 1.5em; margin-bottom: 15px; color: #1a2c4e; }
         .reveal-btn { padding: 10px 20px; border-radius: 8px; font-size: 1em; cursor: pointer; margin: 0 10px; border: none; color: white; font-weight: bold; }
-        .show-reveal-btn { background-color: #ff69b4; /* Rosa */ }
-        .hide-reveal-btn { background-color: #6c757d; /* Gris */ }
+        .show-reveal-btn { background-color: #ff69b4; }
+        .hide-reveal-btn { background-color: #6c757d; }
         .reveal-status { margin-top: 15px; font-style: italic; color: #555; }
-        /* === FIN: ESTILOS AÑADIDOS PARA REVELACIÓN === */
     </style>
 </head>
 <body>
@@ -266,29 +315,35 @@
             <div class="stat-item"><h2 id="total-count">0</h2><p>Total Respuestas</p></div>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Estatus</th>
-                    <th>Última Actualización</th>
-                    <th>Mesa</th>
-                    <th>Silla</th>
-                    <th>Acciones</th> </tr>
-            </thead>
-            <tbody id="lista-invitados"></tbody>
-        </table>
+        <div class="controls-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Buscar por nombre..." onkeyup="filtrarTabla()">
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sortable" onclick="ordenar('nombre')">Nombre</th>
+                        <th class="sortable" onclick="ordenar('estatus')">Estatus</th>
+                        <th class="sortable" onclick="ordenar('actualizadoEn')">Última Actualización</th>
+                        <th class="sortable" onclick="ordenar('mesa')">Mesa</th>
+                        <th class="sortable" onclick="ordenar('silla')">Silla</th>
+                        <th>Acciones</th> 
+                    </tr>
+                </thead>
+                <tbody id="lista-invitados"></tbody>
+            </table>
+        </div>
         <p id="loading-message">Cargando lista de invitados...</p>
 
-        <!-- === INICIO: SECCIÓN HTML AÑADIDA PARA REVELACIÓN === -->
         <div class="reveal-controls">
             <h2>Control de Revelación de Género</h2>
             <button class="reveal-btn show-reveal-btn" onclick="toggleRevelacion(true)">Mostrar Revelación</button>
             <button class="reveal-btn hide-reveal-btn" onclick="toggleRevelacion(false)">Ocultar Revelación</button>
             <p class="reveal-status">Estado actual: <span id="reveal-current-status">Desconocido</span></p>
         </div>
-        <!-- === FIN: SECCIÓN HTML AÑADIDA PARA REVELACIÓN === -->
-
     </div>
 
     <div class="modal-overlay" id="edit-modal">
@@ -325,7 +380,7 @@
         const auth = firebase.auth();
         const database = firebase.database();
         const asistentesRef = database.ref('asistentes');
-        const configRef = database.ref('configuracion'); // <-- Referencia añadida
+        const configRef = database.ref('configuracion'); 
 
         const loginWrapper = document.getElementById('login-wrapper');
         const adminPanel = document.getElementById('admin-panel');
@@ -337,20 +392,24 @@
         const canceladosCountEl = document.getElementById('cancelados-count');
         const totalCountEl = document.getElementById('total-count');
         const editModal = document.getElementById('edit-modal');
-        const revealStatusEl = document.getElementById('reveal-current-status'); // <-- Referencia añadida
+        const revealStatusEl = document.getElementById('reveal-current-status');
 
         let dataListener = null; 
-        let configListener = null; // <-- Variable añadida
+        let configListener = null;
+        
+        // VARIABLES NUEVAS PARA FILTRO Y ORDEN
+        let todosLosInvitados = []; 
+        let ordenActual = { columna: 'actualizadoEn', direccion: 'desc' }; // Orden inicial
 
         auth.onAuthStateChanged(user => {
             if (user) {
-                const adminUIDs = ["c4Hy9GWI06RwTGzRdXDSbf8FPzB3","7y8KPEK7rXW1SNiQvUYUk6LE4eO2"]; // <-- Asegúrate de que tu UID esté aquí
+                const adminUIDs = ["c4Hy9GWI06RwTGzRdXDSbf8FPzB3","7y8KPEK7rXW1SNiQvUYUk6LE4eO2"]; 
                 
                 if (adminUIDs.includes(user.uid)) {
                     loginWrapper.style.display = 'none';
                     adminPanel.style.display = 'block';
                     loadAdminData();
-                    listenToConfig(); // <-- Llamada a la nueva función
+                    listenToConfig(); 
                 } else {
                     logout();
                     alert("No tienes permisos de administrador.");
@@ -359,7 +418,7 @@
                 loginWrapper.style.display = 'flex';
                 adminPanel.style.display = 'none';
                 if(dataListener) asistentesRef.off('value', dataListener);
-                if(configListener) configRef.child('mostrarRevelacion').off('value', configListener); // <-- Detener listener al cerrar sesión
+                if(configListener) configRef.child('mostrarRevelacion').off('value', configListener); 
             }
         });
 
@@ -380,14 +439,16 @@
             auth.signOut();
         }
         
+        // --- FUNCIÓN MODIFICADA PARA CARGAR DATOS ---
         function loadAdminData() {
             if(dataListener) {
                 asistentesRef.off('value', dataListener);
             }
 
-            dataListener = asistentesRef.orderByChild('nombre').on('value', (snapshot) => {
-                listaInvitadosBody.innerHTML = '';
+            // Usamos .on() simple, el ordenamiento lo hará el cliente
+            dataListener = asistentesRef.on('value', (snapshot) => {
                 loadingMessage.style.display = 'none';
+                todosLosInvitados = []; // Limpiamos array
 
                 let confirmados = 0;
                 let cancelados = 0;
@@ -395,47 +456,127 @@
                 if (snapshot.exists()) {
                     snapshot.forEach((childSnapshot) => {
                         const guestId = childSnapshot.key;
-                        const invitado = childSnapshot.val();
-                        const fila = document.createElement('tr');
+                        const data = childSnapshot.val();
                         
-                        const isConfirmed = invitado.estatus === 'confirmado';
-                        
-                        // Escapa las comillas simples en el nombre para evitar errores en onclick
-                        const safeGuestName = invitado.nombre ? invitado.nombre.replace(/'/g, "\\'") : 'Invitado sin nombre';
+                        // Guardamos datos en memoria
+                        todosLosInvitados.push({
+                            id: guestId,
+                            nombre: data.nombre || '',
+                            nombreBusqueda: normalizarTexto(data.nombre || ''), // Para buscar rápido
+                            estatus: data.estatus || 'pendiente',
+                            mesa: data.mesa ? parseInt(data.mesa) : 0, // Convertir a num para ordenar
+                            silla: data.silla ? parseInt(data.silla) : 0,
+                            actualizadoEn: data.actualizadoEn || data.registradoEn || '',
+                            originalData: data
+                        });
 
-                        fila.innerHTML = `
-                            <td data-label="Nombre">${invitado.nombre || 'Sin nombre'}</td>
-                            <td data-label="Estatus">
-                                <span class="status-badge ${isConfirmed ? 'status-confirmado' : 'status-cancelado'}">
-                                    ${invitado.estatus || 'N/A'}
-                                </span>
-                            </td>
-                            <td data-label="Actualización">${invitado.actualizadoEn ? new Date(invitado.actualizadoEn).toLocaleString() : 'N/A'}</td>
-                            <td data-label="Mesa">${invitado.mesa || 'N/A'}</td>
-                            <td data-label="Silla">${invitado.silla || 'N/A'}</td>
-                            <td>
-                                <button class="action-btn edit-btn" onclick="openEditModal('${guestId}', '${safeGuestName}', '${invitado.mesa || ''}', '${invitado.silla || ''}')">Editar</button>
-                                <button class="action-btn delete-btn" onclick="deleteGuest('${guestId}', '${safeGuestName}')">Eliminar</button>
-                            </td>
-                        `;
-                        
-                        listaInvitadosBody.appendChild(fila);
-
-                        if (isConfirmed) confirmados++;
-                        else cancelados++;
+                        if (data.estatus === 'confirmado') confirmados++;
+                        else if (data.estatus === 'rechazado' || data.estatus === 'cancelado') cancelados++;
                     });
-                } else {
-                    loadingMessage.textContent = "Aún no hay respuestas.";
-                    loadingMessage.style.display = 'block';
                 }
 
                 confirmadosCountEl.textContent = confirmados;
                 canceladosCountEl.textContent = cancelados;
-                totalCountEl.textContent = confirmados + cancelados;
+                totalCountEl.textContent = todosLosInvitados.length;
+
+                // Pintamos la tabla
+                renderizarTabla();
+
             }, (error) => {
                 console.error("Error al leer los datos: ", error);
-                loadingMessage.textContent = "Error al cargar los datos. Revisa las reglas de seguridad.";
+                loadingMessage.textContent = "Error al cargar los datos.";
                 loadingMessage.style.display = 'block';
+            });
+        }
+
+        // --- NUEVAS FUNCIONES DE AYUDA ---
+        function normalizarTexto(texto) {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+
+        function ordenar(columna) {
+            // Si clicamos la misma columna, invertimos dirección
+            if (ordenActual.columna === columna) {
+                ordenActual.direccion = ordenActual.direccion === 'asc' ? 'desc' : 'asc';
+            } else {
+                ordenActual.columna = columna;
+                ordenActual.direccion = 'asc';
+            }
+            
+            // Actualizar visualmente las flechas
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('asc', 'desc');
+                // Comprobación simple por texto del header para poner la flecha correcta
+                const headerText = th.innerText.toLowerCase();
+                const colCheck = columna === 'actualizadoEn' ? 'actualización' : columna;
+                if (headerText.includes(colCheck)) {
+                     th.classList.add(ordenActual.direccion);
+                }
+            });
+
+            renderizarTabla();
+        }
+
+        function filtrarTabla() {
+            renderizarTabla();
+        }
+
+        // --- FUNCIÓN PRINCIPAL DE RENDERIZADO ---
+        function renderizarTabla() {
+            const terminoBusqueda = normalizarTexto(document.getElementById('search-input').value);
+            const tbody = document.getElementById('lista-invitados');
+            tbody.innerHTML = '';
+
+            // 1. FILTRAR
+            let listaFiltrada = todosLosInvitados.filter(invitado => {
+                return invitado.nombreBusqueda.includes(terminoBusqueda);
+            });
+
+            // 2. ORDENAR
+            listaFiltrada.sort((a, b) => {
+                let valorA = a[ordenActual.columna];
+                let valorB = b[ordenActual.columna];
+
+                if (typeof valorA === 'string') valorA = valorA.toLowerCase();
+                if (typeof valorB === 'string') valorB = valorB.toLowerCase();
+
+                if (valorA < valorB) return ordenActual.direccion === 'asc' ? -1 : 1;
+                if (valorA > valorB) return ordenActual.direccion === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            // 3. MOSTRAR
+            if (listaFiltrada.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">No se encontraron resultados.</td></tr>';
+                return;
+            }
+
+            listaFiltrada.forEach(invitado => {
+                const fila = document.createElement('tr');
+                const isConfirmed = invitado.estatus === 'confirmado';
+                const safeGuestName = invitado.nombre.replace(/'/g, "\\'");
+
+                let fechaTexto = 'N/A';
+                if(invitado.actualizadoEn) {
+                     fechaTexto = new Date(invitado.actualizadoEn).toLocaleString();
+                }
+
+                fila.innerHTML = `
+                    <td data-label="Nombre"><strong>${invitado.nombre || 'Sin nombre'}</strong></td>
+                    <td data-label="Estatus">
+                        <span class="status-badge ${isConfirmed ? 'status-confirmado' : 'status-cancelado'}">
+                            ${invitado.estatus}
+                        </span>
+                    </td>
+                    <td data-label="Actualización">${fechaTexto}</td>
+                    <td data-label="Mesa">${invitado.mesa || '-'}</td>
+                    <td data-label="Silla">${invitado.silla || '-'}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="openEditModal('${invitado.id}', '${safeGuestName}', '${invitado.mesa || ''}', '${invitado.silla || ''}')">Editar</button>
+                        <button class="action-btn delete-btn" onclick="deleteGuest('${invitado.id}', '${safeGuestName}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(fila);
             });
         }
 
@@ -495,7 +636,7 @@
             }
         });
 
-        // === INICIO: FUNCIONES AÑADIDAS PARA REVELACIÓN ===
+        // === FUNCIONES REVELACIÓN ===
         function listenToConfig() {
             if(configListener) {
                  configRef.child('mostrarRevelacion').off('value', configListener);
@@ -523,8 +664,6 @@
                     console.error("Error al escribir configuración:", error);
                 });
         }
-        // === FIN: FUNCIONES AÑADIDAS PARA REVELACIÓN ===
     </script>
 </body>
 </html>
-
