@@ -171,6 +171,32 @@
         }
         
         #loading-indicator { font-size: 1.5em; color: var(--text-dark); text-align: center; padding: 40px; }
+
+
+        .results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.result-item-btn {
+    background-color: white;
+    border: 1px solid var(--pink);
+    color: var(--text-dark);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Quicksand', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.result-item-btn:hover {
+    background-color: var(--pink);
+    color: white;
+}
         
         @media (max-width: 768px) {
             h1 { font-size: 1.8em; }
@@ -243,41 +269,87 @@
             return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, '').trim().toUpperCase();
         }
 
+        
+function mostrarUbicacion(invitado) {
+            // Limpiar resaltados anteriores
+            document.querySelectorAll('.silla.highlight').forEach(el => el.classList.remove('highlight'));
+            
+            // Mostrar texto
+            searchResult.innerHTML = `<strong>${invitado.nombre}</strong><br>Mesa: ${invitado.mesa}, Silla: ${invitado.silla}`;
+            
+            // Animar la silla
+            const sillaElement = document.getElementById(`silla-${invitado.mesa}-${invitado.silla}`);
+            if (sillaElement) {
+                sillaElement.classList.add('highlight');
+                
+                // Scroll suave hacia la mesa si está fuera de vista (opcional pero recomendado)
+                sillaElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+
+                // Quita la clase después de la animación
+                setTimeout(() => {
+                    sillaElement.classList.remove('highlight');
+                }, 2400); 
+            }
+        }
+
         function handleSearch() {
             const searchTerm = normalizarNombre(searchInput.value);
+            searchResult.innerHTML = ''; // Limpiar resultados previos
+            
+            // Limpiar resaltados anteriores visualmente
+            document.querySelectorAll('.silla.highlight').forEach(el => el.classList.remove('highlight'));
+
             if (!searchTerm) {
                 searchResult.textContent = 'Ingresa un nombre.';
                 return;
             }
 
-            let foundGuest = null;
+            // Buscar todas las coincidencias
+            let matches = [];
             for (const key in allGuestsData) {
                 const invitado = allGuestsData[key];
-                if (invitado.nombreNormalizado === searchTerm) {
-                    foundGuest = invitado;
-                    break;
+                // Verifica si el nombre normalizado INCLUYE el término de búsqueda
+                // Y verifica que esté confirmado y tenga mesa asignada
+                if (invitado.nombreNormalizado.includes(searchTerm) && 
+                    invitado.estatus === 'confirmado' && 
+                    invitado.mesa) {
+                    matches.push(invitado);
                 }
             }
-            
-            // Limpia cualquier resaltado anterior
-            document.querySelectorAll('.silla.highlight').forEach(el => el.classList.remove('highlight'));
 
-            if (foundGuest && foundGuest.estatus === 'confirmado' && foundGuest.mesa) {
-                searchResult.textContent = `Mesa: ${foundGuest.mesa}, Silla: ${foundGuest.silla}`;
-                const sillaElement = document.getElementById(`silla-${foundGuest.mesa}-${foundGuest.silla}`);
-                if (sillaElement) {
-                    sillaElement.classList.add('highlight');
-                    // Quita la clase después de la animación para poder buscar de nuevo
-                    setTimeout(() => {
-                        sillaElement.classList.remove('highlight');
-                    }, 2400); // Duración de la animación * 3
-                }
-            } else if (foundGuest) {
-                searchResult.textContent = 'Invitado no confirmado.';
-            } else {
-                searchResult.textContent = 'Invitado no encontrado.';
+            // Lógica de visualización según la cantidad de resultados
+            if (matches.length === 0) {
+                searchResult.textContent = 'No se encontraron invitados confirmados con ese nombre.';
+            } 
+            else if (matches.length === 1) {
+                // Solo una coincidencia: mostrar directamente
+                mostrarUbicacion(matches[0]);
+            } 
+            else {
+                // Múltiples coincidencias: mostrar lista para elegir
+                const title = document.createElement('div');
+                title.textContent = `Encontramos ${matches.length} coincidencias. Selecciona tu nombre:`;
+                title.style.marginBottom = '5px';
+                title.style.fontSize = '0.9em';
+                searchResult.appendChild(title);
+
+                const listContainer = document.createElement('div');
+                listContainer.className = 'results-list';
+
+                matches.forEach(invitado => {
+                    const btn = document.createElement('button');
+                    btn.className = 'result-item-btn';
+                    btn.textContent = invitado.nombre;
+                    btn.onclick = () => mostrarUbicacion(invitado);
+                    listContainer.appendChild(btn);
+                });
+
+                searchResult.appendChild(listContainer);
             }
         }
+
+
+
         
         searchButton.addEventListener('click', handleSearch);
         searchInput.addEventListener('keyup', (e) => {
