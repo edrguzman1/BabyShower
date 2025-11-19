@@ -1,0 +1,528 @@
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Shower - ¿Niño o Niña?</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        /* Animaciones Personalizadas */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pop { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        .bg-animated {
+            background: linear-gradient(-45deg, #f0f9ff, #f5f3ff, #fff1f2, #e0f2fe);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        /* Scrollbar personalizada */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* Estilos para selección de equipo */
+        .team-btn.selected-boy {
+            border-color: #60a5fa; /* blue-400 */
+            background-color: #eff6ff; /* blue-50 */
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+        }
+        .team-btn.selected-girl {
+            border-color: #f472b6; /* pink-400 */
+            background-color: #fdf2f8; /* pink-50 */
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.1);
+        }
+        
+        .team-icon-boy { background-color: #dbeafe; color: #60a5fa; }
+        .selected-boy .team-icon-boy { background-color: #3b82f6; color: white; }
+        
+        .team-icon-girl { background-color: #fce7f3; color: #f472b6; }
+        .selected-girl .team-icon-girl { background-color: #ec4899; color: white; }
+
+        /* Ocultar elementos helper */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen bg-animated text-slate-700 overflow-x-hidden relative selection:bg-purple-200">
+
+    <!-- Decoraciones de fondo -->
+    <div class="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="top: -50px; left: -50px;"></div>
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 1.5s; bottom: -50px; right: -50px;"></div>
+
+    <div class="container mx-auto px-4 py-8 relative z-10 max-w-4xl">
+        
+        <!-- Header -->
+        <header class="text-center mb-12 animate-pop">
+            <div class="inline-flex items-center justify-center p-3 bg-white rounded-full shadow-md mb-4">
+                <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400 mr-2"></i>
+                <span class="text-sm font-bold text-slate-500 tracking-widest uppercase">Baby Shower Guzmán Miranda</span>
+                <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400 ml-2"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">
+                ¿Niño o Niña?
+            </h1>
+            <p class="text-lg text-slate-600 mb-6">¡Adivina y déjanos tus mejores deseos!</p>
+           
+        </header>
+
+        <!-- Formulario de Votación -->
+        <div id="voteSection" class="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 md:p-10 mb-12 border border-white animate-pop duration-700">
+            <h2 class="text-2xl font-bold text-center mb-8 text-slate-800">¡Haz tu predicción!</h2>
+            
+            <form id="votingForm" class="space-y-8">
+                <!-- Selector de Equipo -->
+                <div class="grid grid-cols-2 gap-4 md:gap-8">
+                    <!-- Botón Niño -->
+                    <button type="button" id="btnBoy" class="team-btn relative group flex flex-col items-center p-6 rounded-2xl border-2 border-slate-100 hover:border-blue-200 bg-white hover:bg-blue-50/50 transition-all duration-300">
+                        <div class="team-icon-boy w-16 h-16 rounded-full flex items-center justify-center mb-3 transition-colors">
+                            <i data-lucide="baby" class="w-8 h-8"></i>
+                        </div>
+                        <span class="team-text font-bold text-lg text-slate-500 group-hover:text-blue-500 transition-colors">Team Niño</span>
+                        <div class="check-icon absolute -top-2 -right-2 bg-blue-500 text-white p-1 rounded-full hidden">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </div>
+                    </button>
+
+                    <!-- Botón Niña -->
+                    <button type="button" id="btnGirl" class="team-btn relative group flex flex-col items-center p-6 rounded-2xl border-2 border-slate-100 hover:border-pink-200 bg-white hover:bg-pink-50/50 transition-all duration-300">
+                        <div class="team-icon-girl w-16 h-16 rounded-full flex items-center justify-center mb-3 transition-colors">
+                            <i data-lucide="heart" class="w-8 h-8"></i>
+                        </div>
+                        <span class="team-text font-bold text-lg text-slate-500 group-hover:text-pink-500 transition-colors">Team Niña</span>
+                        <div class="check-icon absolute -top-2 -right-2 bg-pink-500 text-white p-1 rounded-full hidden">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Inputs -->
+                <div class="space-y-4 max-w-md mx-auto">
+                    <div class="relative group">
+                        <div class="absolute top-3.5 left-3 text-slate-400 group-focus-within:text-purple-500 transition-colors">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                        </div>
+                        <input type="text" id="inputName" placeholder="Tu nombre completo" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring focus:ring-purple-200 transition-all outline-none bg-white/50">
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute top-3.5 left-3 text-slate-400 group-focus-within:text-purple-500 transition-colors">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </div>
+                        <textarea id="inputMessage" placeholder="Un mensaje bonito para el bebé (opcional)"
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring focus:ring-purple-200 transition-all outline-none bg-white/50 min-h-[80px]"></textarea>
+                    </div>
+                    <!-- Mensaje de Error -->
+                    <div id="errorMessage" class="hidden p-3 bg-red-100 border border-red-200 text-red-600 rounded-xl text-sm text-center font-bold">
+                    </div>
+                </div>
+
+                <!-- Botón Submit -->
+                <div class="text-center">
+                    <button type="submit" id="submitBtn" disabled
+                        class="px-8 py-4 rounded-full font-bold text-white text-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center mx-auto min-w-[200px] bg-slate-300 cursor-not-allowed">
+                        <span>Enviar mi Voto</span>
+                        <i data-lucide="send" class="ml-2 w-5 h-5"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Mensaje de Gracias (Oculto por defecto) -->
+        <div id="thankYouSection" class="hidden text-center mb-12 animate-pop bg-white/60 backdrop-blur p-8 rounded-2xl border border-white shadow-lg">
+            <div class="inline-block p-3 bg-green-100 rounded-full text-green-500 mb-4">
+                <i data-lucide="check-circle" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-700 mb-2">¡Gracias por participar!</h3>
+            <p class="text-slate-500">Tu voto ha sido registrado. Mira abajo cómo van las estadísticas.</p>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div class="space-y-8">
+            
+            <!-- Barra de Progreso VS -->
+            <div class="bg-white rounded-3xl p-2 shadow-lg overflow-hidden relative">
+                <div class="flex h-14 md:h-16 rounded-2xl overflow-hidden relative bg-slate-100">
+                    <!-- Barra Azul -->
+                    <div id="barBoy" class="bg-blue-400 flex items-center justify-start pl-4 transition-all duration-1000 relative w-1/2">
+                        <span id="txtBoyPercent" class="text-white font-bold whitespace-nowrap z-10 drop-shadow-md text-sm md:text-base">0% Niño</span>
+                        <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');"></div>
+                    </div>
+
+                    <!-- Barra Rosa -->
+                    <div id="barGirl" class="bg-pink-400 flex items-center justify-end pr-4 transition-all duration-1000 relative w-1/2">
+                        <span id="txtGirlPercent" class="text-white font-bold whitespace-nowrap z-10 drop-shadow-md text-sm md:text-base">0% Niña</span>
+                        <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');"></div>
+                    </div>
+                    
+                    <!-- VS Badge -->
+                    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold text-xs text-slate-400 z-20 border-4 border-white">
+                        VS
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listas de Votos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Columna Niño -->
+                <div class="bg-blue-50/60 rounded-3xl p-4 border border-blue-100 backdrop-blur-sm">
+                    <div class="flex items-center justify-center mb-4 text-blue-500">
+                        <i data-lucide="baby" class="w-5 h-5 mr-2"></i>
+                        <h3 class="font-bold text-lg">Team Niño (<span id="countBoy">0</span>)</h3>
+                    </div>
+                    <div id="listBoy" class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar min-h-[100px]">
+                        <!-- Items se inyectan aquí con JS -->
+                        <div class="text-center text-slate-400 text-sm py-4">Cargando...</div>
+                    </div>
+                </div>
+
+                <!-- Columna Niña -->
+                <div class="bg-pink-50/60 rounded-3xl p-4 border border-pink-100 backdrop-blur-sm">
+                    <div class="flex items-center justify-center mb-4 text-pink-500">
+                        <i data-lucide="heart" class="w-5 h-5 mr-2"></i>
+                        <h3 class="font-bold text-lg">Team Niña (<span id="countGirl">0</span>)</h3>
+                    </div>
+                    <div id="listGirl" class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar min-h-[100px]">
+                        <!-- Items se inyectan aquí con JS -->
+                        <div class="text-center text-slate-400 text-sm py-4">Cargando...</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        // Importamos get, goOffline y goOnline para controlar la conexión
+        import { getDatabase, ref, push, serverTimestamp, get, goOffline, goOnline } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
+
+        // 1. Configuración
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
+            authDomain: "babyshowerguzmanmiranda.firebaseapp.com",
+            databaseURL: "https://babyshowerguzmanmiranda-default-rtdb.firebaseio.com",
+            projectId: "babyshowerguzmanmiranda",
+            storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
+            messagingSenderId: "564665563453",
+            appId: "1:564665563453:web:242aaba73a4768fa89ad54",
+            measurementId: "G-DJHTP10XY0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // 2. Estado Local
+        let currentUser = null;
+        let selectedTeam = null;
+        let hasVoted = false;
+
+        // 3. Referencias al DOM
+        const voteSection = document.getElementById('voteSection');
+        const thankYouSection = document.getElementById('thankYouSection');
+        const form = document.getElementById('votingForm');
+        const btnBoy = document.getElementById('btnBoy');
+        const btnGirl = document.getElementById('btnGirl');
+        const submitBtn = document.getElementById('submitBtn');
+        const inputName = document.getElementById('inputName');
+        const inputMessage = document.getElementById('inputMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Normalizar texto (mismo algoritmo que administración)
+        function normalizarTexto(texto) {
+            if (!texto) return '';
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        }
+
+        // 4. Autenticación y Carga Inicial
+        async function initApp() {
+            try {
+                // Conectar para login y carga inicial
+                goOnline(db);
+
+                // Autenticar
+                if (!auth.currentUser) {
+                     await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+
+                // Cargar datos iniciales (una sola vez)
+                await loadInitialData();
+
+            } catch (error) {
+                console.error("Error Init:", error);
+            } finally {
+                // Desconectar después de la carga inicial
+                console.log("Carga inicial completa, desconectando...");
+                goOffline(db);
+            }
+        }
+
+        // Función para cargar datos UNA SOLA VEZ (sin suscripción en tiempo real)
+        async function loadInitialData() {
+            const votosRef = ref(db, 'votaciones');
+            try {
+                const snapshot = await get(votosRef);
+                const votes = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        votes.push({ id: childSnapshot.key, ...childSnapshot.val() });
+                    });
+                }
+                // Ordenar por timestamp descendente
+                votes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                updateStatsAndLists(votes);
+            } catch (e) {
+                console.error("Error cargando datos:", e);
+                // Mostrar error visual si falla la carga
+                document.getElementById('listBoy').innerHTML = '<div class="text-center text-red-300">Error al cargar datos</div>';
+                document.getElementById('listGirl').innerHTML = '<div class="text-center text-red-300">Error al cargar datos</div>';
+            }
+        }
+
+        initApp();
+
+        function showThankYou() {
+            voteSection.classList.add('hidden');
+            thankYouSection.classList.remove('hidden');
+        }
+
+        function updateSubmitButton() {
+            const nameValid = inputName.value.trim().length > 0;
+            const teamValid = selectedTeam !== null;
+            
+            if (nameValid && teamValid && !hasVoted) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('bg-slate-300', 'cursor-not-allowed');
+                submitBtn.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-pink-500', 'hover:shadow-xl');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('bg-slate-300', 'cursor-not-allowed');
+                submitBtn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-pink-500', 'hover:shadow-xl');
+            }
+        }
+
+        // Eventos de selección de equipo
+        btnBoy.addEventListener('click', () => {
+            selectedTeam = 'boy';
+            btnBoy.classList.add('selected-boy');
+            btnBoy.querySelector('.check-icon').classList.remove('hidden');
+            btnGirl.classList.remove('selected-girl');
+            btnGirl.querySelector('.check-icon').classList.add('hidden');
+            updateSubmitButton();
+        });
+
+        btnGirl.addEventListener('click', () => {
+            selectedTeam = 'girl';
+            btnGirl.classList.add('selected-girl');
+            btnGirl.querySelector('.check-icon').classList.remove('hidden');
+            btnBoy.classList.remove('selected-boy');
+            btnBoy.querySelector('.check-icon').classList.add('hidden');
+            updateSubmitButton();
+        });
+
+        inputName.addEventListener('input', () => {
+            errorMessage.classList.add('hidden');
+            updateSubmitButton();
+        });
+
+        // Evento Submit (Lógica Principal)
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedTeam) return;
+
+            const nameOriginal = inputName.value.trim();
+            const nameNorm = normalizarTexto(nameOriginal);
+            const message = inputMessage.value.trim();
+
+            // UI Loading state
+            submitBtn.innerHTML = 'Verificando...';
+            submitBtn.disabled = true;
+            errorMessage.classList.add('hidden');
+
+            // 1. ABRIR CONEXIÓN
+            goOnline(db);
+
+            try {
+                // Asegurar autenticación
+                if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                    currentUser = auth.currentUser;
+                }
+
+                // 2. VERIFICAR DUPLICADOS EN BASE DE DATOS
+                const votosRef = ref(db, 'votaciones');
+                const snapshot = await get(votosRef); // Traemos todos para buscar (no es óptimo para millones, pero bien para un evento)
+                
+                let yaVoto = false;
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        const voto = child.val();
+                        if (voto.nombreNormalizado === nameNorm) {
+                            yaVoto = true;
+                        }
+                    });
+                }
+
+                if (yaVoto) {
+                    // CASO: YA EXISTE
+                    errorMessage.innerText = `El nombre "${nameOriginal}" ya registró un voto anteriormente.`;
+                    errorMessage.classList.remove('hidden');
+                    submitBtn.innerHTML = 'Enviar mi Voto';
+                    submitBtn.disabled = false;
+                    
+                    // Actualizamos la vista de paso
+                    const votes = [];
+                    snapshot.forEach((childSnapshot) => {
+                        votes.push({ id: childSnapshot.key, ...childSnapshot.val() });
+                    });
+                    votes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    updateStatsAndLists(votes);
+
+                } else {
+                    // CASO: NO EXISTE, GUARDAR
+                    submitBtn.innerHTML = 'Enviando...';
+                    await push(votosRef, {
+                        name: nameOriginal,
+                        nombreNormalizado: nameNorm,
+                        message: message,
+                        team: selectedTeam,
+                        userId: currentUser.uid,
+                        timestamp: serverTimestamp()
+                    });
+
+                    // Éxito
+                    hasVoted = true;
+                    showThankYou();
+
+                    // Actualizar vista con el nuevo dato (re-fetching simple para asegurar consistencia)
+                    const newSnapshot = await get(votosRef);
+                    const newVotes = [];
+                    if (newSnapshot.exists()) {
+                        newSnapshot.forEach((childSnapshot) => {
+                            newVotes.push({ id: childSnapshot.key, ...childSnapshot.val() });
+                        });
+                    }
+                    newVotes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                    updateStatsAndLists(newVotes);
+                }
+
+            } catch (error) {
+                console.error("Error transacción:", error);
+                submitBtn.innerHTML = 'Error de conexión. Reintentar.';
+                submitBtn.disabled = false;
+            } finally {
+                // 3. CERRAR CONEXIÓN
+                console.log("Transacción terminada, desconectando...");
+                goOffline(db);
+            }
+        });
+
+        function updateStatsAndLists(votes) {
+            const total = votes.length;
+            const boyVotes = votes.filter(v => v.team === 'boy');
+            const girlVotes = votes.filter(v => v.team === 'girl');
+            const boyCount = boyVotes.length;
+            const girlCount = girlVotes.length;
+
+            // Calcular porcentajes
+            let boyPercent = total === 0 ? 50 : (boyCount / total) * 100;
+            let girlPercent = total === 0 ? 50 : (girlCount / total) * 100;
+
+            // Actualizar UI Estadísticas
+            document.getElementById('barBoy').style.width = `${boyPercent}%`;
+            document.getElementById('barGirl').style.width = `${girlPercent}%`;
+            document.getElementById('txtBoyPercent').innerText = `${Math.round(boyPercent)}% Niño`;
+            document.getElementById('txtGirlPercent').innerText = `${Math.round(girlPercent)}% Niña`;
+            
+            document.getElementById('countBoy').innerText = boyCount;
+            document.getElementById('countGirl').innerText = girlCount;
+
+            // Renderizar Listas
+            renderList('listBoy', boyVotes, 'blue');
+            renderList('listGirl', girlVotes, 'pink');
+        }
+
+        function renderList(elementId, votesArray, color) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = ''; // Limpiar
+
+            if (votesArray.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-${color}-300 py-8 text-sm">
+                        Aún no hay votos aquí
+                    </div>`;
+                return;
+            }
+
+            votesArray.forEach(vote => {
+                const card = document.createElement('div');
+                card.className = `bg-white p-4 rounded-xl shadow-sm border-l-4 border-${color}-400 animate-pop mb-3`;
+                
+                const nameEl = document.createElement('div');
+                nameEl.className = 'font-bold text-slate-700';
+                nameEl.innerText = vote.name;
+                
+                card.appendChild(nameEl);
+
+                if (vote.message) {
+                    const msgEl = document.createElement('div');
+                    msgEl.className = 'text-sm text-slate-500 mt-1 italic';
+                    msgEl.innerText = `"${vote.message}"`;
+                    card.appendChild(msgEl);
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        // Inicializar iconos Lucide
+        lucide.createIcons();
+        
+    </script>
+</body>
+</html>
