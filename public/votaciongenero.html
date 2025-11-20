@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby Shower - ¿Niño o Niña?</title>
-
+    
     <meta property="og:title" content="Invitación Baby Shower Guzmán Miranda" />
     <meta property="og:description" content="¡Acompáñanos en este día tan especial!" />
     <meta property="og:image" content="https://www.babyshowerguzmanmiranda.com/img/LogoBabyShower.png" />
@@ -24,6 +23,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Kaushan+Script&display=swap" rel="stylesheet">
     
+    <title>¿Niño o Niña?</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -31,17 +32,54 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+    
+    <!-- Tu archivo de estilos original para la navbar -->
+    <link rel="stylesheet" href="css/estilos.css">
+
+    <!-- Configuración de Tailwind extendida con tus variables -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        title: ['Kaushan Script', 'cursive'],
+                    },
+                    colors: {
+                        pink: {
+                            DEFAULT: '#F5B895', // --pink
+                            hover: '#E89F71',   // --pink-hover
+                            light: '#fef4f0',   // --light-pink-bg
+                        },
+                        blue: {
+                            DEFAULT: '#d0b7a8', // --blue
+                            dark: '#bba192',    // --blue-dark
+                            light: '#f7f5f4',   // --light-blue-bg
+                        },
+                        boy: '#60a5fa',  // Azul fuerte para votación
+                        girl: '#f472b6', // Rosa fuerte para votación
+                    },
+                    borderRadius: {
+                        'custom': '20px', // --radius
+                    },
+                    boxShadow: {
+                        'custom': '0 8px 20px rgba(0, 0, 0, 0.1)', // --shadow
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        body { font-family: 'Quicksand', sans-serif; }
+        /* Estilos específicos para esta página que no rompen con estilos.css */
+        body {
+            padding-top: 80px; /* Espacio para tu navbar fija */
+            background: linear-gradient(135deg, var(--light-pink-bg), var(--light-blue-bg));
+            min-height: 100vh;
+        }
         
-        /* --- Animaciones Generales --- */
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        /* --- Animaciones Carrusel --- */
+        /* Animaciones Carrusel */
         @keyframes rollOut {
             0% { opacity: 1; transform: translateY(0); max-height: 150px; margin-bottom: 0.75rem; }
             100% { opacity: 0; transform: translateY(-30px); max-height: 0; margin-bottom: 0; padding: 0; border: none; }
@@ -50,155 +88,172 @@
             0% { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes popIn { 
+            0% { transform: scale(0.9); opacity: 0; } 
+            100% { transform: scale(1); opacity: 1; } 
+        }
 
-        .animate-float { animation: float 3s ease-in-out infinite; }
         .animate-pop { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .animate-roll-out { animation: rollOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         .animate-roll-in { animation: rollIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         
-        .bg-animated {
-            background: linear-gradient(-45deg, #f0f9ff, #f5f3ff, #fff1f2, #e0f2fe);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        /* Scrollbar oculta para el carrusel */
+        /* Scrollbar oculta */
         .custom-scrollbar::-webkit-scrollbar { width: 0px; background: transparent; }
-
-        /* Estilos Botones */
-        .team-btn.selected-boy { border-color: #60a5fa; background-color: #eff6ff; transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1); }
-        .team-btn.selected-girl { border-color: #f472b6; background-color: #fdf2f8; transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.1); }
-        .team-icon-boy { background-color: #dbeafe; color: #60a5fa; }
-        .selected-boy .team-icon-boy { background-color: #3b82f6; color: white; }
-        .team-icon-girl { background-color: #fce7f3; color: #f472b6; }
-        .selected-girl .team-icon-girl { background-color: #ec4899; color: white; }
+        
         .hidden { display: none !important; }
+
+        /* Estilos de Botones de Selección */
+        .team-btn { transition: all 0.3s ease; border: 2px solid transparent; }
+        .team-btn.selected-boy {
+            border-color: #60a5fa; background-color: #eff6ff;
+            transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+        }
+        .team-btn.selected-girl {
+            border-color: #f472b6; background-color: #fdf2f8;
+            transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.1);
+        }
+        
+        /* Iconos */
+        .team-icon { transition: all 0.3s ease; }
+        .team-btn.selected-boy .team-icon { background-color: #3b82f6; color: white; }
+        .team-btn.selected-girl .team-icon { background-color: #ec4899; color: white; }
     </style>
 </head>
-<body class="min-h-screen bg-animated text-slate-700 overflow-x-hidden relative selection:bg-purple-200">
+<body class="text-slate-700">
 
-    <!-- Decoraciones de fondo -->
-    <div class="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="top: -50px; left: -50px;"></div>
-    <div class="absolute bottom-0 right-0 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 1.5s; bottom: -50px; right: -50px;"></div>
+    <!-- NAVBAR ORIGINAL (Adaptada de tu index.html) -->
+    <div class="navbar">
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="menu-links" id="menuLinks">
+            <a href="index.html">Invitación</a>
+            <a href="conocetulugar.html">Conoce tu lugar</a>
+            <a href="votaciongenero.html" style="background-color: var(--link-bg-hover);">Predice el género</a>
+        </div>
+    </div>
+
+    <!-- Script para el menú móvil (básico) -->
+    <script>
+        function toggleMenu() {
+            const links = document.getElementById('menuLinks');
+            if (links.style.display === 'flex') {
+                links.style.display = 'none';
+            } else {
+                links.style.display = 'flex';
+                links.style.flexDirection = 'column';
+                links.style.position = 'absolute';
+                links.style.top = '60px';
+                links.style.left = '0';
+                links.style.width = '100%';
+                links.style.backgroundColor = 'white';
+                links.style.padding = '20px';
+                links.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+            }
+        }
+    </script>
 
     <div class="container mx-auto px-4 py-8 relative z-10 max-w-4xl">
         
         <!-- Header -->
         <header class="text-center mb-12 animate-pop">
-            <div class="inline-flex items-center justify-center p-3 bg-white rounded-full shadow-md mb-4">
+            <div class="inline-flex items-center justify-center p-3 bg-white rounded-full shadow-custom mb-4">
                 <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400 mr-2"></i>
-                <span class="text-sm font-bold text-slate-500 tracking-widest uppercase">Baby Shower Guzmán Miranda</span>
+                <span class="text-sm font-bold text-slate-500 tracking-widest uppercase" style="font-family: var(--font-base);">Baby Shower Guzmán Miranda</span>
                 <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400 ml-2"></i>
             </div>
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">
+            <!-- Título con tu fuente 'Kaushan Script' -->
+            <h1 class="text-4xl md:text-6xl mb-4 text-pink font-title">
                 ¿Niño o Niña?
             </h1>
-            <p class="text-lg text-slate-600 mb-6">¡Adivina y déjanos tus mejores deseos!</p>
+            <p class="text-lg text-slate-600 mb-6 font-sans">¡Adivina y déjanos tus mejores deseos!</p>
         </header>
 
         <!-- Formulario de Votación -->
-        <div id="voteSection" class="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 md:p-10 mb-12 border border-white animate-pop duration-700">
-            <h2 class="text-2xl font-bold text-center mb-8 text-slate-800">¡Haz tu predicción!</h2>
+        <div id="voteSection" class="bg-white rounded-custom shadow-custom p-6 md:p-10 mb-12 animate-pop duration-700">
+            <h2 class="text-2xl font-title text-center mb-8" style="color: #4fc3f7;">¡Haz tu predicción!</h2>
             
             <form id="votingForm" class="space-y-8">
                 <!-- Selector de Equipo -->
                 <div class="grid grid-cols-2 gap-4 md:gap-8">
                     <!-- Botón Niño -->
-                    <button type="button" id="btnBoy" class="team-btn relative group flex flex-col items-center p-6 rounded-2xl border-2 border-slate-100 hover:border-blue-200 bg-white hover:bg-blue-50/50 transition-all duration-300">
-                        <div class="team-icon-boy w-16 h-16 rounded-full flex items-center justify-center mb-3 transition-colors">
+                    <button type="button" id="btnBoy" class="team-btn relative group flex flex-col items-center p-6 rounded-custom bg-white hover:bg-blue-50/50">
+                        <div class="team-icon w-16 h-16 rounded-full flex items-center justify-center mb-3 bg-blue-100 text-blue-400">
                             <i data-lucide="baby" class="w-8 h-8"></i>
                         </div>
-                        <span class="team-text font-bold text-lg text-slate-500 group-hover:text-blue-500 transition-colors">Team Niño</span>
-                        <div class="check-icon absolute -top-2 -right-2 bg-blue-500 text-white p-1 rounded-full hidden">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
+                        <span class="font-bold text-lg text-slate-500 group-hover:text-blue-500 transition-colors font-sans">Team Niño</span>
+                        <div class="check-icon absolute -top-2 -right-2 bg-blue-500 text-white p-1 rounded-full hidden"><i data-lucide="check" class="w-4 h-4"></i></div>
                     </button>
 
                     <!-- Botón Niña -->
-                    <button type="button" id="btnGirl" class="team-btn relative group flex flex-col items-center p-6 rounded-2xl border-2 border-slate-100 hover:border-pink-200 bg-white hover:bg-pink-50/50 transition-all duration-300">
-                        <div class="team-icon-girl w-16 h-16 rounded-full flex items-center justify-center mb-3 transition-colors">
+                    <button type="button" id="btnGirl" class="team-btn relative group flex flex-col items-center p-6 rounded-custom bg-white hover:bg-pink-50/50">
+                        <div class="team-icon w-16 h-16 rounded-full flex items-center justify-center mb-3 bg-pink-100 text-pink-400">
                             <i data-lucide="heart" class="w-8 h-8"></i>
                         </div>
-                        <span class="team-text font-bold text-lg text-slate-500 group-hover:text-pink-500 transition-colors">Team Niña</span>
-                        <div class="check-icon absolute -top-2 -right-2 bg-pink-500 text-white p-1 rounded-full hidden">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
+                        <span class="font-bold text-lg text-slate-500 group-hover:text-pink-500 transition-colors font-sans">Team Niña</span>
+                        <div class="check-icon absolute -top-2 -right-2 bg-pink-500 text-white p-1 rounded-full hidden"><i data-lucide="check" class="w-4 h-4"></i></div>
                     </button>
                 </div>
 
                 <!-- Inputs -->
-                <div class="space-y-4 max-w-md mx-auto">
+                <div class="space-y-4 max-w-md mx-auto font-sans">
                     <div class="relative group">
-                        <div class="absolute top-3.5 left-3 text-slate-400 group-focus-within:text-purple-500 transition-colors">
-                            <i data-lucide="user" class="w-5 h-5"></i>
-                        </div>
+                        <div class="absolute top-3.5 left-3 text-slate-400"><i data-lucide="user" class="w-5 h-5"></i></div>
                         <input type="text" id="inputName" placeholder="Tu nombre completo" required
-                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring focus:ring-purple-200 transition-all outline-none bg-white/50">
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-pink outline-none">
                     </div>
                     <div class="relative group">
-                        <div class="absolute top-3.5 left-3 text-slate-400 group-focus-within:text-purple-500 transition-colors">
-                            <i data-lucide="message-circle" class="w-5 h-5"></i>
-                        </div>
+                        <div class="absolute top-3.5 left-3 text-slate-400"><i data-lucide="message-circle" class="w-5 h-5"></i></div>
                         <textarea id="inputMessage" placeholder="Un mensaje bonito para el bebé (opcional)"
-                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring focus:ring-purple-200 transition-all outline-none bg-white/50 min-h-[80px]"></textarea>
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-pink outline-none min-h-[80px]"></textarea>
                     </div>
-                    
                     <!-- Mensaje de Error -->
                     <div id="errorMessage" class="hidden p-3 bg-red-100 border border-red-200 text-red-600 rounded-xl text-sm text-center font-bold"></div>
                 </div>
 
-                <!-- Botón Submit -->
+                <!-- Botón Submit (Usando tus estilos de botón) -->
                 <div class="text-center">
                     <button type="submit" id="submitBtn" disabled
-                        class="px-8 py-4 rounded-full font-bold text-white text-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center mx-auto min-w-[200px] bg-slate-300 cursor-not-allowed">
-                        <span>Enviar mi Voto</span>
+                        class="bg-pink text-white px-8 py-4 rounded-custom font-bold text-lg shadow-lg hover:bg-pink-hover transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center mx-auto min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span>Enviar mi Predición</span>
                         <i data-lucide="send" class="ml-2 w-5 h-5"></i>
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- Mensaje de Gracias (Oculto por defecto) -->
-        <div id="thankYouSection" class="hidden text-center mb-12 animate-pop bg-white/60 backdrop-blur p-8 rounded-2xl border border-white shadow-lg">
+        <!-- Mensaje de Gracias -->
+        <div id="thankYouSection" class="hidden text-center mb-12 animate-pop bg-white p-8 rounded-custom shadow-custom border border-white">
             <div class="inline-block p-3 bg-green-100 rounded-full text-green-500 mb-4">
                 <i data-lucide="check-circle" class="w-8 h-8"></i>
             </div>
-            <h3 class="text-2xl font-bold text-slate-700 mb-2">¡Gracias por participar!</h3>
-            <p class="text-slate-500 mb-4">Tu voto ha sido registrado.</p>
-            <button onclick="location.reload()" class="text-blue-500 font-bold underline text-sm hover:text-blue-700">
+            <h3 class="text-2xl font-title text-slate-700 mb-2">¡Gracias por participar!</h3>
+            <p class="text-slate-500 mb-4 font-sans">Tu voto ha sido registrado.</p>
+            <button onclick="location.reload()" class="text-blue-400 font-bold underline text-sm hover:text-blue-600 bg-transparent p-0 shadow-none">
                 Votar otra vez
             </button>
         </div>
 
         <!-- Sección de Resultados (CARRUSEL) -->
-        <div class="space-y-8 animate-pop">
+        <div class="space-y-8 animate-pop font-sans">
             
             <div class="flex items-center justify-between">
-                <h3 class="font-bold text-slate-600 text-lg ml-2">Resultados Actuales</h3>
-                <button onclick="cargarDatos()" class="text-xs bg-white/50 px-3 py-1 rounded-full hover:bg-white text-slate-500 flex items-center transition-transform active:scale-95 cursor-pointer">
+                <h3 class="font-title text-slate-600 text-xl ml-2">Resultados Actuales</h3>
+                <button onclick="cargarDatos()" class="text-xs bg-white px-3 py-1 rounded-full hover:bg-slate-50 text-slate-500 flex items-center transition-transform active:scale-95 cursor-pointer border border-slate-200 shadow-sm">
                     <i data-lucide="refresh-cw" class="w-3 h-3 mr-1"></i> Actualizar
                 </button>
             </div>
 
-            <!-- Barra de Progreso VS -->
-            <div class="bg-white rounded-3xl p-2 shadow-lg overflow-hidden relative">
-                <div class="flex h-14 md:h-16 rounded-2xl overflow-hidden relative bg-slate-100">
-                    <!-- Barra Azul -->
-                    <div id="barBoy" class="bg-blue-400 flex items-center justify-start pl-4 transition-all duration-1000 relative w-1/2">
+            <!-- Barra de Progreso -->
+            <div class="bg-white rounded-custom p-2 shadow-custom overflow-hidden relative">
+                <div class="flex h-14 md:h-16 rounded-xl overflow-hidden relative bg-slate-100">
+                    <div id="barBoy" class="bg-boy flex items-center justify-start pl-4 transition-all duration-1000 relative w-1/2">
                         <span id="txtBoyPercent" class="text-white font-bold whitespace-nowrap z-10 drop-shadow-md text-sm md:text-base">0% Niño</span>
                         <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');"></div>
                     </div>
-
-                    <!-- Barra Rosa -->
-                    <div id="barGirl" class="bg-pink-400 flex items-center justify-end pr-4 transition-all duration-1000 relative w-1/2">
+                    <div id="barGirl" class="bg-girl flex items-center justify-end pr-4 transition-all duration-1000 relative w-1/2">
                         <span id="txtGirlPercent" class="text-white font-bold whitespace-nowrap z-10 drop-shadow-md text-sm md:text-base">0% Niña</span>
                         <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');"></div>
                     </div>
-                    
-                    <!-- VS Badge -->
-                    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold text-xs text-slate-400 z-20 border-4 border-white">
-                        VS
-                    </div>
+                    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold text-xs text-slate-400 z-20 border-4 border-white">VS</div>
                 </div>
             </div>
 
@@ -206,22 +261,21 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 <!-- Columna Niño -->
-                <div class="bg-blue-50/60 rounded-3xl p-4 border border-blue-100 backdrop-blur-sm">
-                    <div class="flex items-center justify-center mb-4 text-blue-500">
+                <div class="bg-blue-light rounded-custom p-4 border border-blue/30">
+                    <div class="flex items-center justify-center mb-4 text-boy">
                         <i data-lucide="baby" class="w-5 h-5 mr-2"></i>
-                        <h3 class="font-bold text-lg">Team Niño (<span id="countBoy">0</span>)</h3>
+                        <h3 class="font-bold text-lg font-sans mb-0" style="font-size: 1.2em;">Team Niño (<span id="countBoy">0</span>)</h3>
                     </div>
-                    <!-- Contenedor Carrusel: Altura fija y overflow hidden para la animación -->
                     <div id="listBoy" class="h-80 overflow-hidden relative flex flex-col gap-3 p-1">
                         <div class="text-center text-blue-400 text-sm py-4">Cargando...</div>
                     </div>
                 </div>
 
                 <!-- Columna Niña -->
-                <div class="bg-pink-50/60 rounded-3xl p-4 border border-pink-100 backdrop-blur-sm">
-                    <div class="flex items-center justify-center mb-4 text-pink-500">
+                <div class="bg-pink-light rounded-custom p-4 border border-pink/30">
+                    <div class="flex items-center justify-center mb-4 text-girl">
                         <i data-lucide="heart" class="w-5 h-5 mr-2"></i>
-                        <h3 class="font-bold text-lg">Team Niña (<span id="countGirl">0</span>)</h3>
+                        <h3 class="font-bold text-lg font-sans mb-0" style="font-size: 1.2em;">Team Niña (<span id="countGirl">0</span>)</h3>
                     </div>
                     <div id="listGirl" class="h-80 overflow-hidden relative flex flex-col gap-3 p-1">
                         <div class="text-center text-pink-400 text-sm py-4">Cargando...</div>
@@ -259,7 +313,7 @@
         let selectedTeam = null;
         let hasVoted = false;
 
-        // Datos para carrusel (en memoria)
+        // Datos para carrusel
         let allBoyVotes = [];
         let allGirlVotes = [];
         let boyNextIndex = 0;
@@ -277,28 +331,27 @@
         const btnGirl = document.getElementById('btnGirl');
         const errorMessage = document.getElementById('errorMessage');
 
-        // --- NUEVA FUNCIÓN DE NORMALIZACIÓN ---
+        // Normalización estricta (Sin espacios, sin caracteres especiales)
         function normalizarTexto(texto) {
             if (!texto) return '';
             return texto
-                .normalize("NFD") // Descompone caracteres con acento
-                .replace(/[\u0300-\u036f]/g, "") // Elimina los acentos
-                .toUpperCase() // Convierte a mayúsculas
-                .replace(/[^A-Z0-9]/g, ""); // Elimina todo lo que no sea letra o número (espacios, comas, etc.)
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toUpperCase()
+                .replace(/[^A-Z0-9]/g, "");
         }
 
-        // --- Carga de Datos y Carrusel (No Realtime) ---
-        window.cargarDatos = async function() {
-            console.log("Conectando para actualizar...");
+        // --- Carga de Datos y Carrusel ---
+        
+        // 1. Definimos la función localmente para uso interno
+        async function cargarDatosLocal() {
             goOnline(db);
-
             try {
                 if (!auth.currentUser) await signInAnonymously(auth);
                 currentUser = auth.currentUser;
 
                 const snapshot = await get(ref(db, 'votaciones'));
                 const votes = [];
-                
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     Object.keys(data).forEach(key => {
@@ -317,8 +370,8 @@
                 updateStats(votes.length, allBoyVotes.length, allGirlVotes.length);
                 
                 // Inicializar listas
-                inicializarOActualizar('listBoy', allBoyVotes, 'blue');
-                inicializarOActualizar('listGirl', allGirlVotes, 'pink');
+                inicializarOActualizar('listBoy', allBoyVotes, 'border-blue-400');
+                inicializarOActualizar('listGirl', allGirlVotes, 'border-pink-400');
 
                 // Iniciar ciclo si no existe
                 if (!carouselInterval) {
@@ -327,13 +380,15 @@
 
             } catch (error) {
                 console.error("Error cargando datos:", error);
-                document.getElementById('listBoy').innerHTML = '<div class="text-center text-red-300 text-sm py-4">Error de conexión</div>';
-                document.getElementById('listGirl').innerHTML = '<div class="text-center text-red-300 text-sm py-4">Error de conexión</div>';
+                document.getElementById('listBoy').innerHTML = '<div class="text-center text-red-400 text-sm py-4">Error de conexión</div>';
+                document.getElementById('listGirl').innerHTML = '<div class="text-center text-red-400 text-sm py-4">Error de conexión</div>';
             } finally {
-                console.log("Datos cargados. Desconectando.");
                 goOffline(db);
             }
         }
+        
+        // 2. La exponemos a window para el botón HTML
+        window.cargarDatos = cargarDatosLocal;
 
         function updateStats(total, boyCount, girlCount) {
             let boyPercent = total === 0 ? 50 : (boyCount / total) * 100;
@@ -349,12 +404,13 @@
 
         // --- Funciones del Carrusel ---
 
-        function inicializarOActualizar(containerId, allVotes, color) {
+        function inicializarOActualizar(containerId, allVotes, borderColorClass) {
             const container = document.getElementById(containerId);
+            const colorClass = containerId === 'listBoy' ? 'blue' : 'pink';
             
             if (allVotes.length === 0) {
                 if (container.children.length === 0 || !container.innerHTML.includes('Aún no hay')) {
-                     container.innerHTML = `<div class="text-center text-${color}-400 text-sm py-8">Aún no hay votos.</div>`;
+                     container.innerHTML = `<div class="text-center text-${colorClass}-400 text-sm py-8 font-sans">Aún no hay votos.</div>`;
                 }
                 return;
             }
@@ -366,9 +422,9 @@
             // Llenar inicial (hasta 3)
             if (container.children.length === 0) {
                 const initialToShow = allVotes.slice(0, 3);
-                initialToShow.forEach(vote => createCard(container, vote, color));
+                initialToShow.forEach(vote => createCard(container, vote, borderColorClass));
                 
-                const type = color === 'blue' ? 'boy' : 'girl';
+                const type = containerId === 'listBoy' ? 'boy' : 'girl';
                 const nextIdx = initialToShow.length % allVotes.length;
                 if (type === 'boy') boyNextIndex = nextIdx; else girlNextIndex = nextIdx;
                 return;
@@ -379,25 +435,25 @@
                 const currentIds = Array.from(container.children).map(el => el.dataset.id);
                 allVotes.forEach(vote => {
                     if (!currentIds.includes(vote.id)) {
-                        createCard(container, vote, color);
+                        createCard(container, vote, borderColorClass);
                     }
                 });
             }
         }
 
         function runCarouselStep() {
-            stepColumn('listBoy', allBoyVotes, 'blue', 'boy');
-            setTimeout(() => stepColumn('listGirl', allGirlVotes, 'pink', 'girl'), 500);
+            stepColumn('listBoy', allBoyVotes, 'border-blue-400', 'boy');
+            setTimeout(() => stepColumn('listGirl', allGirlVotes, 'border-pink-400', 'girl'), 500);
         }
 
-        function stepColumn(containerId, allVotes, color, type) {
+        function stepColumn(containerId, allVotes, borderColorClass, type) {
             if (allVotes.length <= 3) return; // Modo estático
 
             const container = document.getElementById(containerId);
             const currentCards = container.children;
             
             if (currentCards.length === 0) {
-                inicializarOActualizar(containerId, allVotes, color);
+                inicializarOActualizar(containerId, allVotes, borderColorClass);
                 return;
             }
 
@@ -418,35 +474,31 @@
             }, 750);
 
             // Animación Entrada (Bottom)
-            createCard(container, nextVote, color);
+            createCard(container, nextVote, borderColorClass);
         }
 
-        function createCard(container, vote, color) {
+        function createCard(container, vote, borderColorClass) {
             const card = document.createElement('div');
             card.dataset.id = vote.id;
-            card.className = `flex-shrink-0 bg-white p-4 rounded-xl shadow-sm border-l-4 border-${color}-400 animate-roll-in mb-3`;
+            // Tailwind manual para la tarjeta del carrusel (ya que el estilo principal es el del sitio)
+            // Usamos clases de Tailwind aquí porque son utilitarias y no afectan el diseño global
+            card.className = `flex-shrink-0 bg-white p-4 rounded-xl shadow-sm border-l-4 ${borderColorClass} animate-roll-in mb-3`;
             
             const nameEl = document.createElement('div');
-            nameEl.className = 'font-bold text-slate-700';
+            nameEl.className = 'font-bold text-slate-700 font-sans';
             nameEl.innerText = vote.name;
             card.appendChild(nameEl);
 
             if (vote.message) {
                 const msgEl = document.createElement('div');
-                msgEl.className = 'text-sm text-slate-500 mt-1 italic line-clamp-2 overflow-hidden text-ellipsis';
+                msgEl.className = 'text-sm text-slate-500 mt-1 italic font-sans line-clamp-2 overflow-hidden text-ellipsis';
                 msgEl.innerText = `"${vote.message}"`;
                 card.appendChild(msgEl);
             }
             container.appendChild(card);
         }
 
-        // --- UI FORMULARIO ---
-
-        function showThankYou() {
-            voteSection.classList.add('hidden');
-            thankYouSection.classList.remove('hidden');
-        }
-
+        // --- Interacción UI ---
         function updateSubmitButton() {
             const nameValid = inputName.value.trim().length > 0;
             const teamValid = selectedTeam !== null;
@@ -454,11 +506,11 @@
             if (nameValid && teamValid && !hasVoted) {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('bg-slate-300', 'cursor-not-allowed');
-                submitBtn.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-pink-500', 'hover:shadow-xl');
+                submitBtn.classList.add('bg-pink', 'hover:bg-pink-hover', 'shadow-lg');
             } else {
                 submitBtn.disabled = true;
                 submitBtn.classList.add('bg-slate-300', 'cursor-not-allowed');
-                submitBtn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-pink-500', 'hover:shadow-xl');
+                submitBtn.classList.remove('bg-pink', 'hover:bg-pink-hover', 'shadow-lg');
             }
         }
 
@@ -480,17 +532,13 @@
             updateSubmitButton();
         });
 
-        inputName.addEventListener('input', () => {
-            errorMessage.classList.add('hidden');
-            updateSubmitButton();
-        });
+        inputName.addEventListener('input', updateSubmitButton);
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!selectedTeam) return;
 
             const nameOriginal = inputName.value.trim();
-            // Usar la nueva normalización
             const nameNorm = normalizarTexto(nameOriginal);
             const message = inputMessage.value.trim();
 
@@ -504,7 +552,7 @@
                 if (!auth.currentUser) await signInAnonymously(auth);
                 currentUser = auth.currentUser;
 
-                // Validar duplicado
+                // Validar duplicados
                 const snapshot = await get(ref(db, 'votaciones'));
                 let yaVoto = false;
                 if (snapshot.exists()) {
@@ -517,9 +565,12 @@
                 if (yaVoto) {
                     errorMessage.innerText = `El nombre "${nameOriginal}" ya registró un voto anteriormente.`;
                     errorMessage.classList.remove('hidden');
-                    submitBtn.innerHTML = 'Enviar mi Voto';
+                    submitBtn.innerHTML = 'Enviar mi Predición';
                     submitBtn.disabled = false;
-                    if (snapshot.exists()) cargarDatos();
+                    
+                    // REFRESCAMOS CON LA FUNCIÓN LOCAL
+                    if (snapshot.exists()) await cargarDatosLocal();
+
                 } else {
                     submitBtn.innerHTML = 'Enviando...';
                     await push(ref(db, 'votaciones'), {
@@ -530,18 +581,28 @@
                         userId: currentUser.uid,
                         timestamp: serverTimestamp()
                     });
+
+                    hasVoted = true;
                     showThankYou();
-                    cargarDatos();
+                    
+                    // REFRESCAMOS CON LA FUNCIÓN LOCAL
+                    await cargarDatosLocal();
                 }
+
             } catch (error) {
-                console.error(error);
+                console.error("Error transacción:", error);
                 submitBtn.innerHTML = 'Error. Reintentar';
                 submitBtn.disabled = false;
             }
         });
 
-        // Iniciar
-        cargarDatos();
+        function showThankYou() {
+            voteSection.classList.add('hidden');
+            thankYouSection.classList.remove('hidden');
+        }
+
+        // Iniciar aplicación
+        cargarDatosLocal();
         lucide.createIcons();
         
     </script>
