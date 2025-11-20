@@ -7,7 +7,7 @@
     <meta property="og:title" content="Invitación Baby Shower Guzmán Miranda" />
     <meta property="og:description" content="¡Acompáñanos en este día tan especial!" />
     <meta property="og:image" content="https://www.babyshowerguzmanmiranda.com/img/LogoBabyShower.png" />
-    <meta property="og:url" content="https://www.babyshowerguzmanmiranda.com/Mapa.html" />
+    <meta property="og:url" content="https://www.babyshowerguzmanmiranda.com/conocetulugar.html" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -19,9 +19,13 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/img/android-chrome-512x512.png">
     <link rel="manifest" href="/img/site.webmanifest">
 
+    <!-- TUS ESTILOS GLOBALES -->
+    <link rel="stylesheet" href="css/estilos.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Kaushan+Script&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --pink: #F5B895;
@@ -34,6 +38,7 @@
             --borde-color: #d1d1d1;
             --mesa-color: #f7f7f7;
             --highlight-color: #f7d794; /* Color para resaltar la búsqueda */
+            --link-bg-hover: #FBEAE0; /* Fondo para hover de enlaces */
         }
 
         body {
@@ -42,10 +47,58 @@
             color: var(--text-dark);
             margin: 0;
             padding: 20px;
+            padding-top: 80px; /* AJUSTE IMPORTANTE: Espacio para la navbar fija */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
+        /* --- ESTILOS NAVBAR (Asegurando compatibilidad local) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--pink);
+            display: none; /* Oculto en escritorio */
+            position: absolute;
+            left: 20px;
+            top: 10px;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .menu-links a {
+            text-decoration: none;
+            color: var(--pink);
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            font-size: 1em;
+        }
+
+        .menu-links a:hover {
+            background-color: var(--link-bg-hover);
+        }
+
+        /* --- Fin Estilos Navbar --- */
 
         h1 {
             font-family: 'Kaushan Script', cursive;
@@ -53,6 +106,7 @@
             font-size: 2.5em;
             text-align: center;
             margin-bottom: 15px;
+            margin-top: 10px;
         }
 
         .legend-container {
@@ -70,7 +124,7 @@
         .legend-color.ocupado { background-color: var(--silla-ocupada); }
         .legend-color.disponible { background-color: var(--silla-disponible); }
 
-        /* --- NUEVO: Estilos para la barra de búsqueda --- */
+        /* --- Búsqueda --- */
         #search-section {
             display: flex;
             justify-content: center;
@@ -83,6 +137,7 @@
             width: 90%;
             max-width: 600px;
             box-sizing: border-box;
+            flex-wrap: wrap; /* Para móviles */
         }
         #search-input {
             flex-grow: 1;
@@ -91,6 +146,7 @@
             border-radius: 8px;
             font-family: 'Quicksand', sans-serif;
             font-size: 1em;
+            min-width: 200px;
         }
         #search-button {
             padding: 10px 20px;
@@ -104,11 +160,11 @@
         }
         #search-button:hover { background-color: #e5a37b; }
         #search-result {
+            width: 100%; /* Ocupa toda la línea abajo */
             font-weight: 600;
-            min-width: 150px;
-            text-align: left;
+            text-align: center;
+            margin-top: 10px;
         }
-        /* --- Fin de nuevos estilos --- */
         
         #map-wrapper {
             width: 100%;
@@ -118,6 +174,7 @@
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.3);
             padding: 10px;
+            box-sizing: border-box;
         }
 
         #map-wrapper::-webkit-scrollbar { height: 12px; }
@@ -154,7 +211,6 @@
         .silla.disponible { background-color: var(--silla-disponible); }
         .silla.ocupada { background-color: var(--silla-ocupada); border-color: #3a7bc8; }
 
-        /* --- NUEVO: Estilo y animación para resaltar --- */
         .silla.highlight {
             animation: highlight-pulse 0.8s 3; /* Se repite 3 veces */
         }
@@ -172,34 +228,33 @@
         
         #loading-indicator { font-size: 1.5em; color: var(--text-dark); text-align: center; padding: 40px; }
 
-
         .results-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 10px;
-    width: 100%;
-}
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+            width: 100%;
+        }
 
-.result-item-btn {
-    background-color: white;
-    border: 1px solid var(--pink);
-    color: var(--text-dark);
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: left;
-    font-family: 'Quicksand', sans-serif;
-    transition: all 0.2s ease;
-}
+        .result-item-btn {
+            background-color: white;
+            border: 1px solid var(--pink);
+            color: var(--text-dark);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-family: 'Quicksand', sans-serif;
+            transition: all 0.2s ease;
+        }
 
-.result-item-btn:hover {
-    background-color: var(--pink);
-    color: white;
-}
+        .result-item-btn:hover {
+            background-color: var(--pink);
+            color: white;
+        }
         
         @media (max-width: 768px) {
-            h1 { font-size: 1.8em; }
+            h1 { font-size: 1.8em; margin-top: 20px; }
             #search-section { flex-direction: column; align-items: stretch; }
             #map-wrapper { padding: 5px; }
             #salon-container { min-width: 1100px; gap: 12px; padding: 10px 5px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
@@ -207,10 +262,46 @@
             .mesa-layout { gap: 3px; }
             .mesa { height: 90px; width: 45px; }
             .silla { width: 14px; height: 14px; }
+            
+            /* Ajustes para menú móvil */
+            .menu-links {
+                display: none; /* Oculto por defecto en móvil */
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 50px; /* Ajustado a la altura de la navbar */
+                left: 0;
+                background-color: white;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+                padding: 20px;
+                text-align: center;
+            }
+            .menu-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block; /* Visible solo en móvil */
+            }
+        }
+
+        /* Ajustes de escritorio para menú */
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .menu-links { display: flex; gap: 20px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- NAVBAR INTEGRADA -->
+    <div class="navbar">
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="menu-links" id="menuLinks">
+            <a href="index.html">Invitación</a>
+            <a href="conocetulugar.html" style="background-color: var(--link-bg-hover);">Conoce tu lugar</a>
+            <a href="votaciongenero.html">Predice el género</a>
+        </div>
+    </div>
 
     <h1>Mapa de Asignación de Mesas</h1>
     
@@ -219,7 +310,7 @@
         <div class="legend-item"><div class="legend-color disponible"></div><span>Disponible</span></div>
     </div>
 
-    <!-- NUEVO: Sección de Búsqueda -->
+    <!-- Sección de Búsqueda -->
     <div id="search-section">
         <input type="text" id="search-input" placeholder="Busca tu nombre...">
         <button id="search-button">Buscar</button>
@@ -228,12 +319,20 @@
     
     <div id="map-wrapper">
         <p id="loading-indicator">Cargando asignaciones...</p>
-        <div id="salon-container" style="display: none;"> <!-- Oculto inicialmente -->
+        <div id="salon-container" style="display: none;">
             <!-- Las mesas se generan aquí -->
         </div>
     </div>
 
     <div class="tooltip" id="tooltip"></div>
+
+    <!-- Scripts del Menú -->
+    <script>
+        function toggleMenu() {
+            const links = document.getElementById('menuLinks');
+            links.classList.toggle('active');
+        }
+    </script>
 
     <!-- Scripts de Firebase -->
     <script type="module">
@@ -257,9 +356,8 @@
         const tooltip = document.getElementById('tooltip');
         const loadingIndicator = document.getElementById('loading-indicator');
         const MAX_MESAS = 15;
-        let allGuestsData = {}; // Variable para guardar los datos de los invitados
+        let allGuestsData = {};
 
-        // --- NUEVO: Elementos y funciones de búsqueda ---
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
         const searchResult = document.getElementById('search-result');
@@ -269,23 +367,15 @@
             return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, '').trim().toUpperCase();
         }
 
-        
-function mostrarUbicacion(invitado) {
-            // Limpiar resaltados anteriores
+        function mostrarUbicacion(invitado) {
             document.querySelectorAll('.silla.highlight').forEach(el => el.classList.remove('highlight'));
             
-            // Mostrar texto
             searchResult.innerHTML = `<strong>${invitado.nombre}</strong><br>Mesa: ${invitado.mesa}, Silla: ${invitado.silla}`;
             
-            // Animar la silla
             const sillaElement = document.getElementById(`silla-${invitado.mesa}-${invitado.silla}`);
             if (sillaElement) {
                 sillaElement.classList.add('highlight');
-                
-                // Scroll suave hacia la mesa si está fuera de vista (opcional pero recomendado)
                 sillaElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-
-                // Quita la clase después de la animación
                 setTimeout(() => {
                     sillaElement.classList.remove('highlight');
                 }, 2400); 
@@ -294,9 +384,7 @@ function mostrarUbicacion(invitado) {
 
         function handleSearch() {
             const searchTerm = normalizarNombre(searchInput.value);
-            searchResult.innerHTML = ''; // Limpiar resultados previos
-            
-            // Limpiar resaltados anteriores visualmente
+            searchResult.innerHTML = '';
             document.querySelectorAll('.silla.highlight').forEach(el => el.classList.remove('highlight'));
 
             if (!searchTerm) {
@@ -304,12 +392,9 @@ function mostrarUbicacion(invitado) {
                 return;
             }
 
-            // Buscar todas las coincidencias
             let matches = [];
             for (const key in allGuestsData) {
                 const invitado = allGuestsData[key];
-                // Verifica si el nombre normalizado INCLUYE el término de búsqueda
-                // Y verifica que esté confirmado y tenga mesa asignada
                 if (invitado.nombreNormalizado.includes(searchTerm) && 
                     invitado.estatus === 'confirmado' && 
                     invitado.mesa) {
@@ -317,16 +402,11 @@ function mostrarUbicacion(invitado) {
                 }
             }
 
-            // Lógica de visualización según la cantidad de resultados
             if (matches.length === 0) {
                 searchResult.textContent = 'No se encontraron invitados confirmados con ese nombre.';
-            } 
-            else if (matches.length === 1) {
-                // Solo una coincidencia: mostrar directamente
+            } else if (matches.length === 1) {
                 mostrarUbicacion(matches[0]);
-            } 
-            else {
-                // Múltiples coincidencias: mostrar lista para elegir
+            } else {
                 const title = document.createElement('div');
                 title.textContent = `Encontramos ${matches.length} coincidencias. Selecciona tu nombre:`;
                 title.style.marginBottom = '5px';
@@ -347,16 +427,11 @@ function mostrarUbicacion(invitado) {
                 searchResult.appendChild(listContainer);
             }
         }
-
-
-
         
         searchButton.addEventListener('click', handleSearch);
         searchInput.addEventListener('keyup', (e) => {
             if (e.key === 'Enter') handleSearch();
         });
-        // --- Fin de funciones de búsqueda ---
-
 
         function generarMesas() {
             for (let i = 1; i <= MAX_MESAS; i++) {
@@ -430,7 +505,7 @@ function mostrarUbicacion(invitado) {
             onValue(asistentesRef, (snapshot) => {
                 loadingIndicator.style.display = 'none';
                 salonContainer.style.display = 'grid';
-                allGuestsData = snapshot.val(); // Guarda los datos para la búsqueda
+                allGuestsData = snapshot.val();
                 const mapaAsientos = mapearInvitados(allGuestsData);
                 actualizarUI(mapaAsientos);
             }, (error) => {
@@ -444,4 +519,3 @@ function mostrarUbicacion(invitado) {
     </script>
 </body>
 </html>
-
