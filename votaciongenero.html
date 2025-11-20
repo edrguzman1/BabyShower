@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baby Shower - ¿Niño o Niña?</title>
+
+    <meta property="og:title" content="Invitación Baby Shower Guzmán Miranda" />
+    <meta property="og:description" content="¡Acompáñanos en este día tan especial!" />
+    <meta property="og:image" content="https://www.babyshowerguzmanmiranda.com/img/LogoBabyShower.png" />
+    <meta property="og:url" content="https://www.babyshowerguzmanmiranda.com/votaciongenero.html" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/img/android-chrome-512x512.png">
+    <link rel="manifest" href="/img/site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Kaushan+Script&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -132,7 +151,7 @@
                 <div class="text-center">
                     <button type="submit" id="submitBtn" disabled
                         class="px-8 py-4 rounded-full font-bold text-white text-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center mx-auto min-w-[200px] bg-slate-300 cursor-not-allowed">
-                        <span>Enviar mi Predicción</span>
+                        <span>Enviar mi Voto</span>
                         <i data-lucide="send" class="ml-2 w-5 h-5"></i>
                     </button>
                 </div>
@@ -145,7 +164,10 @@
                 <i data-lucide="check-circle" class="w-8 h-8"></i>
             </div>
             <h3 class="text-2xl font-bold text-slate-700 mb-2">¡Gracias por participar!</h3>
-            <p class="text-slate-500">Tu voto ha sido registrado. Mira abajo cómo van las estadísticas.</p>
+            <p class="text-slate-500 mb-4">Tu voto ha sido registrado.</p>
+            <button onclick="location.reload()" class="text-blue-500 font-bold underline text-sm hover:text-blue-700">
+                Votar otra vez
+            </button>
         </div>
 
         <!-- Sección de Resultados (CARRUSEL) -->
@@ -224,39 +246,45 @@
             projectId: "babyshowerguzmanmiranda",
             storageBucket: "babyshowerguzmanmiranda.firebasestorage.app",
             messagingSenderId: "564665563453",
-            appId: "1:564665563453:web:242aaba73a4768fa89ad54"
+            appId: "1:564665563453:web:242aaba73a4768fa89ad54",
+            measurementId: "G-DJHTP10XY0"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Estado Global
+        // --- Estado Global ---
         let currentUser = null;
         let selectedTeam = null;
         let hasVoted = false;
 
-        // Variables para Carrusel
+        // Datos para carrusel (en memoria)
         let allBoyVotes = [];
         let allGirlVotes = [];
         let boyNextIndex = 0;
         let girlNextIndex = 0;
         let carouselInterval = null;
 
-        // Elementos DOM
+        // Elementos UI
         const voteSection = document.getElementById('voteSection');
         const thankYouSection = document.getElementById('thankYouSection');
         const form = document.getElementById('votingForm');
-        const btnBoy = document.getElementById('btnBoy');
-        const btnGirl = document.getElementById('btnGirl');
         const submitBtn = document.getElementById('submitBtn');
         const inputName = document.getElementById('inputName');
         const inputMessage = document.getElementById('inputMessage');
+        const btnBoy = document.getElementById('btnBoy');
+        const btnGirl = document.getElementById('btnGirl');
         const errorMessage = document.getElementById('errorMessage');
 
+        // --- NUEVA FUNCIÓN DE NORMALIZACIÓN ---
         function normalizarTexto(texto) {
             if (!texto) return '';
-            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+            return texto
+                .normalize("NFD") // Descompone caracteres con acento
+                .replace(/[\u0300-\u036f]/g, "") // Elimina los acentos
+                .toUpperCase() // Convierte a mayúsculas
+                .replace(/[^A-Z0-9]/g, ""); // Elimina todo lo que no sea letra o número (espacios, comas, etc.)
         }
 
         // --- Carga de Datos y Carrusel (No Realtime) ---
@@ -376,7 +404,7 @@
             let nextIndex = (type === 'boy') ? boyNextIndex : girlNextIndex;
             const nextVote = allVotes[nextIndex];
 
-            // Avanzar índice
+            // Avanzar índice circularmente
             if (type === 'boy') boyNextIndex = (boyNextIndex + 1) % allVotes.length;
             else girlNextIndex = (girlNextIndex + 1) % allVotes.length;
 
@@ -412,7 +440,7 @@
             container.appendChild(card);
         }
 
-        // --- UI Formulario ---
+        // --- UI FORMULARIO ---
 
         function showThankYou() {
             voteSection.classList.add('hidden');
@@ -462,6 +490,7 @@
             if (!selectedTeam) return;
 
             const nameOriginal = inputName.value.trim();
+            // Usar la nueva normalización
             const nameNorm = normalizarTexto(nameOriginal);
             const message = inputMessage.value.trim();
 
@@ -486,9 +515,9 @@
                 }
 
                 if (yaVoto) {
-                    errorMessage.innerText = `El nombre "${nameOriginal}" ya registró un voto.`;
+                    errorMessage.innerText = `El nombre "${nameOriginal}" ya registró un voto anteriormente.`;
                     errorMessage.classList.remove('hidden');
-                    submitBtn.innerHTML = 'Enviar mi Predicción';
+                    submitBtn.innerHTML = 'Enviar mi Voto';
                     submitBtn.disabled = false;
                     if (snapshot.exists()) cargarDatos();
                 } else {
@@ -501,17 +530,14 @@
                         userId: currentUser.uid,
                         timestamp: serverTimestamp()
                     });
-
-                    hasVoted = true;
                     showThankYou();
-                    cargarDatos(); // Refrescar carrusel
+                    cargarDatos();
                 }
             } catch (error) {
                 console.error(error);
                 submitBtn.innerHTML = 'Error. Reintentar';
                 submitBtn.disabled = false;
             }
-            // Nota: cargarDatos() se encarga de desconectar al final
         });
 
         // Iniciar
