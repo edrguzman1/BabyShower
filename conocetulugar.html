@@ -269,7 +269,7 @@
                 flex-direction: column;
                 width: 100%;
                 position: absolute;
-                top: 50px; /* Ajustado a la altura de la navbar */
+                top: 60px;
                 left: 0;
                 background-color: white;
                 box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -337,7 +337,8 @@
     <!-- Scripts de Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+        // CAMBIO: Importamos get, goOffline y goOnline en lugar de onValue
+        import { getDatabase, ref, get, goOffline, goOnline } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDDJ0UmA5giAjFbz54JqaudKFOBfEv613U",
@@ -497,21 +498,36 @@
             });
         }
 
-        function iniciarMapa() {
+        // CAMBIO: Función asíncrona para manejar conexión y desconexión
+        async function iniciarMapa() {
             generarMesas();
             setupTooltips();
 
-            const asistentesRef = ref(database, 'asistentes');
-            onValue(asistentesRef, (snapshot) => {
+            // 1. Conectar
+            goOnline(database);
+
+            try {
+                const asistentesRef = ref(database, 'asistentes');
+                // 2. Obtener datos una sola vez
+                const snapshot = await get(asistentesRef);
+
                 loadingIndicator.style.display = 'none';
                 salonContainer.style.display = 'grid';
-                allGuestsData = snapshot.val();
-                const mapaAsientos = mapearInvitados(allGuestsData);
-                actualizarUI(mapaAsientos);
-            }, (error) => {
+
+                if (snapshot.exists()) {
+                    allGuestsData = snapshot.val();
+                    const mapaAsientos = mapearInvitados(allGuestsData);
+                    actualizarUI(mapaAsientos);
+                } else {
+                    loadingIndicator.textContent = "No hay datos de asistentes.";
+                }
+            } catch (error) {
                 console.error("Error al leer los datos:", error);
                 loadingIndicator.textContent = "Error al cargar los datos.";
-            });
+            } finally {
+                // 3. Desconectar
+                goOffline(database);
+            }
         }
 
         iniciarMapa();
